@@ -122,12 +122,31 @@ sudo bash install.sh
 
 During installation, you'll be prompted to configure several options:
 
+- **Python PPPwn Support**: Option to install Python3 and Scapy for using the original Python version of PPPwn (slower but may work better on some setups)
+- **FTP Server**: Optional FTP server installation for easy file access to the PPPwn folder
+  - Requires setting the root account password for login
+  - Uses standard ports 21 (command) and 20 (data)
+- **Samba Share**: Optional network share setup for accessing PPPwn files
+  - No authentication required
+  - Accessible at `\\pppwn.local\pppwn` (Windows) or `smb://pppwn.local/pppwn` (macOS/Linux)
 - **USB Ethernet Adapter**: Select "yes" if using a USB to Ethernet adapter for the console connection
   - If your Pi has a built-in Ethernet port and you're using a USB adapter, the interface will typically be `eth1`
   - For boards like Pi Zero 2, the interface will be `eth0`
-- **Internet Access**: Configure PPPoE username and password if enabling console internet access (default: `ppp`/`ppp`)
-- **Firmware Version**: Select your PS4's firmware version
-- **Additional Options**: LED activity, verbose output, automatic shutdown, etc.
+- **PPPoE Credentials**: Configure username and password for console connection (default: `ppp`/`ppp`)
+  - Must match on both Pi-Pwn and PS4 if enabling internet access
+- **Console Internet Access**: Enable internet connectivity for the PS4 after exploitation
+- **Firmware Version**: Select your PS4's firmware version (7.00 through 11.00)
+- **Timeout Setting**: Time in minutes (1-5) before restarting PPPwn if it hangs
+- **Network Interface**: The LAN interface connected to the console (auto-detected, usually `eth0` or `eth1`)
+- **Original IPv6 Address**: Option to use the original PPPwn IPv6 (`fe80::4141:4141:4141:4141`)
+- **USB Drive Passthrough**: Enable USB drive mounting to console (Pi 4/400/5 only)
+- **Hostname**: Set a custom hostname for the Pi (default: `pppwn`) - affects web interface URL
+- **Additional Options**:
+  - GoldHEN detection for rest mode support
+  - Console shutdown detection and auto-restart
+  - Verbose logging for debugging
+  - Automatic Pi shutdown after successful exploit
+  - DNS blocker configuration
 
 After installation completes, the Pi will reboot and PPPwn will start automatically.
 
@@ -151,12 +170,15 @@ Configure your PS4 to connect via PPPoE:
 
 For GoldHEN payloads:
 
-1. Place the `goldhen.bin` file on the root of a USB drive
-2. Insert the USB drive into your PS4
-3. Run the exploit
-4. GoldHEN will be copied to the console's internal HDD after the first successful load
-5. The USB drive is no longer required for subsequent boots
-6. To update GoldHEN, repeat the process with the new version
+1. Download the latest `goldhen.bin` from the official source: [https://ko-fi.com/sistro](https://ko-fi.com/sistro)
+2. Place the `goldhen.bin` file on the root of a USB drive
+3. Insert the USB drive into your PS4
+4. Run the exploit
+5. GoldHEN will be copied to the console's internal HDD after the first successful load
+6. The USB drive is no longer required for subsequent boots
+7. To update GoldHEN, repeat the process with the new version
+
+**Note**: Always download GoldHEN from SiSTR0's official Ko-fi page to ensure you have the authentic, latest version.
 
 ## Usage
 
@@ -175,10 +197,12 @@ No user interaction is required - the Pi handles the entire process automaticall
 
 ### Web Interface
 
-Access the web control panel at `http://pppwn.local` from:
+Access the web control panel from:
 
-- Your PS4 browser (when connected)
-- Your PC browser (when Pi has internet access enabled and is connected to your network)
+- Your PS4 browser (when connected): `http://pppwn.local:8080` or `http://192.168.2.1:8080`
+- Your PC browser (when Pi has internet access enabled): `http://pppwn.local:8080` or `http://{pi-ip-address}:8080`
+
+**Note**: The default hostname is `pppwn` but can be customized during installation. If you changed the hostname, access the interface at `http://{your-hostname}.local:8080`. The `.local` domain resolution requires mDNS/Avahi to be running on your device.
 
 From the web interface you can:
 
@@ -187,6 +211,8 @@ From the web interface you can:
 - Send custom payloads
 - Update Pi-Pwn
 - Monitor exploit status
+- Configure PPPoE credentials
+- Set up WiFi connection
 
 ## Advanced Features
 
@@ -225,16 +251,22 @@ Pi-Pwn will check if GoldHEN is already loaded and skip the exploit process if i
 
 #### FTP Access
 
+If you installed the FTP server during setup:
+
 - **Server**: Pi's IP address
 - **Ports**: 21 (command), 20 (data)
-- **Credentials**: Root username and password
+- **Credentials**: Root username and password (set during installation)
 - **Path**: `/boot/firmware/PPPwn`
+- **Note**: Can be installed later by re-running the installation script
 
 #### Samba Access
+
+If you configured the Samba share during setup:
 
 - **Windows**: `\\pppwn.local\pppwn`
 - **macOS/Linux**: `smb://pppwn.local/pppwn`
 - **Credentials**: None (no authentication required)
+- **Note**: Can be installed later by re-running the installation script
 
 
 ## Updating Pi-Pwn
@@ -251,11 +283,11 @@ Access these options through the web interface or during installation:
 
 - **Interface**: LAN interface on the Pi connected to the console (e.g., `eth0`, `eth1`)
 - **Firmware Version**: PS4 firmware version to target
-- **Time to Restart PPPwn if it Hangs**: Timeout in minutes before restarting if the exploit hangs
+- **Time to Restart PPPwn if it Hangs**: Timeout in minutes (1-5) before restarting if the exploit hangs
 - **LED Activity**: Enable LED indicators based on exploit progress (supported models only)
 - **Use Python Version**: Force use of the original Python PPPwn by [TheOfficialFloW](https://github.com/TheOfficialFloW/PPPwn)
 - **Use GoldHEN if Available**: Prefer GoldHEN over VTX-HEN when available for the selected firmware
-- **Use Original Source IPv6**: Use the original IPv6 address (may increase exploit speed on some consoles)
+- **Use Original Source IPv6**: Use the original IPv6 address `fe80::4141:4141:4141:4141` (may increase exploit speed on some consoles)
 - **Use USB Ethernet Adapter**: Enable if using a USB to Ethernet adapter for console connection
 - **Detect if GoldHEN is Running**: Check if GoldHEN is already loaded and skip exploit if running (useful for rest mode)
 - **Detect Console Shutdown**: Restart PPPwn if the connection to the console is lost
@@ -264,7 +296,9 @@ Access these options through the web interface or during installation:
 - **Disable DNS Blocker**: Turn off DNS blocking for update and telemetry servers
 - **Shutdown Pi After PWN**: Automatically shut down the Pi after successful exploitation
 - **Enable USB Drive to Console**: Enable USB passthrough (supported models only)
-- **Ports**: List of ports forwarded from Pi to console (supports single ports or ranges)
+- **Ports**: Comma-separated list of ports forwarded from Pi to console (supports single ports and ranges like `1000-1100`). Default: `2121,3232,9090,8080,12800,1337`
+- **PPPoE Credentials**: Configure username and password for console connection (can be changed via web interface)
+- **WiFi Settings**: Configure WiFi SSID and password for Pi internet connectivity (can be changed via web interface)
 
 ## Credits
 
