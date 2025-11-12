@@ -43,8 +43,12 @@ Pi-Pwn is an automated setup script for [PPPwn](https://github.com/TheOfficialFl
 
 ## Supported Firmware
 
-- 9.00
-- 9.60
+- 7.00, 7.01, 7.02
+- 7.50, 7.51, 7.55
+- 8.00, 8.01, 8.03
+- 8.50, 8.52
+- 9.00, 9.03, 9.04
+- 9.50, 9.51, 9.60
 - 10.00, 10.01
 - 10.50, 10.70, 10.71
 - 11.00
@@ -86,8 +90,6 @@ Pi-Pwn has been tested on the following models, but is not limited to them:
 3. Connect the Pi to the internet (via Ethernet or WiFi)
 4. Run the following commands:
 
-
-
 ```bash
 sudo apt update
 sudo apt install git -y
@@ -119,7 +121,7 @@ During installation, you'll be prompted to configure several options:
 - **PPPoE Credentials**: Configure username and password for console connection (default: `ppp`/`ppp`)
   - Must match on both Pi-Pwn and PS4 if enabling internet access
 - **Console Internet Access**: Enable internet connectivity for the PS4 after exploitation
-- **Firmware Version**: Select your PS4's firmware version (9.00 through 11.00)
+- **Firmware Version**: Select your PS4's firmware version (7.00 through 11.00)
 - **Timeout Setting**: Time in minutes (1-5) before restarting PPPwn if it hangs
 - **Network Interface**: The LAN interface connected to the console (auto-detected, usually `eth0` or `eth1`)
 - **Original IPv6 Address**: Option to use the original PPPwn IPv6 (`fe80::4141:4141:4141:4141`)
@@ -252,7 +254,6 @@ If you configured the Samba share during setup:
 - **Credentials**: None (no authentication required)
 - **Note**: Can be installed later by re-running the installation script
 
-
 ## Updating Pi-Pwn
 
 There are three methods to update Pi-Pwn:
@@ -296,4 +297,3 @@ This project builds upon the exceptional work of:
 - [nn9dev](https://github.com/nn9dev) - Testing and support
 
 And many other contributors who have made this project possible.
- 

@@ -41,21 +41,8 @@ XFNW="--no-wait-padi"
 else
 XFNW=""
 fi
-STA2="stage2_1100.bin"
 HDIR="gh_sta/"
-if [[ $FIRMWAREVERSION == "9.00" ]] ; then
-STA2="stage2_900.bin"
-elif [[ $FIRMWAREVERSION == "9.03" ]] ; then
-STA2="stage2_903.bin"
-elif [[ $FIRMWAREVERSION == "9.60" ]] ; then
-STA2="stage2_950.bin"
-elif [[ $FIRMWAREVERSION == "10.00" ]] || [[ $FIRMWAREVERSION == "10.01" ]] ; then
-STA2="stage2_1000.bin"
-elif [[ $FIRMWAREVERSION == "10.50" ]] || [[ $FIRMWAREVERSION == "10.70" ]] || [[ $FIRMWAREVERSION == "10.71" ]] ; then
-STA2="stage2_1050.bin"
-elif [[ $FIRMWAREVERSION == "11.00" ]] ; then
-STA2="stage2_1100.bin"
-fi
+STA2="stage2_${FIRMWAREVERSION}.bin"
 PITYP=$(tr -d '\0' </proc/device-tree/model) 
 if [[ $PITYP == *"Raspberry Pi 2"* ]] ;then
 coproc read -t 15 && wait "$!" || true
