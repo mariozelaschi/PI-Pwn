@@ -42,8 +42,6 @@ else
 XFNW=""
 fi
 STA2="stage2_1100.bin"
-HDIR="vx_sta/"
-if [ $UGH = true ] && [[ $FIRMWAREVERSION == "9.00" ]] || [[ $FIRMWAREVERSION == "9.03" ]] || [[ $FIRMWAREVERSION == "9.60" ]] || [[ $FIRMWAREVERSION == "10.00" ]] || [[ $FIRMWAREVERSION == "10.01" ]] || [[ $FIRMWAREVERSION == "10.50" ]] || [[ $FIRMWAREVERSION == "10.70" ]] || [[ $FIRMWAREVERSION == "10.71" ]] || [[ $FIRMWAREVERSION == "11.00" ]] ; then
 HDIR="gh_sta/"
 if [[ $FIRMWAREVERSION == "9.00" ]] ; then
 STA2="stage2_900.bin"
@@ -57,30 +55,6 @@ elif [[ $FIRMWAREVERSION == "10.50" ]] || [[ $FIRMWAREVERSION == "10.70" ]] || [
 STA2="stage2_1050.bin"
 elif [[ $FIRMWAREVERSION == "11.00" ]] ; then
 STA2="stage2_1100.bin"
-fi
-else
-UGH=false
-if [[ $FIRMWAREVERSION == "7.00" ]] || [[ $FIRMWAREVERSION == "7.01" ]] || [[ $FIRMWAREVERSION == "7.02" ]] ; then
-STA2="stage2_700.bin"
-elif [[ $FIRMWAREVERSION == "7.50" ]] || [[ $FIRMWAREVERSION == "7.51" ]] || [[ $FIRMWAREVERSION == "7.55" ]] ; then
-STA2="stage2_750.bin"
-elif [[ $FIRMWAREVERSION == "8.00" ]] || [[ $FIRMWAREVERSION == "8.01" ]] || [[ $FIRMWAREVERSION == "8.03" ]] ; then
-STA2="stage2_800.bin"
-elif [[ $FIRMWAREVERSION == "8.50" ]] || [[ $FIRMWAREVERSION == "8.52" ]] ; then
-STA2="stage2_8.50.bin"
-elif [[ $FIRMWAREVERSION == "9.00" ]] ; then
-STA2="stage2_900.bin"
-elif [[ $FIRMWAREVERSION == "9.03" ]] || [[ $FIRMWAREVERSION == "9.04" ]] ; then
-STA2="stage2_903.bin"
-elif [[ $FIRMWAREVERSION == "9.50" ]] || [[ $FIRMWAREVERSION == "9.51" ]] || [[ $FIRMWAREVERSION == "9.60" ]] ; then
-STA2="stage2_950.bin"
-elif [[ $FIRMWAREVERSION == "10.00" ]] || [[ $FIRMWAREVERSION == "10.01" ]] ; then
-STA2="stage2_1000.bin"
-elif [[ $FIRMWAREVERSION == "10.50" ]] || [[ $FIRMWAREVERSION == "10.70" ]] || [[ $FIRMWAREVERSION == "10.71" ]] ; then
-STA2="stage2_1050.bin"
-elif [[ $FIRMWAREVERSION == "11.00" ]] ; then
-STA2="stage2_1100.bin"
-fi
 fi
 PITYP=$(tr -d '\0' </proc/device-tree/model) 
 if [[ $PITYP == *"Raspberry Pi 2"* ]] ;then

@@ -2,8 +2,6 @@
 
 - [Features](#features)
 - [Supported Firmware](#supported-firmware)
-  - [GoldHEN](#goldhen)
-  - [ps4-hen-vtx](#ps4-hen-vtx)
 - [Tested Hardware](#tested-hardware)
   - [Raspberry Pi Models](#raspberry-pi-models)
   - [Other Compatible Boards](#other-compatible-boards)
@@ -34,7 +32,7 @@ Pi-Pwn is an automated setup script for [PPPwn](https://github.com/TheOfficialFl
 ## Features
 
 - Automated exploit execution with continuous retry until successful
-- Support for both [GoldHEN](https://github.com/GoldHEN/GoldHEN) and [ps4-hen-vtx](https://github.com/EchoStretch/ps4-hen-vtx) payloads
+- Support for [GoldHEN](https://github.com/GoldHEN/GoldHEN) payloads
 - Optional internet access for the console after exploitation
 - Web interface for configuration and control
 - USB drive passthrough to console
@@ -45,22 +43,8 @@ Pi-Pwn is an automated setup script for [PPPwn](https://github.com/TheOfficialFl
 
 ## Supported Firmware
 
-### GoldHEN
-
 - 9.00
 - 9.60
-- 10.00, 10.01
-- 10.50, 10.70, 10.71
-- 11.00
-
-### ps4-hen-vtx
-
-- 7.00, 7.01, 7.02
-- 7.50, 7.51, 7.55
-- 8.00, 8.01, 8.03
-- 8.50, 8.52
-- 9.00, 9.03, 9.04
-- 9.50, 9.51, 9.60
 - 10.00, 10.01
 - 10.50, 10.70, 10.71
 - 11.00
@@ -135,7 +119,7 @@ During installation, you'll be prompted to configure several options:
 - **PPPoE Credentials**: Configure username and password for console connection (default: `ppp`/`ppp`)
   - Must match on both Pi-Pwn and PS4 if enabling internet access
 - **Console Internet Access**: Enable internet connectivity for the PS4 after exploitation
-- **Firmware Version**: Select your PS4's firmware version (7.00 through 11.00)
+- **Firmware Version**: Select your PS4's firmware version (9.00 through 11.00)
 - **Timeout Setting**: Time in minutes (1-5) before restarting PPPwn if it hangs
 - **Network Interface**: The LAN interface connected to the console (auto-detected, usually `eth0` or `eth1`)
 - **Original IPv6 Address**: Option to use the original PPPwn IPv6 (`fe80::4141:4141:4141:4141`)
@@ -286,7 +270,6 @@ Access these options through the web interface or during installation:
 - **Time to Restart PPPwn if it Hangs**: Timeout in minutes (1-5) before restarting if the exploit hangs
 - **LED Activity**: Enable LED indicators based on exploit progress (supported models only)
 - **Use Python Version**: Force use of the original Python PPPwn by [TheOfficialFloW](https://github.com/TheOfficialFloW/PPPwn)
-- **Use GoldHEN if Available**: Prefer GoldHEN over VTX-HEN when available for the selected firmware
 - **Use Original Source IPv6**: Use the original IPv6 address `fe80::4141:4141:4141:4141` (may increase exploit speed on some consoles)
 - **Use USB Ethernet Adapter**: Enable if using a USB to Ethernet adapter for console connection
 - **Detect if GoldHEN is Running**: Check if GoldHEN is already loaded and skip exploit if running (useful for rest mode)
@@ -310,7 +293,6 @@ This project builds upon the exceptional work of:
 - [xfangfang](https://github.com/xfangfang) - PPPwn C++ implementation
 - [SiSTR0](https://github.com/SiSTR0) - GoldHEN development
 - [Vortex](https://github.com/xvortex) - Community contributions
-- [EchoStretch](https://github.com/EchoStretch) - ps4-hen-vtx development
 - [nn9dev](https://github.com/nn9dev) - Testing and support
 
 And many other contributors who have made this project possible.
