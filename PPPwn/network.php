@@ -1,71 +1,60 @@
 <?php 
 
 
-if (isset($_POST['back'])){
-	header("Location: index.php");
-	exit;
+if (isset($_POST['back'])) {
+  header("Location: index.php");
+  exit;
 }
 
-if (isset($_POST['saveppp'])){
-	exec('echo \'"'.$_POST["pppu"].'"  *  "'.$_POST["pppw"].'"  192.168.2.2\' | sudo tee /etc/ppp/pap-secrets');
-	sleep(1);
-	echo "<script type='text/javascript'>alert('PPP Settings Saved');</script>";
+if (isset($_POST['saveppp'])) {
+  exec('echo \'"'.$_POST["pppu"].'"  *  "'.$_POST["pppw"].'"  192.168.2.2\' | sudo tee /etc/ppp/pap-secrets');
+  sleep(1);
+  echo "<script type='text/javascript'>alert('PPP Settings Saved');</script>";
 }
 
-
-if (isset($_POST['savewifi'])){
-	if (!empty($_POST["wifip"]) && !empty($_POST["wifis"]))
-	{   
-        exec('sudo rm /etc/NetworkManager/system-connections/preconfigured.nmconnection');
-    	$cmd = 'sudo nmcli dev wifi connect "'.$_POST["wifis"].'" password "'.$_POST["wifip"].'"';
-        exec($cmd ." 2>&1", $data, $ret);
-        foreach ($data as $x) {
-            if (!empty($x))
-            {			
-                if (str_contains($x, 'success')) {
-                    echo "<script type='text/javascript'>alert('Wifi Settings Saved');</script>";
-                }
-    			else
-    			{
-    				echo "<script type='text/javascript'>alert('Error Saving Wifi Settings');</script>";
-    			}
-            }
+if (isset($_POST['savewifi'])) {
+  if (!empty($_POST["wifip"]) && !empty($_POST["wifis"])) {
+    exec('sudo rm /etc/NetworkManager/system-connections/preconfigured.nmconnection');
+    $cmd = 'sudo nmcli dev wifi connect "'.$_POST["wifis"].'" password "'.$_POST["wifip"].'"';
+    exec($cmd." 2>&1", $data, $ret);
+    foreach ($data as $x) {
+      if (!empty($x)) {
+        if (str_contains($x, 'success')) {
+          echo "<script type='text/javascript'>alert('Wifi Settings Saved');</script>";
+        } else {
+          echo "<script type='text/javascript'>alert('Error Saving Wifi Settings');</script>";
         }
-	}
-	else
-	{
-		echo "<script type='text/javascript'>alert('SSID and Password must not be empty');</script>";
-	}
+      }
+    }
+  } else {
+    echo "<script type='text/javascript'>alert('SSID and Password must not be empty');</script>";
+  }
 }
 
 
 $cmd = 'sudo cat /etc/ppp/pap-secrets';
-exec($cmd ." 2>&1", $data, $ret);
+exec($cmd." 2>&1", $data, $ret);
 foreach ($data as $x) {
-	if (!empty($x))
-    { 
-		$pppusr= explode("\"", $x)[1];
-		$ppppw= explode("\"", $x)[3];
-    }
+  if (!empty($x)) { 
+    $pppusr = explode("\"", $x)[1];
+    $ppppw = explode("\"", $x)[3];
+  }
 }
 
-if (empty($pppusr)){ $pppusr = "ppp";}
-if (empty($ppppw)){ $ppppw = "ppp";}
-
-
+if (empty($pppusr)) { $pppusr = "ppp"; }
+if (empty($ppppw)) { $ppppw = "ppp"; }
 
 $cmd = 'sudo cat /etc/NetworkManager/system-connections/preconfigured.nmconnection';
-exec($cmd ." 2>&1", $data, $ret);
+exec($cmd." 2>&1", $data, $ret);
 foreach ($data as $x) {
-	if (!empty($x))
-    { 
-        if (str_contains($x, 'ssid=')) {
-            $wifiss= explode("ssid=", $x)[1];
-        }
-	    if (str_contains($x, 'psk=')) {
-            $wifipw= explode("psk=", $x)[1];
-        }
+  if (!empty($x)) { 
+    if (str_contains($x, 'ssid=')) {
+      $wifiss = explode("ssid=", $x)[1];
     }
+    if (str_contains($x, 'psk=')) {
+      $wifipw = explode("psk=", $x)[1];
+    }
+  }
 }
 
 

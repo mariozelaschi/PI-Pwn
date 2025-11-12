@@ -1,26 +1,25 @@
 <?php 
 
-if (isset($_POST['payload'])){
-$fso = fsockopen("tcp://192.168.2.2", 9090, $errn, $errs, 30);
-if ($fso){
-$file = fopen(urldecode($_POST['payload']), "rb");
-while (!feof($file)) 
-{
-   fwrite($fso, fgets($file));
-}
-fclose($fso);
-fclose($file);
-}
+if (isset($_POST['payload'])) {
+  $fso = fsockopen("tcp://192.168.2.2", 9090, $errn, $errs, 30);
+  if ($fso) {
+    $file = fopen(urldecode($_POST['payload']), "rb");
+    while (!feof($file)) {
+      fwrite($fso, fgets($file));
+    }
+    fclose($fso);
+    fclose($file);
+  }
 }
  
-if (isset($_POST['reload'])){
-	header("Location: payloads.php");
-	exit;
+if (isset($_POST['reload'])) {
+  header("Location: payloads.php");
+  exit;
 }
 
-if (isset($_POST['back'])){
-	header("Location: index.php");
-	exit;
+if (isset($_POST['back'])) {
+  header("Location: index.php");
+  exit;
 }
 
 print("<html> 

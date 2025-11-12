@@ -1,86 +1,78 @@
 <?php 
 
-if (isset($_POST['save'])){
-	$xfwap = str_replace(" ", "", trim($_POST["xfwap"]));
-	$xfgd = str_replace(" ", "", trim($_POST["xfgd"]));
-	$xfbs = str_replace(" ", "", trim($_POST["xfbs"]));
-	$xfnwb = (isset($_POST["xfnwb"]) ? "true" : "false");
-	$xfsn = str_replace(" ", "", trim($_POST["xfsn"]));
-	$xfpn = str_replace(" ", "", trim($_POST["xfpn"]));
-	$xfcn = str_replace(" ", "", trim($_POST["xfcn"]));
-	
-	if (empty($xfwap)){ $xfwap = "1";}
-	if (empty($xfgd)){ $xfgd = "4";}
-	if (empty($xfbs)){ $xfbs = "0";}
-	if (empty($xfnwb)){ $xfnwb = "false";}
-	if (empty($xfsn)){ $xfsn = "0x1000";}
-	if (empty($xfpn)){ $xfpn = "0x1000";}
-	if (empty($xfcn)){ $xfcn = "0x1";}
-	
-	$config = "#!/bin/bash\n";
-	$config .= "XFWAP=\\\"".$xfwap."\\\"\n";
-	$config .= "XFGD=\\\"".$xfgd."\\\"\n";
-	$config .= "XFBS=\\\"".$xfbs."\\\"\n";
-	$config .= "XFSN=\\\"".$xfsn."\\\"\n";
-	$config .= "XFPN=\\\"".$xfpn."\\\"\n";
-	$config .= "XFCN=\\\"".$xfcn."\\\"\n";	
-	$config .= "XFNWB=".$xfnwb."\n";
+if (isset($_POST['save'])) {
+  $xfwap = str_replace(" ", "", trim($_POST["xfwap"]));
+  $xfgd = str_replace(" ", "", trim($_POST["xfgd"]));
+  $xfbs = str_replace(" ", "", trim($_POST["xfbs"]));
+  $xfnwb = (isset($_POST["xfnwb"]) ? "true" : "false");
+  $xfsn = str_replace(" ", "", trim($_POST["xfsn"]));
+  $xfpn = str_replace(" ", "", trim($_POST["xfpn"]));
+  $xfcn = str_replace(" ", "", trim($_POST["xfcn"]));
+  
+  if (empty($xfwap)) { $xfwap = "1"; }
+  if (empty($xfgd)) { $xfgd = "4"; }
+  if (empty($xfbs)) { $xfbs = "0"; }
+  if (empty($xfnwb)) { $xfnwb = "false"; }
+  if (empty($xfsn)) { $xfsn = "0x1000"; }
+  if (empty($xfpn)) { $xfpn = "0x1000"; }
+  if (empty($xfcn)) { $xfcn = "0x1"; }
+  
+  $config = "#!/bin/bash\n";
+  $config .= "XFWAP=\\\"".$xfwap."\\\"\n";
+  $config .= "XFGD=\\\"".$xfgd."\\\"\n";
+  $config .= "XFBS=\\\"".$xfbs."\\\"\n";
+  $config .= "XFSN=\\\"".$xfsn."\\\"\n";
+  $config .= "XFPN=\\\"".$xfpn."\\\"\n";
+  $config .= "XFCN=\\\"".$xfcn."\\\"\n";  
+  $config .= "XFNWB=".$xfnwb."\n";
 
-	exec('echo "'.$config.'" | sudo tee /boot/firmware/PPPwn/pconfig.sh');
-	sleep(1);
+  exec('echo "'.$config.'" | sudo tee /boot/firmware/PPPwn/pconfig.sh');
+  sleep(1);
 }
 
-
-if (isset($_POST['back'])){
-	header("Location: index.php");
-	exit;
+if (isset($_POST['back'])) {
+  header("Location: index.php");
+  exit;
 }
 
 
 $cmd = 'sudo cat /boot/firmware/PPPwn/pconfig.sh';
-exec($cmd ." 2>&1", $data, $ret);
-if ($ret == 0){
-foreach ($data as $x) {
-   if (str_starts_with($x, 'XFWAP')) {
+exec($cmd." 2>&1", $data, $ret);
+if ($ret == 0) {
+  foreach ($data as $x) {
+    if (str_starts_with($x, 'XFWAP')) {
       $xfwap = (explode("=", str_replace("\"", "", $x))[1]);
-   }
-   elseif (str_starts_with($x, 'XFGD')) {
+    } elseif (str_starts_with($x, 'XFGD')) {
       $xfgd = (explode("=", str_replace("\"", "", $x))[1]);
-   }
-   elseif (str_starts_with($x, 'XFBS')) {
+    } elseif (str_starts_with($x, 'XFBS')) {
       $xfbs = (explode("=", str_replace("\"", "", $x))[1]);
-   }
-   elseif (str_starts_with($x, 'XFNWB')) {
+    } elseif (str_starts_with($x, 'XFNWB')) {
       $xfnwb = (explode("=", $x)[1]);
-   }
-    elseif (str_starts_with($x, 'XFSN')) {
+    } elseif (str_starts_with($x, 'XFSN')) {
       $xfsn = (explode("=", str_replace("\"", "", $x))[1]);
-   }
-    elseif (str_starts_with($x, 'XFPN')) {
+    } elseif (str_starts_with($x, 'XFPN')) {
       $xfpn = (explode("=", str_replace("\"", "", $x))[1]);
-   }
-    elseif (str_starts_with($x, 'XFCN')) {
+    } elseif (str_starts_with($x, 'XFCN')) {
       $xfcn = (explode("=", str_replace("\"", "", $x))[1]);
-   }
-   
-}
-}else{
-   $xfwap = "1";
-   $xfgd = "4";
-   $xfbs = "0";
-   $xfnwb = "false";
-   $xfsn = "0x1000";
-   $xfpn = "0x1000";
-   $xfcn = "0x1";
+    }
+  }
+} else {
+  $xfwap = "1";
+  $xfgd = "4";
+  $xfbs = "0";
+  $xfnwb = "false";
+  $xfsn = "0x1000";
+  $xfpn = "0x1000";
+  $xfcn = "0x1";
 }
 
-if (empty($xfwap)){ $xfwap = "1";}
-if (empty($xfgd)){ $xfgd = "4";}
-if (empty($xfbs)){ $xfbs = "0";}
-if (empty($xfnwb)){ $xfnwb = "false";}
-if (empty($xfsn)){ $xfsn = "0x1000";}
-if (empty($xfpn)){ $xfpn = "0x1000";}
-if (empty($xfcn)){ $xfcn = "0x1";}
+if (empty($xfwap)) { $xfwap = "1"; }
+if (empty($xfgd)) { $xfgd = "4"; }
+if (empty($xfbs)) { $xfbs = "0"; }
+if (empty($xfnwb)) { $xfnwb = "false"; }
+if (empty($xfsn)) { $xfsn = "0x1000"; }
+if (empty($xfpn)) { $xfpn = "0x1000"; }
+if (empty($xfcn)) { $xfcn = "0x1"; }
 
 print("<html> 
 <head>
