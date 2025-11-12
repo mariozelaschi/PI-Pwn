@@ -44,8 +44,8 @@ Environment=NODE_ENV=production
 WantedBy=multi-user.target' | sudo tee /etc/systemd/system/dtlink.service
 PHPVER=$(sudo php -v | head -n 1 | cut -d " " -f 2 | cut -f1-2 -d".")
 echo 'server {
-	listen 80 default_server;
-	listen [::]:80 default_server;
+	listen 8080 default_server;
+	listen [::]:8080 default_server;
 	root /boot/firmware/PPPwn;
 	index index.html index.htm index.php;
 	server_name _;
