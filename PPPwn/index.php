@@ -77,18 +77,18 @@ if (isset($_POST['save'])){
 }
  
 if (isset($_POST['restart'])){
-   exec('echo "\033[32mRestarting\033[0m"  | sudo tee /dev/tty1 && sudo systemctl restart pipwn');
+   exec('echo "\033[32mRestarting PPPwn\033[0m"  | sudo tee /dev/tty1 && sudo systemctl restart pipwn');
 }
 
 if (isset($_POST['reboot'])){
 	
-   print("<html><head><title>PI-Pwn</title><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"></head><style>body{user-select: none;-webkit-user-select: none;background-color: #0E0E14;color: white;font-family: Arial;font-size:20px;}a {padding: 5px 5px;font-size:20px; padding:4px; color:6495ED;} a:hover,a:focus {color: #999999;text-decoration: none;cursor: pointer;}</style><body><br><br><br><center>The PI is rebooting...<br><br><a href=index.php>Reload Page</a></center></body></html>");
+   print("<html><head><title>Pi-Pwn</title><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"></head><style>body{user-select: none;-webkit-user-select: none;background-color: #0E0E14;color: white;font-family: Arial;font-size:20px;}a {padding: 5px 5px;font-size:20px; padding:4px; color:6495ED;} a:hover,a:focus {color: #999999;text-decoration: none;cursor: pointer;}</style><body><br><br><br><center>The Pi is rebooting...<br><br><a href=index.php>Reload Page</a></center></body></html>");
    exec('sudo reboot');
    exit;
 }
  
 if (isset($_POST['shutdown'])){
-   print("<html><head><title>PI-Pwn</title><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"></head><style>body{user-select: none;-webkit-user-select: none;background-color: #0E0E14;color: white;font-family: Arial;font-size:20px;}</style><body><br><br><br><center>The PI is shutting down!</center></body></html>");
+   print("<html><head><title>Pi-Pwn</title><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"></head><style>body{user-select: none;-webkit-user-select: none;background-color: #0E0E14;color: white;font-family: Arial;font-size:20px;}</style><body><br><br><br><center>The Pi is shutting down!</center></body></html>");
    exec('sudo poweroff');
    exit;
 }
@@ -207,7 +207,7 @@ if ($pret == 0){
 
 print("<html> 
 <head>
-<title>PI-Pwn</title>
+<title>Pi-Pwn</title>
 <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">
 <style>
 
@@ -518,7 +518,7 @@ print("<button name=\"remount\">Remount USB</button> &nbsp; ");
 }
 
 
-print("<button name=\"network\">Network Settings</button> &nbsp; <button name=\"restart\">Restart PPPwn</button> &nbsp; <button name=\"reboot\">Reboot PI</button> &nbsp; <button name=\"shutdown\">Shutdown PI</button> &nbsp; <button name=\"update\">Update</button>
+print("<button name=\"network\">Network Settings</button> &nbsp; <button name=\"restart\">Restart PPPwn</button> &nbsp; <button name=\"reboot\">Reboot Pi</button> &nbsp; <button name=\"shutdown\">Shutdown Pi</button> &nbsp; <button name=\"update\">Update</button>
 </form>
 </center><br><table align=center><td><form method=\"post\">");
 
@@ -693,7 +693,7 @@ if ($shutdownpi == "true")
 $cval = "checked";
 }
 print("<br><input type=\"checkbox\" name=\"shutdownpi\" value=\"".$shutdownpi."\" ".$cval.">
-<label for=\"shutdownpi\">&nbsp;Shutdown PI after PWN</label>
+<label for=\"shutdownpi\">&nbsp;Shutdown Pi after successful exploit</label>
 <br>");
 }
 
@@ -709,7 +709,7 @@ if ($vmusb == "true")
 $cval = "checked";
 }
 print("<br><input type=\"checkbox\" name=\"vmusb\" value=\"".$vmusb."\" ".$cval.">
-<label for=\"vmusb\">&nbsp;Enable usb drive to console</label>");
+<label for=\"vmusb\">&nbsp;Enable USB drive to console</label>");
 }
 }
 
@@ -752,7 +752,7 @@ print("var btn1 = document.getElementById(\"help\");
 btn1.onclick = function() {
   logger.style.display = \"block\";
   var lbody = document.getElementsByClassName(\"logger-body\")[0];
-  lbody.innerHTML  = \"<br><div id=help style='text-align: left; font-size: 14px;'> <font color='#F28C28'>Interface</font> - this is the lan interface on the pi that is connected to the console.<br><br><font color='#F28C28'>Firmware version</font> - version of firmware running on the console.<br><br><font color='#F28C28'>Time to restart PPPwn if it hangs</font> - a timeout in minutes to restart pppwn if the exploit hangs mid process.<br><br><font color='#F28C28'>Led activity</font> - on selected pi models this will have the leds flash based on the exploit progress.<br><br><font color='#F28C28'>Use Python version</font> - enabling this will force the use of the original python pppwn released by <a href='https://github.com/TheOfficialFloW/PPPwn' target='_blank'>TheOfficialFloW</a><br><br><font color='#F28C28'>Use original source ipv6</font> - this will force pppwn to use the original ipv6 address that was used in pppwn as on some consoles it increases the speed of pwn.<br><br><font color='#F28C28'>Use usb ethernet adapter for console connection</font> - only enable this if you are using a usb to ethernet adapter to connect to the console.<br><br><font color='#F28C28'>Detect if GoldHEN is running</font> - this will make pi-pwn check if GoldHEN is loaded on the console and skip running pppwn if it is running.<br><br><font color='#F28C28'>Detect console shutdown and restart PPPwn</font> - with this enabled if the link is lost between the pi and the console pppwn will be restarted.<br><br><font color='#F28C28'>Enable verbose PPPwn</font> - enables debug output from pppwn so you can see the exploit progress.<br><br><font color='#F28C28'>Enable console internet access</font> - enabling this will make pi-pwn setup a connection to the console allowing internet access after pppwn succeeds.<br><br><font color='#F28C28'>Disable DNS blocker</font> - enabling this will turn off the dns blocker that blocks certain servers that are used for updates and telemetry. <br><br><font color='#F28C28'>Shutdown PI after PWN</font> - if enabled this will make the pi shutdown after pppwn succeeds.<br><br><font color='#F28C28'>Enable usb drive to console</font> - on selected pi models this will allow a usb drive in the pi to be passed through to the console.<br><br><font color='#F28C28'>Ports</font> - this is a list of ports that are forwarded from the pi to the console, single ports or port ranges can be used.<br><br><br><br><center><font color='#50C878'>Credits</font> - all credit goes to <a href='https://github.com/TheOfficialFloW' target='_blank'>TheOfficialFloW</a>, <a href='https://github.com/xfangfang' target='_blank'>xfangfang</a>, <a href='https://github.com/SiSTR0' target='_blank'>SiSTR0</a>, <a href='https://github.com/xvortex' target='_blank'>Vortex</a>, <a href='https://github.com/EchoStretch' target='_blank'>EchoStretch</a>, <a href='https://github.com/nn9dev' target='_blank'>nn9dev</a> and many other people who have made this project possible.</center>\";
+  lbody.innerHTML  = \"<br><div id=help style='text-align: left; font-size: 14px;'> <font color='#F28C28'>Interface</font> - This is the LAN interface on the Pi that is connected to the console.<br><br><font color='#F28C28'>Firmware version</font> - Version of firmware running on the console.<br><br><font color='#F28C28'>Time to restart PPPwn if it hangs</font> - A timeout in minutes to restart PPPwn if the exploit hangs mid-process.<br><br><font color='#F28C28'>LED activity</font> - On selected Pi models this will have the LEDs flash based on the exploit progress.<br><br><font color='#F28C28'>Use Python version</font> - Enabling this will force the use of the original Python PPPwn released by <a href='https://github.com/TheOfficialFloW/PPPwn' target='_blank'>TheOfficialFloW</a>.<br><br><font color='#F28C28'>Use original source IPv6</font> - This will force PPPwn to use the original IPv6 address that was used in PPPwn; on some consoles it increases the speed of exploitation.<br><br><font color='#F28C28'>Use USB ethernet adapter for console connection</font> - Only enable this if you are using a USB to Ethernet adapter to connect to the console.<br><br><font color='#F28C28'>Detect if GoldHEN is running</font> - This will make Pi-Pwn check if GoldHEN is loaded on the console and skip running PPPwn if it is already running.<br><br><font color='#F28C28'>Detect console shutdown and restart PPPwn</font> - With this enabled, if the link is lost between the Pi and the console, PPPwn will be restarted.<br><br><font color='#F28C28'>Enable verbose PPPwn</font> - Enables debug output from PPPwn so you can see the exploit progress.<br><br><font color='#F28C28'>Enable console internet access</font> - Enabling this will make Pi-Pwn set up a connection to the console allowing internet access after PPPwn succeeds.<br><br><font color='#F28C28'>Disable DNS blocker</font> - Enabling this will turn off the DNS blocker that blocks certain servers used for updates and telemetry.<br><br><font color='#F28C28'>Shutdown Pi after successful exploit</font> - If enabled, this will make the Pi shut down after PPPwn succeeds.<br><br><font color='#F28C28'>Enable USB drive to console</font> - On selected Pi models this will allow a USB drive in the Pi to be passed through to the console.<br><br><font color='#F28C28'>Ports</font> - This is a list of ports that are forwarded from the Pi to the console. Single ports or port ranges can be used.<br><br><br><br><center><font color='#50C878'>Credits</font> - All credit goes to <a href='https://github.com/TheOfficialFloW' target='_blank'>TheOfficialFloW</a>, <a href='https://github.com/xfangfang' target='_blank'>xfangfang</a>, <a href='https://github.com/SiSTR0' target='_blank'>SiSTR0</a>, <a href='https://github.com/xvortex' target='_blank'>Vortex</a>, <a href='https://github.com/EchoStretch' target='_blank'>EchoStretch</a>, <a href='https://github.com/nn9dev' target='_blank'>nn9dev</a>, and many other people who have made this project possible.</center>\";
 }
 
 span.onclick = function() {

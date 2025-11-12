@@ -76,7 +76,7 @@ if (empty($xfcn)) { $xfcn = "0x1"; }
 
 print("<html> 
 <head>
-<title>PI-Pwn</title>
+<title>Pi-Pwn</title>
 <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">
 <style>
 
@@ -213,51 +213,51 @@ print("<br><input type=\"checkbox\" name=\"xfnwb\" value=\"".$xfnwb."\" ".$cval.
 <label for=\"xfnwb\">&nbsp;Only wait for one PADI request</label>
 <br>
 <div style=\"text-align:left; font-size:12px; padding:10px;\">
-By default pppwn will wait for two PADI requests.<br>
-According to<a href=\"https://github.com/TheOfficialFloW/PPPwn/pull/48\" style=\"text-decoration:none;\" target=\"_blank\"><label id=\"urllbl\">TheOfficialFloW/PPPwn/pull/48</label></a>this helps to improve stability
+By default, PPPwn will wait for two PADI requests.<br>
+According to<a href=\"https://github.com/TheOfficialFloW/PPPwn/pull/48\" style=\"text-decoration:none;\" target=\"_blank\"><label id=\"urllbl\">TheOfficialFloW/PPPwn/pull/48</label></a>, this helps to improve stability.
 </div>
 <br><br>");
 
 print("<label for=\"xfwap\">Wait after pin </label><input size=\"4\" type=\"text\" name=\"xfwap\" value=\"".$xfwap."\" style=\"text-align:center;\"><label style=\"text-align:left; font-size:12px; padding:10px;\"> (Default: 1)</label><br>
 <div style=\"text-align:left; font-size:12px; padding:10px;\">
-According to<a href=\"https://github.com/SiSTR0/PPPwn/pull/1\" style=\"text-decoration:none;\" target=\"_blank\"><label id=\"urllbl\">SiSTR0/PPPwn/pull/1</label></a>setting this parameter to 20 helps to improve stability
+According to<a href=\"https://github.com/SiSTR0/PPPwn/pull/1\" style=\"text-decoration:none;\" target=\"_blank\"><label id=\"urllbl\">SiSTR0/PPPwn/pull/1</label></a>, setting this parameter to 20 helps to improve stability.
 </div>
 <br><br>");
 
 print("<label for=\"xfgd\">Groom delay&nbsp;</label><input size=\"4\" type=\"text\" name=\"xfgd\" value=\"".$xfgd."\" style=\"text-align:center;\"><label style=\"text-align:left; font-size:12px; padding:10px;\"> (Default: 4)</label><br>
 <div style=\"text-align:left; font-size:12px; padding:10px;\">
-The Python version of pppwn does not set any wait at Heap grooming. <br>
-If the C++ version does not add some wait there is a probability of kernel panic.<br>
+The Python version of PPPwn does not set any wait at heap grooming.<br>
+If the C++ version does not add some wait, there is a probability of kernel panic.<br>
 You can set any value within 1-4097 (4097 is equivalent to not doing any wait).
 </div>
 <br><br>");
 
 print("<label for=\"xfbs\">Buffer size&nbsp;&nbsp;&nbsp;&nbsp; </label><input size=\"4\" type=\"text\" name=\"xfbs\" value=\"".$xfbs."\" style=\"text-align:center;\"><label style=\"text-align:left; font-size:12px; padding:10px;\"> (Default: 0)</label><br>
 <div style=\"text-align:left; font-size:12px; padding:10px;\">
-When running on low-end devices this value can be set to reduce memory usage.<br>
+When running on low-end devices, this value can be set to reduce memory usage.<br>
 Setting it to 10240 can run normally and the memory usage is about 3MB.<br>
-(Note: A value that is too small may cause some packets to not be captured properly)
+(Note: A value that is too small may cause some packets to not be captured properly.)
 </div>
 <br><br>");
 
-print("<label for=\"xfsn\">Spray Num&nbsp;&nbsp;&nbsp; </label><input size=\"4\" type=\"text\" name=\"xfsn\" value=\"".$xfsn."\" style=\"text-align:center;\"><label style=\"text-align:left; font-size:12px; padding:10px;\"> (Default: 0X1000)</label><br>
+print("<label for=\"xfsn\">Spray Num&nbsp;&nbsp;&nbsp; </label><input size=\"4\" type=\"text\" name=\"xfsn\" value=\"".$xfsn."\" style=\"text-align:center;\"><label style=\"text-align:left; font-size:12px; padding:10px;\"> (Default: 0x1000)</label><br>
 <div style=\"text-align:left; font-size:12px; padding:10px;\">
 Brief testing shows that increasing this by steps of 0x50 up to around 0x1500 results in better reliability.
 </div>
 <br><br>");
 
-print("<label for=\"xfpn\">Pin Num&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </label><input size=\"4\" type=\"text\" name=\"xfpn\" value=\"".$xfpn."\" style=\"text-align:center;\"><label style=\"text-align:left; font-size:12px; padding:10px;\"> (Default: 0X1000)</label><br>
+print("<label for=\"xfpn\">Pin Num&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </label><input size=\"4\" type=\"text\" name=\"xfpn\" value=\"".$xfpn."\" style=\"text-align:center;\"><label style=\"text-align:left; font-size:12px; padding:10px;\"> (Default: 0x1000)</label><br>
 <div style=\"text-align:left; font-size:12px; padding:10px;\">
 PIN_NUM is the time to wait on a core before proceeding with the exploit.<br>
-Brief testing has shown this doesn't affect too much, so it's fine to leave this at default.<br>
+Brief testing has shown this doesn't affect much, so it's fine to leave this at default.
 </div>
 <br><br>");
 
-print("<label for=\"xfcn\">Corrupt Num&nbsp;</label><input size=\"4\" type=\"text\" name=\"xfcn\" value=\"".$xfcn."\" style=\"text-align:center;\"><label style=\"text-align:left; font-size:12px; padding:10px;\"> (Default: 0X1)</label><br>
+print("<label for=\"xfcn\">Corrupt Num&nbsp;</label><input size=\"4\" type=\"text\" name=\"xfcn\" value=\"".$xfcn."\" style=\"text-align:center;\"><label style=\"text-align:left; font-size:12px; padding:10px;\"> (Default: 0x1)</label><br>
 <div style=\"text-align:left; font-size:12px; padding:10px;\">
-CORRUPT_NUM is the amout of malicious packets sent to the PS4.<br>
-Breif testing shows increasing this results in much better reliability.<br>
-Reccomended values are 0x1 0x2, 0x4, 0x6, 0x8, 0x10, 0x14, 0x20, 0x30, 0x40.<br>
+CORRUPT_NUM is the amount of malicious packets sent to the PS4.<br>
+Brief testing shows increasing this results in much better reliability.<br>
+Recommended values are 0x1, 0x2, 0x4, 0x6, 0x8, 0x10, 0x14, 0x20, 0x30, 0x40.<br>
 Values too high may result in a crash.
 </div>
 <br>");

@@ -9,7 +9,7 @@ if (isset($_POST['back'])) {
 if (isset($_POST['saveppp'])) {
   exec('echo \'"'.$_POST["pppu"].'"  *  "'.$_POST["pppw"].'"  192.168.2.2\' | sudo tee /etc/ppp/pap-secrets');
   sleep(1);
-  echo "<script type='text/javascript'>alert('PPP Settings Saved');</script>";
+  echo "<script type='text/javascript'>alert('PPP settings saved successfully');</script>";
 }
 
 if (isset($_POST['savewifi'])) {
@@ -19,15 +19,16 @@ if (isset($_POST['savewifi'])) {
     exec($cmd." 2>&1", $data, $ret);
     foreach ($data as $x) {
       if (!empty($x)) {
-        if (str_contains($x, 'success')) {
-          echo "<script type='text/javascript'>alert('Wifi Settings Saved');</script>";
+        if ($ret == 0) {
+          exec('echo "\033[32mRestarting\033[0m" | sudo tee /dev/tty1 && sudo systemctl restart pipwn');
+          echo "<script type='text/javascript'>alert('Wi-Fi settings saved successfully');</script>";
         } else {
-          echo "<script type='text/javascript'>alert('Error Saving Wifi Settings');</script>";
+          echo "<script type='text/javascript'>alert('Error saving Wi-Fi settings');</script>";
         }
       }
     }
   } else {
-    echo "<script type='text/javascript'>alert('SSID and Password must not be empty');</script>";
+    echo "<script type='text/javascript'>alert('SSID and password must not be empty');</script>";
   }
 }
 

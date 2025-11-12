@@ -24,7 +24,7 @@ if (isset($_POST['back'])) {
 
 print("<html> 
 <head>
-<title>PI-Pwn</title>
+<title>Pi-Pwn</title>
 <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">
 <style>
 
@@ -195,7 +195,7 @@ if ($ret == 0 && count($sdir) > 0) {
 
 print("<button name=\"reload\" value=\"reload\">Reload page</button>");
 done:
-print("</form></td></table><br><br><center>Place payloads in a folder called \"<b>payloads</b>\" on a usb drive and plug it in to the pi.<br>You must also enable the binloader server in goldhen.<br><form method=\"post\"><input type=\"hidden\" value=\"back\"><input type=\"submit\" name=\"back\" value=\"Back to config page\"/></form></center>");
+print("</form></td></table><br><br><center>Place payloads in a folder called \"<b>payloads</b>\" on a USB drive and plug it in to the Pi.<br>You must also enable the binloader server in GoldHEN.<br><form method=\"post\"><input type=\"hidden\" value=\"back\"><input type=\"submit\" name=\"back\" value=\"Back to config page\"/></form></center>");
 print("</body></html>");
 
 ?>

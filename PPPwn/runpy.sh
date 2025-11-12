@@ -133,7 +133,7 @@ if [ "$RESTMODE" = true ] && [ "$UGH" = true ]; then
   coproc read -t 5 && wait "$!" || true
   GHT=$(sudo nmap -p 3232 192.168.2.2 | grep '3232/tcp' | cut -f2 -d' ')
   if [[ "$GHT" == *"open"* ]]; then
-    echo -e "\n\033[95mGoldhen found aborting pppwn\033[0m\n" | sudo tee /dev/tty1
+    echo -e "\n\033[95mGoldHEN found, aborting PPPwn\033[0m\n" | sudo tee /dev/tty1
     if [[ "$LEDACT" == "status" ]]; then
       echo none | sudo tee "$PLED" >/dev/null
       echo default-on | sudo tee "$ALED" >/dev/null
@@ -158,7 +158,7 @@ if [ "$RESTMODE" = true ] && [ "$UGH" = true ]; then
     fi
     exit 0
   else
-    echo -e "\n\033[95mGoldhen not found starting pppwn\033[0m\n" | sudo tee /dev/tty1
+    echo -e "\n\033[95mGoldHEN not found, starting PPPwn\033[0m\n" | sudo tee /dev/tty1
     sudo killall pppoe-server
     if [ "$USBETHERNET" = true ]; then
       echo '1-1' | sudo tee /sys/bus/usb/drivers/usb/unbind >/dev/null
@@ -198,7 +198,7 @@ while [ true ]; do
       echo -e "$stdo" | sudo tee /dev/tty1 | sudo tee /dev/pts/* | sudo tee -a /boot/firmware/PPPwn/pwn.log
     fi
     if [[ "$stdo" == "[+] Done!" ]]; then
-      echo -e "\033[32m\nConsole PPPwned! \033[0m\n" | sudo tee /dev/tty1
+      echo -e "\033[32m\nConsole exploited successfully!\033[0m\n" | sudo tee /dev/tty1
       if [[ "$LEDACT" == "status" ]]; then
         echo none | sudo tee "$PLED" >/dev/null
         echo default-on | sudo tee "$ALED" >/dev/null
@@ -222,7 +222,7 @@ while [ true ]; do
       fi
       exit 0
     elif [[ "$stdo" == *"Scanning for corrupted object...failed"* ]]; then
-      echo -e "\033[31m\nFailed retrying...\033[0m\n" | sudo tee /dev/tty1
+      echo -e "\033[31m\nExploitation failed, retrying...\033[0m\n" | sudo tee /dev/tty1
     elif [[ "$stdo" == *"Unsupported firmware version"* ]]; then
       echo -e "\033[31m\nUnsupported firmware version\033[0m\n" | sudo tee /dev/tty1
       if [[ "$LEDACT" == "status" ]]; then
