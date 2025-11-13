@@ -6,10 +6,10 @@ for dev in "${usbarr[@]}"; do
   MOUNTPOINT=$(echo "$dev" | cut -f1 -d' ')
   if [ -z "$PARTITION" ]; then
     if [ ! -d /media/pwndrives ]; then
-      mkdir /media/pwndrives
+      sudo mkdir -p /media/pwndrives
     fi
     if [ ! -d "/media/pwndrives/$MOUNTPOINT" ]; then
-      mkdir "/media/pwndrives/$MOUNTPOINT"
+      sudo mkdir -p "/media/pwndrives/$MOUNTPOINT"
     fi
     sudo mount "/dev/$MOUNTPOINT" "/media/pwndrives/$MOUNTPOINT" &
   fi

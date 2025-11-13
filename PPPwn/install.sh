@@ -1,7 +1,7 @@
 #!/bin/bash
 
 if [ ! -d /boot/firmware/PPPwn/payloads ]; then
-  sudo mkdir /boot/firmware/PPPwn/payloads
+  sudo mkdir -p /boot/firmware/PPPwn/payloads
 fi
 
 if [ -z "$1" ]; then
@@ -84,15 +84,16 @@ WantedBy=multi-user.target' | sudo tee /etc/systemd/system/devboot.service
   sudo sed -i "s^www-data	ALL=(ALL) NOPASSWD: ALL^^g" /etc/sudoers
   echo 'www-data	ALL=(ALL) NOPASSWD: ALL' | sudo tee -a /etc/sudoers
   sudo systemctl restart nginx
+    fi
   if [ ! -f /etc/udev/rules.d/99-pwnmnt.rules ]; then
-    sudo mkdir /media/pwndrives
+    sudo mkdir -p /media/pwndrives
     echo 'MountFlags=shared' | sudo tee -a /usr/lib/systemd/system/systemd-udevd.service
     echo 'ACTION=="add", KERNEL=="sd*", SUBSYSTEMS=="usb|scsi", DRIVERS=="sd", SYMLINK+="usbdrive", RUN+="/boot/firmware/PPPwn/pwnmount.sh $kernel"
 ACTION=="remove", SUBSYSTEM=="block", RUN+="/boot/firmware/PPPwn/pwnumount.sh $kernel"' | sudo tee /etc/udev/rules.d/99-pwnmnt.rules
     sudo udevadm control --reload
   fi
   if [ -f /media/pwndrives ]; then
-    sudo mkdir /media/pwndrives
+    sudo mkdir -p /media/pwndrives
   fi
   PPSTAT=$(sudo systemctl list-unit-files --state=enabled --type=service | grep pppoe)
   if [[ -n "$PPSTAT" ]]; then
