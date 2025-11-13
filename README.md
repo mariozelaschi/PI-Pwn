@@ -22,6 +22,7 @@
     - [FTP Access](#ftp-access)
     - [Samba Access](#samba-access)
 - [Updating PI-Pwn](#updating-pi-pwn)
+- [Uninstalling PI-Pwn](#uninstalling-pi-pwn)
 - [Configuration Options](#configuration-options)
 - [Credits](#credits)
 
@@ -88,17 +89,30 @@ PI-Pwn has been tested on the following models, but is not limited to them:
 1. Flash Raspberry Pi OS Lite or Armbian CLI/Minimal to your SD card
 2. Insert the SD card into your Raspberry Pi and boot it
 3. Connect the Pi to the internet (via Ethernet or WiFi)
-4. Run the following commands:
+4. Download and run the setup script:
+
+```bash
+cd ~
+wget https://raw.githubusercontent.com/mariozelaschi/PI-Pwn/main/setup.sh
+chmod +x setup.sh
+./setup.sh
+```
+
+Select option 1 to install PI-Pwn. The script will automatically download the latest version and start the configuration wizard.
+
+**Alternative manual installation:**
 
 ```bash
 sudo apt update
-sudo apt install git -y
-sudo rm -f -r PI-Pwn
-sudo systemctl stop pipwn
-git clone https://github.com/mariozelaschi/PI-Pwn
+sudo apt install wget unzip -y
+sudo systemctl stop pipwn 2>/dev/null
+sudo rm -rf /boot/firmware/PPPwn
 sudo mkdir -p /boot/firmware/
-cd PI-Pwn
-sudo cp -r PPPwn /boot/firmware/
+cd /tmp
+wget -q https://github.com/mariozelaschi/PI-Pwn/archive/refs/heads/main.zip -O pipwn.zip
+unzip -q pipwn.zip
+sudo cp -r PI-Pwn-main/PPPwn /boot/firmware/
+rm -rf PI-Pwn-main pipwn.zip
 cd /boot/firmware/PPPwn
 sudo chmod +x *.sh pppwn7 pppwn11 pppwn64 2>/dev/null
 sudo bash install.sh
@@ -261,6 +275,25 @@ There are three methods to update PI-Pwn:
 1. **Web Interface**: Click the update button in the web UI
 2. **Reinstall Script**: Run the installation commands again to update to the latest version and reconfigure settings
 3. **Manual Edit**: Remove the SD card, insert it into your computer, and edit files in the `PPPwn` folder at `/boot/firmware/PPPwn`
+
+## Uninstalling PI-Pwn
+
+To completely remove PI-Pwn from your Raspberry Pi:
+
+```bash
+cd ~
+wget https://raw.githubusercontent.com/mariozelaschi/PI-Pwn/main/setup.sh
+chmod +x setup.sh
+./setup.sh
+```
+
+Select option 2 to uninstall. This will:
+
+- Stop and disable all PI-Pwn services
+- Remove configuration files and systemd units
+- Clean up network and DNS configurations
+- Optionally restore the default hostname
+- Prompt for system reboot
 
 ## Configuration Options
 
