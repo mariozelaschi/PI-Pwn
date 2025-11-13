@@ -42,6 +42,21 @@ Group=root
 Environment=NODE_ENV=production
 [Install]
 WantedBy=multi-user.target' | sudo tee /etc/systemd/system/dtlink.service
+  echo '[Unit]
+Description=Run PPPwn devboot.sh once at startup
+After=network.target local-fs.target
+
+[Service]
+Type=oneshot
+WorkingDirectory=/boot/firmware/PPPwn
+ExecStart=/boot/firmware/PPPwn/devboot.sh
+RemainAfterExit=yes
+User=root
+Group=root
+Environment=NODE_ENV=production
+
+[Install]
+WantedBy=multi-user.target' | sudo tee /etc/systemd/system/devboot.service
   PHPVER=$(sudo php -v | head -n 1 | cut -d " " -f 2 | cut -f1-2 -d".")
   echo 'server {
 	listen 8080 default_server;
@@ -63,7 +78,7 @@ WantedBy=multi-user.target' | sudo tee /etc/systemd/system/dtlink.service
 }' | sudo tee /etc/nginx/sites-enabled/default
   sudo sed -i "s^www-data	ALL=(ALL) NOPASSWD: ALL^^g" /etc/sudoers
   echo 'www-data	ALL=(ALL) NOPASSWD: ALL' | sudo tee -a /etc/sudoers
-  sudo /etc/init.d/nginx restart
+  sudo systemctl restart nginx
   if [ ! -f /etc/udev/rules.d/99-pwnmnt.rules ]; then
     sudo mkdir /media/pwndrives
     echo 'MountFlags=shared' | sudo tee -a /usr/lib/systemd/system/systemd-udevd.service
@@ -82,10 +97,6 @@ ACTION=="remove", SUBSYSTEM=="block", RUN+="/boot/firmware/PPPwn/pwnumount.sh $k
   if [ ! -f /boot/firmware/PPPwn/ports.txt ]; then
     echo '2121,3232,9090,8080,12800,1337' | sudo tee /boot/firmware/PPPwn/ports.txt
   fi
-
-  sudo sed -i 's^"exit 0"^"exit"^g' /etc/rc.local
-  sudo sed -i 's^sudo bash /boot/firmware/PPPwn/devboot.sh \&^^g' /etc/rc.local
-  sudo sed -i 's^exit 0^sudo bash /boot/firmware/PPPwn/devboot.sh \&\n\nexit 0^g' /etc/rc.local
 
   if [[ $(dpkg-query -W --showformat='${Status}\n' python3-scapy | grep "install ok installed") == "" ]]; then
     while true; do
@@ -652,19 +663,26 @@ XFPN="0x1000"
 XFCN="0x1"
 XFNWB=false' | sudo tee /boot/firmware/PPPwn/pconfig.sh
   sudo rm -f /usr/lib/systemd/system/network-online.target
-  sudo sed -i 's^sudo bash /boot/firmware/PPPwn/run.sh \&^^g' /etc/rc.local
-  echo '[Service]
+  echo '[Unit]
+Description=PiPwn Service
+After=network.target devboot.service
+Requires=devboot.service
+
+[Service]
 WorkingDirectory=/boot/firmware/PPPwn
 ExecStart=/boot/firmware/PPPwn/run.sh
 Restart=never
 User=root
 Group=root
 Environment=NODE_ENV=production
+
 [Install]
 WantedBy=multi-user.target' | sudo tee /etc/systemd/system/pipwn.service
+  sudo chmod u+rwx /etc/systemd/system/devboot.service
   sudo chmod u+rwx /etc/systemd/system/pipwn.service
   sudo chmod u+rwx /etc/systemd/system/pppoe.service
   sudo chmod u+rwx /etc/systemd/system/dtlink.service
+  sudo systemctl enable devboot
   sudo systemctl enable pipwn
   CHSTN=$(hostname | cut -f1 -d' ')
   sudo sed -i "s^$CHSTN^$HSTN^g" /etc/hosts
