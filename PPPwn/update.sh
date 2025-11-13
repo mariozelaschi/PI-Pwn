@@ -5,7 +5,7 @@ if [ -f /boot/firmware/PPPwn/upd.log ]; then
 fi
 
 echo "Checking for updates..." | sudo tee /dev/tty1 | sudo tee /dev/pts/* | sudo tee -a /boot/firmware/PPPwn/upd.log
-sudo mkdir /home/www-data
+sudo mkdir -p /home/www-data
 cd /home/www-data
 sudo rm -f -r PI-Pwn
 
@@ -24,8 +24,11 @@ if [ "$newver" -gt "$currentver" ]; then
   sudo cp -r PPPwn /boot/firmware/
 
   cd /boot/firmware/PPPwn
-  sudo chmod 777 *
+  sudo chmod +x *.sh pppwn7 pppwn11 pppwn64 2>/dev/null
   sudo bash install.sh update
+  
+  cd /home/www-data
+  sudo rm -rf PI-Pwn
 
 else
   sudo rm -f -r PI-Pwn

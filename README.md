@@ -100,7 +100,7 @@ sudo mkdir -p /boot/firmware/
 cd PI-Pwn
 sudo cp -r PPPwn /boot/firmware/
 cd /boot/firmware/PPPwn
-sudo chmod 777 *
+sudo chmod +x *.sh pppwn7 pppwn11 pppwn64 2>/dev/null
 sudo bash install.sh
 ```
 
