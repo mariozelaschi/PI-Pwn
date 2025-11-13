@@ -22,5 +22,5 @@ address=/cddbp.net/127.0.0.1
 address=/nintendo.net/127.0.0.1
 address=/ea.com/127.0.0.1
 address=/'$HSTN'.local/192.168.2.1' | sudo tee /etc/dnsmasq.more.conf
-  sudo systemctl restart dnsmasq
+  sudo systemctl reload-or-restart dnsmasq
 fi

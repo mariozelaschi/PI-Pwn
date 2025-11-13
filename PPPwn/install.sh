@@ -6,13 +6,18 @@ fi
 
 if [ -z "$1" ]; then
   sudo apt install pppoe dnsmasq iptables nginx php-fpm nmap at net-tools -y
-  echo 'bogus-priv
-expand-hosts
-domain-needed
-server=8.8.8.8
+  SYSDNS=$(grep -m 1 "^nameserver" /etc/resolv.conf | awk '{print $2}')
+  if [ -z "$SYSDNS" ]; then
+    SYSDNS="9.9.9.9"
+  fi
+  echo '# PPPwn DNS configuration for PS4
 listen-address=127.0.0.1
 port=5353
-conf-file=/etc/dnsmasq.more.conf' | sudo tee /etc/dnsmasq.conf
+bogus-priv
+expand-hosts
+domain-needed
+server='$SYSDNS'
+conf-file=/etc/dnsmasq.more.conf' | sudo tee /etc/dnsmasq.d/99-pppwn.conf
   echo 'auth
 lcp-echo-failure 3
 lcp-echo-interval 60
@@ -637,7 +642,7 @@ address=/cddbp.net/127.0.0.1
 address=/nintendo.net/127.0.0.1
 address=/ea.com/127.0.0.1
 address=/'$HSTN'.local/192.168.2.1' | sudo tee /etc/dnsmasq.more.conf
-  sudo systemctl restart dnsmasq
+  sudo systemctl reload-or-restart dnsmasq
   echo '#!/bin/bash
 INTERFACE="'${IFCE/ /}'"
 FIRMWAREVERSION="'${FWV/ /}'"
