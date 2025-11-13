@@ -3,8 +3,9 @@
 if [ ! -d /boot/firmware/PPPwn/payloads ]; then
   sudo mkdir /boot/firmware/PPPwn/payloads
 fi
+
 if [ -z "$1" ]; then
-    sudo apt install pppoe dnsmasq iptables nginx php-fpm nmap at net-tools -y
+  sudo apt install pppoe dnsmasq iptables nginx php-fpm nmap at net-tools -y
   echo 'bogus-priv
 expand-hosts
 domain-needed
@@ -77,12 +78,15 @@ ACTION=="remove", SUBSYSTEM=="block", RUN+="/boot/firmware/PPPwn/pwnumount.sh $k
   if [[ -n "$PPSTAT" ]]; then
     sudo systemctl disable pppoe
   fi
+
   if [ ! -f /boot/firmware/PPPwn/ports.txt ]; then
     echo '2121,3232,9090,8080,12800,1337' | sudo tee /boot/firmware/PPPwn/ports.txt
   fi
+
   sudo sed -i 's^"exit 0"^"exit"^g' /etc/rc.local
   sudo sed -i 's^sudo bash /boot/firmware/PPPwn/devboot.sh \&^^g' /etc/rc.local
   sudo sed -i 's^exit 0^sudo bash /boot/firmware/PPPwn/devboot.sh \&\n\nexit 0^g' /etc/rc.local
+
   if [[ $(dpkg-query -W --showformat='${Status}\n' python3-scapy | grep "install ok installed") == "" ]]; then
     while true; do
       read -p "$(printf '\r\n\r\n\033[36mDo you want to enable the option to use Python (slower) PPPwn\033[36m (Y|N)?: \033[0m')" pypwnopt
@@ -99,6 +103,7 @@ ACTION=="remove", SUBSYSTEM=="block", RUN+="/boot/firmware/PPPwn/pwnumount.sh $k
       esac
     done
   fi
+
   if [[ $(dpkg-query -W --showformat='${Status}\n' vsftpd | grep "install ok installed") == "" ]]; then
     while true; do
       read -p "$(printf '\r\n\r\n\033[36mDo you want to install a FTP server? (Y|N):\033[0m ')" ftpq
@@ -150,6 +155,7 @@ local_root=/boot/firmware/PPPwn" | sudo tee /etc/vsftpd.conf
       esac
     done
   fi
+
   if [[ $(dpkg-query -W --showformat='${Status}\n' samba | grep "install ok installed") == "" ]]; then
     while true; do
       read -p "$(printf '\r\n\r\n\033[36mDo you want to setup a SAMBA share? (Y|N):\033[0m ')" smbq
@@ -256,6 +262,7 @@ public=yes' | sudo tee /etc/samba/smb.conf
       esac
     done
   fi
+
   if [[ $(dpkg-query -W --showformat='${Status}\n' python3-scapy | grep "install ok installed") == "" ]]; then
     UPYPWN="false"
   else
@@ -275,6 +282,7 @@ public=yes' | sudo tee /etc/samba/smb.conf
       esac
     done
   fi
+
   while true; do
     read -p "$(printf '\r\n\r\n\033[36mDo you want to change the PPPoE username and password?\r\nIf you select No, these defaults will be used:\r\n\r\nUsername: \033[33mppp\r\n\033[36mPassword: \033[33mppp\r\n\r\n\033[36m(Y|N)?: \033[0m')" wapset
     case $wapset in
@@ -320,7 +328,9 @@ public=yes' | sudo tee /etc/samba/smb.conf
         echo -e '\033[31mPlease answer Y or N\033[0m';;
     esac
   done
+
   echo '"'$PPPU'"  *  "'$PPPW'"  192.168.2.2' | sudo tee /etc/ppp/pap-secrets
+
   while true; do
     read -p "$(printf '\r\n\r\n\033[36mDo you want to detect console shutdown and restart PPPwn?\r\n\r\n\033[36m(Y|N)?: \033[0m')" dlnk
     case $dlnk in
@@ -336,6 +346,7 @@ public=yes' | sudo tee /etc/samba/smb.conf
         echo -e '\033[31mPlease answer Y or N\033[0m';;
     esac
   done
+
   while true; do
     read -p "$(printf '\r\n\r\n\033[36mDo you want the console to connect to the internet after PPPwn? (Y|N):\033[0m ')" pppq
     case $pppq in
@@ -367,6 +378,7 @@ public=yes' | sudo tee /etc/samba/smb.conf
         echo -e '\033[31mPlease answer Y or N\033[0m';;
     esac
   done
+
   while true; do
     read -p "$(printf '\r\n\r\n\033[36mAre you using a USB to Ethernet adapter for the console connection?\r\n\r\n\033[36m(Y|N)?: \033[0m')" usbeth
     case $usbeth in
@@ -382,6 +394,7 @@ public=yes' | sudo tee /etc/samba/smb.conf
         echo -e '\033[31mPlease answer Y or N\033[0m';;
     esac
   done
+
   while true; do
     read -p "$(printf '\r\n\r\n\033[36mDo you want to detect if GoldHEN is already running and skip PPPwn if found?\r\n(Useful for rest mode)\r\n\r\n\033[36m(Y|N)?: \033[0m')" restmd
     case $restmd in
@@ -397,6 +410,7 @@ public=yes' | sudo tee /etc/samba/smb.conf
         echo -e '\033[31mPlease answer Y or N\033[0m';;
     esac
   done
+
   while true; do
     read -p "$(printf '\r\n\r\n\033[36mDo you want PPPwn to run in verbose mode?\r\n\r\n\033[36m(Y|N)?: \033[0m')" ppdbg
     case $ppdbg in
