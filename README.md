@@ -1,4 +1,4 @@
-# Pi-Pwn
+# PI-Pwn
 
 - [Features](#features)
 - [Supported Firmware](#supported-firmware)
@@ -21,13 +21,13 @@
   - [Pi File Access](#pi-file-access)
     - [FTP Access](#ftp-access)
     - [Samba Access](#samba-access)
-- [Updating Pi-Pwn](#updating-pi-pwn)
+- [Updating PI-Pwn](#updating-pi-pwn)
 - [Configuration Options](#configuration-options)
 - [Credits](#credits)
 
 This is a fork of the original [stooged/PI-Pwn](https://github.com/stooged/PI-Pwn), which has not been updated for some time. This version adds compatibility with the latest Raspberry Pi OS Debian 13 (Trixie) and includes updated GoldHEN and stage2 payloads.
 
-Pi-Pwn is an automated setup script for [PPPwn](https://github.com/TheOfficialFloW/PPPwn) and [PPPwn_cpp](https://github.com/xfangfang/PPPwn_cpp) on Raspberry Pi and compatible single-board computers. It provides automated PS4 exploitation with internet connectivity support, USB passthrough capabilities, and a web-based control interface.
+PI-Pwn is an automated setup script for [PPPwn](https://github.com/TheOfficialFloW/PPPwn) and [PPPwn_cpp](https://github.com/xfangfang/PPPwn_cpp) on Raspberry Pi and compatible single-board computers. It provides automated PS4 exploitation with internet connectivity support, USB passthrough capabilities, and a web-based control interface.
 
 ## Features
 
@@ -55,7 +55,7 @@ Pi-Pwn is an automated setup script for [PPPwn](https://github.com/TheOfficialFl
 
 ## Tested Hardware
 
-Pi-Pwn has been tested on the following models, but is not limited to them:
+PI-Pwn has been tested on the following models, but is not limited to them:
 
 ### Raspberry Pi Models
 
@@ -119,7 +119,7 @@ During installation, you'll be prompted to configure several options:
   - If your Pi has a built-in Ethernet port and you're using a USB adapter, the interface will typically be `eth1`
   - For boards like Pi Zero 2, the interface will be `eth0`
 - **PPPoE Credentials**: Configure username and password for console connection (default: `ppp`/`ppp`)
-  - Must match on both Pi-Pwn and PS4 if enabling internet access
+  - Must match on both PI-Pwn and PS4 if enabling internet access
 - **Console Internet Access**: Enable internet connectivity for the PS4 after exploitation
 - **Firmware Version**: Select your PS4's firmware version (7.00 through 11.00)
 - **Timeout Setting**: Time in minutes (1-5) before restarting PPPwn if it hangs
@@ -147,7 +147,7 @@ Configure your PS4 to connect via PPPoE:
 5. Enter PPPoE credentials:
    - **User ID**: `ppp` (or the username you configured during installation)
    - **Password**: `ppp` (or the password you configured during installation)
-   - **Note**: If internet access is enabled, these credentials must match those set during Pi-Pwn setup
+   - **Note**: If internet access is enabled, these credentials must match those set during PI-Pwn setup
 6. Choose **Automatic** for **DNS Settings**
 7. Choose **Automatic** for **MTU Settings**
 8. Choose **Do Not Use** for **Proxy Server**
@@ -195,7 +195,7 @@ From the web interface you can:
 - Change configuration settings
 - Select different firmware versions
 - Send custom payloads
-- Update Pi-Pwn
+- Update PI-Pwn
 - Monitor exploit status
 - Configure PPPoE credentials
 - Set up WiFi connection
@@ -218,7 +218,7 @@ Raspberry Pi 4, 400, and 5 models support USB drive passthrough:
 1. Create a folder named `payloads` on the root of a USB flash drive
 2. Insert the drive into the Raspberry Pi
 3. Connect the Pi to the PS4 USB port using the USB-C connection
-4. Enable "USB drive to console" in the Pi-Pwn configuration
+4. Enable "USB drive to console" in the PI-Pwn configuration
 5. The drive will be accessible from the PS4
 
 **Power Note**: Most configurations work with a single USB-C cable. If experiencing power issues, use a USB Y cable to inject additional power.
@@ -227,11 +227,11 @@ Raspberry Pi 4, 400, and 5 models support USB drive passthrough:
 
 To enable rest mode functionality:
 
-1. Enable "Detect if GoldHEN is running" in Pi-Pwn options
+1. Enable "Detect if GoldHEN is running" in PI-Pwn options
 2. If powering the Pi from the PS4 USB port, disable "Supply Power to USB Ports" in the console's rest mode settings
-3. Ensure the PS4's PPPoE credentials match your Pi-Pwn configuration (default: `ppp`/`ppp`)
+3. Ensure the PS4's PPPoE credentials match your PI-Pwn configuration (default: `ppp`/`ppp`)
 
-Pi-Pwn will check if GoldHEN is already loaded and skip the exploit process if it's running.
+PI-Pwn will check if GoldHEN is already loaded and skip the exploit process if it's running.
 
 ### Pi File Access
 
@@ -254,9 +254,9 @@ If you configured the Samba share during setup:
 - **Credentials**: None (no authentication required)
 - **Note**: Can be installed later by re-running the installation script
 
-## Updating Pi-Pwn
+## Updating PI-Pwn
 
-There are three methods to update Pi-Pwn:
+There are three methods to update PI-Pwn:
 
 1. **Web Interface**: Click the update button in the web UI
 2. **Reinstall Script**: Run the installation commands again to update to the latest version and reconfigure settings

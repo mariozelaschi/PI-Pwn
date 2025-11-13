@@ -59,7 +59,7 @@ foreach ($data as $x) {
 print("
 <html>
 	<head>
-		<title>Pi-Pwn</title>
+		<title>PI-Pwn</title>
 		<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">
 		<style>
 			body {

@@ -79,7 +79,7 @@ if (isset($_POST['reboot'])) {
 	print("
 <html>
     <head>
-        <title>Pi-Pwn</title>
+        <title>PI-Pwn</title>
         <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">
     </head>
     <style>
@@ -120,7 +120,7 @@ if (isset($_POST['shutdown'])) {
 	print("
 <html>
     <head>
-        <title>Pi-Pwn</title>
+        <title>PI-Pwn</title>
         <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">
     </head>
     <style>
@@ -245,7 +245,7 @@ if ($pret == 0) {
 print("
 <html>
     <head>
-        <title>Pi-Pwn</title>
+        <title>PI-Pwn</title>
         <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">
         <style>
             body {
@@ -774,7 +774,7 @@ print("
             btn1.onclick = function() {
                 logger.style.display = \"block\";
                 var lbody = document.getElementsByClassName(\"logger-body\")[0];
-                lbody.innerHTML  = \"<br><div id=help style='text-align: left; font-size: 14px;'> <font color='#F28C28'>Interface</font> - This is the LAN interface on the Pi that is connected to the console.<br><br><font color='#F28C28'>Firmware version</font> - Version of firmware running on the console.<br><br><font color='#F28C28'>Time to restart PPPwn if it hangs</font> - A timeout in minutes to restart PPPwn if the exploit hangs mid-process.<br><br><font color='#F28C28'>LED activity</font> - On selected Pi models this will have the LEDs flash based on the exploit progress.<br><br><font color='#F28C28'>Use Python version</font> - Enabling this will force the use of the original Python PPPwn released by <a href='https://github.com/TheOfficialFloW/PPPwn' target='_blank'>TheOfficialFloW</a>.<br><br><font color='#F28C28'>Use original source IPv6</font> - This will force PPPwn to use the original IPv6 address that was used in PPPwn; on some consoles it increases the speed of exploitation.<br><br><font color='#F28C28'>Use USB ethernet adapter for console connection</font> - Only enable this if you are using a USB to Ethernet adapter to connect to the console.<br><br><font color='#F28C28'>Detect if GoldHEN is running</font> - This will make Pi-Pwn check if GoldHEN is loaded on the console and skip running PPPwn if it is already running.<br><br><font color='#F28C28'>Detect console shutdown and restart PPPwn</font> - With this enabled, if the link is lost between the Pi and the console, PPPwn will be restarted.<br><br><font color='#F28C28'>Enable verbose PPPwn</font> - Enables debug output from PPPwn so you can see the exploit progress.<br><br><font color='#F28C28'>Enable console internet access</font> - Enabling this will make Pi-Pwn set up a connection to the console allowing internet access after PPPwn succeeds.<br><br><font color='#F28C28'>Disable DNS blocker</font> - Enabling this will turn off the DNS blocker that blocks certain servers used for updates and telemetry.<br><br><font color='#F28C28'>Shutdown Pi after successful exploit</font> - If enabled, this will make the Pi shut down after PPPwn succeeds.<br><br><font color='#F28C28'>Enable USB drive to console</font> - On selected Pi models this will allow a USB drive in the Pi to be passed through to the console.<br><br><font color='#F28C28'>Ports</font> - This is a list of ports that are forwarded from the Pi to the console. Single ports or port ranges can be used.<br><br><br><br><center><font color='#50C878'>Credits</font> - All credit goes to <a href='https://github.com/TheOfficialFloW' target='_blank'>TheOfficialFloW</a>, <a href='https://github.com/xfangfang' target='_blank'>xfangfang</a>, <a href='https://github.com/SiSTR0' target='_blank'>SiSTR0</a>, <a href='https://github.com/xvortex' target='_blank'>Vortex</a>, <a href='https://github.com/EchoStretch' target='_blank'>EchoStretch</a>, <a href='https://github.com/nn9dev' target='_blank'>nn9dev</a>, and many other people who have made this project possible.</center>\";
+                lbody.innerHTML  = \"<br><div id=help style='text-align: left; font-size: 14px;'> <font color='#F28C28'>Interface</font> - This is the LAN interface on the Pi that is connected to the console.<br><br><font color='#F28C28'>Firmware version</font> - Version of firmware running on the console.<br><br><font color='#F28C28'>Time to restart PPPwn if it hangs</font> - A timeout in minutes to restart PPPwn if the exploit hangs mid-process.<br><br><font color='#F28C28'>LED activity</font> - On selected Pi models this will have the LEDs flash based on the exploit progress.<br><br><font color='#F28C28'>Use Python version</font> - Enabling this will force the use of the original Python PPPwn released by <a href='https://github.com/TheOfficialFloW/PPPwn' target='_blank'>TheOfficialFloW</a>.<br><br><font color='#F28C28'>Use original source IPv6</font> - This will force PPPwn to use the original IPv6 address that was used in PPPwn; on some consoles it increases the speed of exploitation.<br><br><font color='#F28C28'>Use USB ethernet adapter for console connection</font> - Only enable this if you are using a USB to Ethernet adapter to connect to the console.<br><br><font color='#F28C28'>Detect if GoldHEN is running</font> - This will make PI-Pwn check if GoldHEN is loaded on the console and skip running PPPwn if it is already running.<br><br><font color='#F28C28'>Detect console shutdown and restart PPPwn</font> - With this enabled, if the link is lost between the Pi and the console, PPPwn will be restarted.<br><br><font color='#F28C28'>Enable verbose PPPwn</font> - Enables debug output from PPPwn so you can see the exploit progress.<br><br><font color='#F28C28'>Enable console internet access</font> - Enabling this will make PI-Pwn set up a connection to the console allowing internet access after PPPwn succeeds.<br><br><font color='#F28C28'>Disable DNS blocker</font> - Enabling this will turn off the DNS blocker that blocks certain servers used for updates and telemetry.<br><br><font color='#F28C28'>Shutdown Pi after successful exploit</font> - If enabled, this will make the Pi shut down after PPPwn succeeds.<br><br><font color='#F28C28'>Enable USB drive to console</font> - On selected Pi models this will allow a USB drive in the Pi to be passed through to the console.<br><br><font color='#F28C28'>Ports</font> - This is a list of ports that are forwarded from the Pi to the console. Single ports or port ranges can be used.<br><br><br><br><center><font color='#50C878'>Credits</font> - All credit goes to <a href='https://github.com/TheOfficialFloW' target='_blank'>TheOfficialFloW</a>, <a href='https://github.com/xfangfang' target='_blank'>xfangfang</a>, <a href='https://github.com/SiSTR0' target='_blank'>SiSTR0</a>, <a href='https://github.com/xvortex' target='_blank'>Vortex</a>, <a href='https://github.com/EchoStretch' target='_blank'>EchoStretch</a>, <a href='https://github.com/nn9dev' target='_blank'>nn9dev</a>, and many other people who have made this project possible.</center>\";
             }
             span.onclick = function() {
                 logger.style.display = \"none\";
