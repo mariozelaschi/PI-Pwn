@@ -699,7 +699,7 @@ else
   if [[ $(dpkg-query -W --showformat='${Status}\n' net-tools | grep "install ok installed") == "" ]]; then
     sudo apt install net-tools -y
   fi
-  echo "Update complete. Rebooting..." | sudo tee /dev/tty1 | sudo tee /dev/pts/* | sudo tee -a /boot/firmware/PPPwn/upd.log
+  echo "Update complete. Rebooting..." | sudo tee /dev/tty1 | sudo tee /dev/pts/* 2>/dev/null | sudo tee -a /boot/firmware/PPPwn/upd.log
   coproc read -t 6 && wait "$!" || true
   sudo reboot
 fi

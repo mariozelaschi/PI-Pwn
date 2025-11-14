@@ -247,6 +247,18 @@ To enable rest mode functionality:
 
 PI-Pwn will check if GoldHEN is already loaded and skip the exploit process if it's running.
 
+### Viewing Logs via SSH
+
+To monitor PPPwn exploitation progress in real-time via SSH:
+
+```bash
+tail -f /boot/firmware/PPPwn/pwn.log
+```
+
+Press `Ctrl+C` to exit the log viewer.
+
+**Note**: Verbose mode must be enabled in the configuration for logs to be generated. You can enable it through the web interface or during installation.
+
 ### Pi File Access
 
 #### FTP Access
