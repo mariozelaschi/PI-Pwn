@@ -17,7 +17,7 @@ bogus-priv
 expand-hosts
 domain-needed
 server='$SYSDNS'
-conf-file=/etc/dnsmasq.more.conf' | sudo tee /etc/dnsmasq.d/99-pppwn.conf
+conf-file=/etc/dnsmasq.d/99-pppwn-blocklist.conf' | sudo tee /etc/dnsmasq.d/99-pppwn.conf
   echo 'auth
 lcp-echo-failure 3
 lcp-echo-interval 60
@@ -64,8 +64,8 @@ Environment=NODE_ENV=production
 WantedBy=multi-user.target' | sudo tee /etc/systemd/system/devboot.service
   PHPVER=$(sudo php -v | head -n 1 | cut -d " " -f 2 | cut -f1-2 -d".")
   echo 'server {
-	listen 8080 default_server;
-	listen [::]:8080 default_server;
+	listen 8080;
+	listen [::]:8080;
 	root /boot/firmware/PPPwn;
 	index index.html index.htm index.php;
 	server_name _;
@@ -80,7 +80,8 @@ WantedBy=multi-user.target' | sudo tee /etc/systemd/system/devboot.service
     include snippets/fastcgi-php.conf;
     fastcgi_pass unix:/var/run/php/php'$PHPVER'-fpm.sock;
 	}
-}' | sudo tee /etc/nginx/sites-enabled/default
+}' | sudo tee /etc/nginx/sites-available/pipwn
+  sudo ln -sf /etc/nginx/sites-available/pipwn /etc/nginx/sites-enabled/pipwn
   sudo sed -i "s^www-data	ALL=(ALL) NOPASSWD: ALL^^g" /etc/sudoers
   echo 'www-data	ALL=(ALL) NOPASSWD: ALL' | sudo tee -a /etc/sudoers
   sudo systemctl restart nginx
@@ -642,7 +643,7 @@ address=/ribob01.net/127.0.0.1
 address=/cddbp.net/127.0.0.1
 address=/nintendo.net/127.0.0.1
 address=/ea.com/127.0.0.1
-address=/'$HSTN'.local/192.168.2.1' | sudo tee /etc/dnsmasq.more.conf
+address=/'$HSTN'.local/192.168.2.1' | sudo tee /etc/dnsmasq.d/99-pppwn-blocklist.conf
   sudo systemctl reload-or-restart dnsmasq
   echo '#!/bin/bash
 INTERFACE="'${IFCE/ /}'"

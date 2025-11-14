@@ -4,7 +4,7 @@
 - [Supported Firmware](#supported-firmware)
 - [Tested Hardware](#tested-hardware)
   - [Raspberry Pi Models](#raspberry-pi-models)
-  - [Other Compatible Boards](#other-compatible-boards)
+- [Why GoldHEN Only?](#why-goldhen-only)
 - [Installation](#installation)
   - [Prerequisites](#prerequisites)
   - [Setup Instructions](#setup-instructions)
@@ -18,6 +18,7 @@
   - [Console FTP and Binloader Access](#console-ftp-and-binloader-access)
   - [USB Passthrough Drive](#usb-passthrough-drive)
   - [Rest Mode Support](#rest-mode-support)
+  - [Viewing Logs via SSH](#viewing-logs-via-ssh)
   - [Pi File Access](#pi-file-access)
     - [FTP Access](#ftp-access)
     - [Samba Access](#samba-access)
@@ -68,11 +69,9 @@ PI-Pwn has been tested on the following models, but is not limited to them:
 - [Raspberry Pi Zero 2 W](https://www.raspberrypi.com/products/raspberry-pi-zero-2-w/) (requires USB to Ethernet adapter)
 - [Raspberry Pi Zero W](https://www.raspberrypi.com/products/raspberry-pi-zero-w/) (requires USB to Ethernet adapter)
 
-### Other Compatible Boards
+## Why GoldHEN Only?
 
-- [ROCK Pi 4C Plus](https://wiki.radxa.com/Rock4/4cplus) with [Armbian](https://imola.armbian.com/archive/rockpi-4cplus/archive/Armbian_23.11.1_Rockpi-4cplus_bookworm_current_6.1.63.img.xz)
-- [BIGTREETECH BTT Pi V1.2](https://biqu.equipment/products/bigtreetech-btt-pi-v1-2) with [Armbian minimal](https://www.armbian.com/bigtreetech-cb1/)
-- [pcDuino3b](https://www.linksprite.com/linksprite-pcduino3/) with [Armbian](https://imola.armbian.com/archive/pcduino3nano/archive/Armbian_5.38_Pcduino3nano_Debian_jessie_next_4.14.14.7z)
+This fork focuses exclusively on [GoldHEN](https://github.com/GoldHEN/GoldHEN) payloads and has removed PS4HEN support. GoldHEN is more feature-rich and user-oriented, with built-in quality-of-life improvements that make it the preferred choice for most users. While PS4HEN remains a valuable open-source alternative for development and older firmwares, supporting only GoldHEN allows this project to be simpler, easier to maintain, and focused on delivering the best experience.
 
 ## Installation
 
@@ -89,34 +88,49 @@ PI-Pwn has been tested on the following models, but is not limited to them:
 1. Flash Raspberry Pi OS Lite or Armbian CLI/Minimal to your SD card
 2. Insert the SD card into your Raspberry Pi and boot it
 3. Connect the Pi to the internet (via Ethernet or WiFi)
-4. Download and run the setup script:
+4. Run the installation command:
+
+**Quick Install (recommended):**
 
 ```bash
-cd ~
+curl -sSL https://raw.githubusercontent.com/mariozelaschi/PI-Pwn/main/setup.sh | bash
+```
+
+The one-liner will automatically download, clean up any previous installations, and start the configuration wizard.
+
+**Interactive Setup:**
+
+```bash
 wget https://raw.githubusercontent.com/mariozelaschi/PI-Pwn/main/setup.sh
 chmod +x setup.sh
 ./setup.sh
 ```
 
-Select option 1 to install PI-Pwn. The script will automatically download the latest version and start the configuration wizard.
+This method provides a menu with options:
 
-**Alternative manual installation:**
+- **Option 1**: Install PI-Pwn (same as one-liner, but interactive)
+- **Option 2**: Uninstall PI-Pwn completely
+
+**Manual Installation:**
 
 ```bash
 sudo apt update
 sudo apt install wget unzip -y
-sudo systemctl stop pipwn 2>/dev/null
 sudo rm -rf /boot/firmware/PPPwn
-sudo mkdir -p /boot/firmware/
 cd /tmp
 wget -q https://github.com/mariozelaschi/PI-Pwn/archive/refs/heads/main.zip -O pipwn.zip
 unzip -q pipwn.zip
+sudo mkdir -p /boot/firmware/
 sudo cp -r PI-Pwn-main/PPPwn /boot/firmware/
 rm -rf PI-Pwn-main pipwn.zip
 cd /boot/firmware/PPPwn
 sudo chmod +x *.sh pppwn7 pppwn11 pppwn64 2>/dev/null
 sudo bash install.sh
 ```
+
+**⚠️ Warning for stooged/PI-Pwn Users:**
+
+If you previously installed the original [stooged/PI-Pwn](https://github.com/stooged/PI-Pwn), it is **strongly recommended** to start with a fresh Raspberry Pi OS installation. The original version modifies system files (`/etc/dnsmasq.conf`, `/etc/nginx/sites-enabled/default`, `/etc/rc.local`) that may conflict with this fork. If a clean installation is not possible, manually remove all traces of the old installation before proceeding.
 
 ### Configuration
 
@@ -285,27 +299,26 @@ If you configured the Samba share during setup:
 There are three methods to update PI-Pwn:
 
 1. **Web Interface**: Click the update button in the web UI
-2. **Reinstall Script**: Run the installation commands again to update to the latest version and reconfigure settings
+2. **Setup Script**: Download and run `setup.sh`, then select option 1 to install over the existing installation
 3. **Manual Edit**: Remove the SD card, insert it into your computer, and edit files in the `PPPwn` folder at `/boot/firmware/PPPwn`
 
 ## Uninstalling PI-Pwn
 
 To completely remove PI-Pwn from your Raspberry Pi:
 
-```bash
-cd ~
-wget https://raw.githubusercontent.com/mariozelaschi/PI-Pwn/main/setup.sh
-chmod +x setup.sh
-./setup.sh
-```
+**Using setup.sh:**
 
-Select option 2 to uninstall. This will:
+Select option 2 to uninstall. The script will:
 
 - Stop and disable all PI-Pwn services
-- Remove configuration files and systemd units
-- Clean up network and DNS configurations
-- Optionally restore the default hostname
-- Prompt for system reboot
+- Remove systemd service files
+- Remove configuration files (dnsmasq, nginx, udev rules, ppp)
+- Remove PI-Pwn directories
+- Clean up system modifications (sudoers, config.txt)
+- Remove nginx PI-Pwn site configuration
+- List installed packages that can be removed manually
+
+**Note**: The uninstall script does NOT remove packages installed during setup (like nginx, php-fpm, dnsmasq, etc.) to avoid breaking other services. You can manually remove them if needed, but be careful with dnsmasq if you have Pi-hole installed.
 
 ## Configuration Options
 
