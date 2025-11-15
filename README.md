@@ -88,15 +88,7 @@ This fork focuses exclusively on [GoldHEN](https://github.com/GoldHEN/GoldHEN) p
 1. Flash Raspberry Pi OS Lite or Armbian CLI/Minimal to your SD card
 2. Insert the SD card into your Raspberry Pi and boot it
 3. Connect the Pi to the internet (via Ethernet or WiFi)
-4. Run the installation command:
-
-**Quick Install (recommended):**
-
-```bash
-curl -sSL https://raw.githubusercontent.com/mariozelaschi/PI-Pwn/main/setup.sh | bash
-```
-
-The one-liner will automatically download, clean up any previous installations, and start the configuration wizard.
+4. Run the installation:
 
 **Interactive Setup:**
 
@@ -105,11 +97,6 @@ wget https://raw.githubusercontent.com/mariozelaschi/PI-Pwn/main/setup.sh
 chmod +x setup.sh
 ./setup.sh
 ```
-
-This method provides a menu with options:
-
-- **Option 1**: Install PI-Pwn (same as one-liner, but interactive)
-- **Option 2**: Uninstall PI-Pwn completely
 
 **Manual Installation:**
 

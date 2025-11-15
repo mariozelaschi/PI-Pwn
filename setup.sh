@@ -97,14 +97,6 @@ uninstall_pipwn() {
   echo ""
 }
 
-if [ ! -t 0 ]; then
-  echo "PI-Pwn Installer"
-  echo "================"
-  echo ""
-  install_pipwn
-  exit 0
-fi
-
 echo "PI-Pwn Setup Script"
 echo "==================="
 echo ""

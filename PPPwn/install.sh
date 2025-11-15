@@ -285,7 +285,7 @@ public=yes' | sudo tee /etc/samba/smb.conf
     UPYPWN="false"
   else
     while true; do
-      read -p "$(printf '\r\n\r\n\033[36mDo you want to use the Python version of PPPwn? (It is much slower)\r\n\r\n\033[36m(Y|N)?: \033[0m')" pypwn
+      read -p "$(printf '\r\n\r\n\033[36mDo you want to use the (slower) Python version of PPPwn?\r\n\r\n\033[36m(Y|N)?: \033[0m')" pypwn
       case $pypwn in
         [Yy]*)
           UPYPWN="true"
