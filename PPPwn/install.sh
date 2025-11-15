@@ -105,7 +105,7 @@ ACTION=="remove", SUBSYSTEM=="block", RUN+="/boot/firmware/PPPwn/pwnumount.sh $k
     echo '2121,3232,9090,8080,12800,1337' | sudo tee /boot/firmware/PPPwn/ports.txt
   fi
 
-  if [[ $(dpkg-query -W --showformat='${Status}\n' python3-scapy | grep "install ok installed") == "" ]]; then
+  if [[ $(dpkg-query -W --showformat='${Status}\n' python3-scapy 2>/dev/null | grep "install ok installed") == "" ]]; then
     while true; do
       read -p "$(printf '\r\n\r\n\033[36mDo you want to enable the option to use Python (slower) PPPwn\033[36m (Y|N)?: \033[0m')" pypwnopt
       case $pypwnopt in
@@ -122,7 +122,7 @@ ACTION=="remove", SUBSYSTEM=="block", RUN+="/boot/firmware/PPPwn/pwnumount.sh $k
     done
   fi
 
-  if [[ $(dpkg-query -W --showformat='${Status}\n' vsftpd | grep "install ok installed") == "" ]]; then
+  if [[ $(dpkg-query -W --showformat='${Status}\n' vsftpd 2>/dev/null | grep "install ok installed") == "" ]]; then
     while true; do
       read -p "$(printf '\r\n\r\n\033[36mDo you want to install a FTP server? (Y|N):\033[0m ')" ftpq
       case $ftpq in
@@ -174,7 +174,7 @@ local_root=/boot/firmware/PPPwn" | sudo tee /etc/vsftpd.conf
     done
   fi
 
-  if [[ $(dpkg-query -W --showformat='${Status}\n' samba | grep "install ok installed") == "" ]]; then
+  if [[ $(dpkg-query -W --showformat='${Status}\n' samba 2>/dev/null | grep "install ok installed") == "" ]]; then
     while true; do
       read -p "$(printf '\r\n\r\n\033[36mDo you want to setup a SAMBA share? (Y|N):\033[0m ')" smbq
       case $smbq in
@@ -281,7 +281,7 @@ public=yes' | sudo tee /etc/samba/smb.conf
     done
   fi
 
-  if [[ $(dpkg-query -W --showformat='${Status}\n' python3-scapy | grep "install ok installed") == "" ]]; then
+  if [[ $(dpkg-query -W --showformat='${Status}\n' python3-scapy 2>/dev/null | grep "install ok installed") == "" ]]; then
     UPYPWN="false"
   else
     while true; do
@@ -474,7 +474,8 @@ public=yes' | sudo tee /etc/samba/smb.conf
       *)
         echo -e '\033[31mPlease answer Y or N\033[0m';;
     esac
-    while true; do
+  done
+  while true; do
     read -p "$(printf '\r\n\r\n\033[36mWould you like to change the firmware version being used?\r\n(Default is 11.00)\r\n\r\n\033[36m(Y|N)?: \033[0m')" fwset
     case $fwset in
       [Yy]*)
@@ -697,7 +698,7 @@ WantedBy=multi-user.target' | sudo tee /etc/systemd/system/pipwn.service
   echo -e '\033[36mInstallation complete.\033[33m Rebooting...\033[0m'
   sudo reboot
 else
-  if [[ $(dpkg-query -W --showformat='${Status}\n' net-tools | grep "install ok installed") == "" ]]; then
+  if [[ $(dpkg-query -W --showformat='${Status}\n' net-tools 2>/dev/null | grep "install ok installed") == "" ]]; then
     sudo apt install net-tools -y
   fi
   echo "Update complete. Rebooting..." | sudo tee /dev/tty1 | sudo tee /dev/pts/* 2>/dev/null | sudo tee -a /boot/firmware/PPPwn/upd.log

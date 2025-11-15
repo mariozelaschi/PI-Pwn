@@ -2,7 +2,7 @@
 
 if [ "$EUID" -ne 0 ]; then
   echo "This script requires root privileges. Restarting with sudo..."
-  exec sudo bash "$0" "$@"
+  exec sudo "$0" "$@"
 fi
 
 install_pipwn() {
