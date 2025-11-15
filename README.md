@@ -24,8 +24,6 @@
     - [Samba Access](#samba-access)
 - [Updating PI-Pwn](#updating-pi-pwn)
 - [Uninstalling PI-Pwn](#uninstalling-pi-pwn)
-- [Configuration Options](#configuration-options)
-- [Credits](#credits)
 
 This is a fork of the original [stooged/PI-Pwn](https://github.com/stooged/PI-Pwn), which has not been updated for some time. This version adds compatibility with the latest Raspberry Pi OS Debian 13 (Trixie) and includes updated GoldHEN and stage2 payloads.
 
@@ -306,39 +304,3 @@ Select option 2 to uninstall. The script will:
 - List installed packages that can be removed manually
 
 **Note**: The uninstall script does NOT remove packages installed during setup (like nginx, php-fpm, dnsmasq, etc.) to avoid breaking other services. You can manually remove them if needed, but be careful with dnsmasq if you have Pi-hole installed.
-
-## Configuration Options
-
-Access these options through the web interface or during installation:
-
-- **Interface**: LAN interface on the Pi connected to the console (e.g., `eth0`, `eth1`)
-- **Firmware Version**: PS4 firmware version to target
-- **Time to Restart PPPwn if it Hangs**: Timeout in minutes (1-5) before restarting if the exploit hangs
-- **LED Activity**: Enable LED indicators based on exploit progress (supported models only)
-- **Use Python Version**: Force use of the original Python PPPwn by [TheOfficialFloW](https://github.com/TheOfficialFloW/PPPwn)
-- **Use Original Source IPv6**: Use the original IPv6 address `fe80::4141:4141:4141:4141` (may increase exploit speed on some consoles)
-- **Use USB Ethernet Adapter**: Enable if using a USB to Ethernet adapter for console connection
-- **Detect if GoldHEN is Running**: Check if GoldHEN is already loaded and skip exploit if running (useful for rest mode)
-- **Detect Console Shutdown**: Restart PPPwn if the connection to the console is lost
-- **Enable Verbose PPPwn**: Show debug output to monitor exploit progress
-- **Enable Console Internet Access**: Allow console internet connectivity after successful exploitation
-- **Disable DNS Blocker**: Turn off DNS blocking for update and telemetry servers
-- **Shutdown Pi After PWN**: Automatically shut down the Pi after successful exploitation
-- **Enable USB Drive to Console**: Enable USB passthrough (supported models only)
-- **Ports**: Comma-separated list of ports forwarded from Pi to console (supports single ports and ranges like `1000-1100`). Default: `2121,3232,9090,8080,12800,1337`
-- **PPPoE Credentials**: Configure username and password for console connection (can be changed via web interface)
-- **WiFi Settings**: Configure WiFi SSID and password for Pi internet connectivity (can be changed via web interface)
-
-## Credits
-
-Special thanks to [stooged](https://github.com/stooged) for the original [PI-Pwn](https://github.com/stooged/PI-Pwn) project that made this fork possible.
-
-This project builds upon the exceptional work of:
-
-- [TheOfficialFloW](https://github.com/TheOfficialFloW) - Original PPPwn exploit
-- [xfangfang](https://github.com/xfangfang) - PPPwn C++ implementation
-- [SiSTR0](https://github.com/SiSTR0) - GoldHEN development
-- [Vortex](https://github.com/xvortex) - Community contributions
-- [nn9dev](https://github.com/nn9dev) - Testing and support
-
-And many other contributors who have made this project possible.

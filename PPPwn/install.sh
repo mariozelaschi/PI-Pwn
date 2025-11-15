@@ -107,14 +107,32 @@ ACTION=="remove", SUBSYSTEM=="block", RUN+="/boot/firmware/PPPwn/pwnumount.sh $k
 
   if [[ $(dpkg-query -W --showformat='${Status}\n' python3-scapy 2>/dev/null | grep "install ok installed") == "" ]]; then
     while true; do
-      read -p "$(printf '\r\n\r\n\033[36mDo you want to enable the option to use Python (slower) PPPwn\033[36m (Y|N)?: \033[0m')" pypwnopt
+      read -p "$(printf '\r\n\r\n\033[36mDo you want to install and use Python (slower) PPPwn? (Y|N): \033[0m')" pypwnopt
       case $pypwnopt in
         [Yy]*)
           sudo apt install python3 python3-scapy -y
+          UPYPWN="true"
+          echo -e '\033[32mThe Python version of PPPwn will be used\033[0m'
           break;;
         [Nn]*)
           UPYPWN="false"
-          echo -e '\033[35mThe Python version of PPPwn will not be available\033[0m'
+          echo -e '\033[35mThe C++ version of PPPwn will be used\033[0m'
+          break;;
+        *)
+          echo -e '\033[31mPlease answer Y or N\033[0m';;
+      esac
+    done
+  else
+    while true; do
+      read -p "$(printf '\r\n\r\n\033[36mPython PPPwn is already installed. Do you want to use it? (Y|N): \033[0m')" pypwnopt
+      case $pypwnopt in
+        [Yy]*)
+          UPYPWN="true"
+          echo -e '\033[32mThe Python version of PPPwn will be used\033[0m'
+          break;;
+        [Nn]*)
+          UPYPWN="false"
+          echo -e '\033[35mThe C++ version of PPPwn will be used\033[0m'
           break;;
         *)
           echo -e '\033[31mPlease answer Y or N\033[0m';;
@@ -274,26 +292,6 @@ public=yes' | sudo tee /etc/samba/smb.conf
           sudo systemctl start pipwn
           echo -e '\033[36mUpdate complete\033[0m'
           exit 1
-          break;;
-        *)
-          echo -e '\033[31mPlease answer Y or N\033[0m';;
-      esac
-    done
-  fi
-
-  if [[ $(dpkg-query -W --showformat='${Status}\n' python3-scapy 2>/dev/null | grep "install ok installed") == "" ]]; then
-    UPYPWN="false"
-  else
-    while true; do
-      read -p "$(printf '\r\n\r\n\033[36mDo you want to use the (slower) Python version of PPPwn?\r\n\r\n\033[36m(Y|N)?: \033[0m')" pypwn
-      case $pypwn in
-        [Yy]*)
-          UPYPWN="true"
-          echo -e '\033[32mThe Python version of PPPwn will be used\033[0m'
-          break;;
-        [Nn]*)
-          echo -e '\033[35mThe C++ version of PPPwn will be used\033[0m'
-          UPYPWN="false"
           break;;
         *)
           echo -e '\033[31mPlease answer Y or N\033[0m';;
