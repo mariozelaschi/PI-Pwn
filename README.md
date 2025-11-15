@@ -91,7 +91,7 @@ This fork focuses exclusively on [GoldHEN](https://github.com/GoldHEN/GoldHEN) p
 **Interactive Setup:**
 
 ```bash
-wget https://raw.githubusercontent.com/mariozelaschi/PI-Pwn/main/setup.sh
+wget https://raw.githubusercontent.com/mariozelaschi/PI-Pwn/main/setup.sh -O setup.sh
 chmod +x setup.sh
 ./setup.sh
 ```

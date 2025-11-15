@@ -87,13 +87,12 @@ WantedBy=multi-user.target' | sudo tee /etc/systemd/system/devboot.service
   sudo systemctl restart nginx
     fi
   if [ ! -f /etc/udev/rules.d/99-pwnmnt.rules ]; then
-    sudo mkdir -p /media/pwndrives
     echo 'MountFlags=shared' | sudo tee -a /usr/lib/systemd/system/systemd-udevd.service
     echo 'ACTION=="add", KERNEL=="sd*", SUBSYSTEMS=="usb|scsi", DRIVERS=="sd", SYMLINK+="usbdrive", RUN+="/boot/firmware/PPPwn/pwnmount.sh $kernel"
 ACTION=="remove", SUBSYSTEM=="block", RUN+="/boot/firmware/PPPwn/pwnumount.sh $kernel"' | sudo tee /etc/udev/rules.d/99-pwnmnt.rules
     sudo udevadm control --reload
   fi
-  if [ -f /media/pwndrives ]; then
+  if [ ! -d /media/pwndrives ]; then
     sudo mkdir -p /media/pwndrives
   fi
   PPSTAT=$(sudo systemctl list-unit-files --state=enabled --type=service | grep pppoe)
