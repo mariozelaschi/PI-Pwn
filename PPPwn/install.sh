@@ -609,7 +609,7 @@ while true; do
   esac
 done
 
-PITYP=$(tr -d '\0' </proc/device-tree/model)
+PITYP=$(tr -d '\0' </proc/device-tree/model 2>/dev/null)
 if [[ "$PITYP" == *"Raspberry Pi 4"* ]] || [[ "$PITYP" == *"Raspberry Pi 5"* ]]; then
   while true; do
     read -p "$(printf '\r\n\r\n\033[36mDo you want the Pi to act as a USB flash drive for the console? (Y|N): \033[0m')" vusb
