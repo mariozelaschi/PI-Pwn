@@ -281,11 +281,11 @@ If you configured the Samba share during setup:
 
 ## Updating PI-Pwn
 
-There are three methods to update PI-Pwn:
+**The only safe and supported way to update PI-Pwn is to redownload the latest setup script and run it over your existing installation.**
 
-1. **Web Interface**: Click the update button in the web UI
-2. **Setup Script**: Download and run `setup.sh`, then select option 1 to install over the existing installation
-3. **Manual Edit**: Remove the SD card, insert it into your computer, and edit files in the `PPPwn` folder at `/boot/firmware/PPPwn`
+This ensures that all configuration changes and new options are properly applied and avoids unexpected errors or broken installs if configurations change between versions
+
+You can check for new versions from the web interface (Update button) or by visiting the GitHub page.
 
 ## Uninstalling PI-Pwn
 
