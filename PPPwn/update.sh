@@ -25,7 +25,6 @@ if [ "$newver" -gt "$currentver" ]; then
 
   cd /boot/firmware/PPPwn
   sudo chmod +x *.sh pppwn7 pppwn11 pppwn64 2>/dev/null
-  sudo bash install.sh update
   
   cd /home/www-data
   sudo rm -rf PI-Pwn
