@@ -1,5 +1,8 @@
 #!/bin/bash
 
+VERSION=$(cat /boot/firmware/PPPwn/ver 2>/dev/null || echo "unknown")
+echo -e "\r\n\033[36mPI-Pwn v$VERSION \033[0m"
+
 if [ ! -d /boot/firmware/PPPwn/payloads ]; then
   sudo mkdir -p /boot/firmware/PPPwn/payloads
 fi
