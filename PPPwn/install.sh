@@ -291,7 +291,7 @@ public=yes' | sudo tee /etc/samba/smb.conf
 done
 
 while true; do
-  read -p "$(printf '\r\n\r\n\033[36mDo you want to change the PPPoE username and password?\r\nIf you select No, these defaults will be used:\r\n\r\nUsername: \033[33mppp\r\n\033[36mPassword: \033[33mppp\r\n\r\n(Y|N): \033[0m')" wapset
+  read -p "$(printf '\r\n\r\n\033[36mDo you want to change the PPPoE username and password (defaults are: ppp/ppp)? (Y|N): \033[0m')" wapset
   case $wapset in
     [Yy]*)
       while true; do
