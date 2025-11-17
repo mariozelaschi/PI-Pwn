@@ -140,6 +140,3 @@ case $choice in
     exit 1
     ;;
 esac
-
-SCRIPT_PATH="$(cd "$(dirname "$0")" && pwd)/$(basename "$0")"
-sudo rm -f "$SCRIPT_PATH"
