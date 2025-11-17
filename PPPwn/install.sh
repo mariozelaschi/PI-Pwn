@@ -746,7 +746,6 @@ XFCN="0x1"
 XFNWB=false' | sudo tee /boot/firmware/PPPwn/pconfig.sh
 
 echo -e '\r\n\033[33mCreating pipwn service...\033[0m'
-sudo rm -f /usr/lib/systemd/system/network-online.target
 echo '[Unit]
 Description=PiPwn Service
 After=network.target devboot.service
