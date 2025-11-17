@@ -100,7 +100,7 @@ case $choice in
   1)
     echo ""
     install_pipwn
-    ;;
+  ;;
     
   2)
     echo ""
@@ -115,10 +115,12 @@ case $choice in
         echo -e "\033[33mPlease reboot manually to complete uninstallation\033[0m"
         ;;
     esac
-    ;;
+  ;;
     
   *)
     echo -e "\033[31mInvalid option\033[0m"
     exit 1
     ;;
 esac
+
+rm -- "$0"
