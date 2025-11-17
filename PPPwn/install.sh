@@ -97,7 +97,9 @@ echo 'server {
 }' | sudo tee /etc/nginx/sites-available/pipwn
 
 sudo ln -sf /etc/nginx/sites-available/pipwn /etc/nginx/sites-enabled/pipwn
-sudo mv /etc/nginx/sites-enabled/default /etc/nginx/sites-available/default.disabled
+if [ -f /etc/nginx/sites-enabled/default ]; then
+  sudo mv /etc/nginx/sites-enabled/default /etc/nginx/sites-available/default.disabled
+fi
 
 sudo sed -i "s^www-data	ALL=(ALL) NOPASSWD: ALL^^g" /etc/sudoers
 echo 'www-data	ALL=(ALL) NOPASSWD: ALL' | sudo tee -a /etc/sudoers
