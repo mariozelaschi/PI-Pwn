@@ -5,14 +5,14 @@
 - [Tested Hardware](#tested-hardware)
   - [Raspberry Pi Models](#raspberry-pi-models)
 - [Why GoldHEN Only?](#why-goldhen-only)
-- [Installation](#installation)
+- [PI-Pwn Installation](#pi-pwn-installation)
   - [Prerequisites](#prerequisites)
   - [Setup Instructions](#setup-instructions)
   - [Configuration](#configuration)
 - [PS4 Configuration](#ps4-configuration)
-  - [GoldHEN Setup](#goldhen-setup)
 - [Usage](#usage)
-  - [How It Works](#how-it-works)
+  - [How To Jailbreak](#how-to-jailbreak)
+    - [Important Notes](#important-notes)
   - [Web Interface](#web-interface)
 - [Advanced Features](#advanced-features)
   - [Console FTP and Binloader Access](#console-ftp-and-binloader-access)
@@ -71,14 +71,15 @@ PI-Pwn has been tested on the following models, but is not limited to them:
 
 This fork focuses exclusively on [GoldHEN](https://github.com/GoldHEN/GoldHEN) payloads and has removed PS4HEN support. GoldHEN is more feature-rich and user-oriented, with built-in quality-of-life improvements that make it the preferred choice for most users. While PS4HEN remains a valuable open-source alternative for development and older firmwares, supporting only GoldHEN allows this project to be simpler, easier to maintain, and focused on delivering the best experience.
 
-## Installation
+## PI-Pwn Installation
 
 ### Prerequisites
 
 - Raspberry Pi or compatible board
-- MicroSD card (8GB or larger recommended)
-- [Raspberry Pi OS Lite](https://www.raspberrypi.com/software/operating-systems/) or [Armbian CLI/Minimal](https://www.armbian.com/)
+  - MicroSD card (8GB or larger recommended)
+  - [Raspberry Pi OS Lite](https://www.raspberrypi.com/software/operating-systems/) or [Armbian CLI/Minimal](https://www.armbian.com/)
 - Ethernet cable to connect Pi to PS4
+- USB drive formatted in FAT32 or exFat
 - Internet connection for initial setup
 
 ### Setup Instructions
@@ -158,38 +159,37 @@ Configure your PS4 to connect via PPPoE:
 3. Choose **Custom** setup
 4. Select **PPPoE** for **IP Address Settings**
 5. Enter PPPoE credentials:
-   - **User ID**: `ppp` (or the username you configured during installation)
-   - **Password**: `ppp` (or the password you configured during installation)
+   - **User ID**: `ppp` (or the username you configured during PI-Pwn setup)
+   - **Password**: `ppp` (or the password you configured during PI-Pwn setup)
    - **Note**: If internet access is enabled, these credentials must match those set during PI-Pwn setup
 6. Choose **Automatic** for **DNS Settings**
 7. Choose **Automatic** for **MTU Settings**
 8. Choose **Do Not Use** for **Proxy Server**
 
-### GoldHEN Setup
-
-1. Download the latest `goldhen.bin` from the official source: [https://ko-fi.com/sistro](https://ko-fi.com/sistro)
-2. Place the `goldhen.bin` file on the root of a USB drive
-3. Insert the USB drive into your PS4
-4. Run the exploit
-5. GoldHEN will be copied to the console's internal HDD after the first successful load
-6. The USB drive is no longer required for subsequent boots
-7. To update GoldHEN, repeat the process with the new version
-
-**Note**: Always download GoldHEN from SiSTR0's official Ko-fi page to ensure you have the authentic, latest version.
-
 ## Usage
 
-### How It Works
+### How To Jailbreak
 
-Once everything is configured and the Ethernet cable connects the Pi to the console:
+After configuration, connect the Pi to the PS4 with an Ethernet cable:
 
-1. Power on both the PS4 and Raspberry Pi
-2. Wait on the PS4 home screen
-3. The Pi will automatically attempt to exploit the console
-4. The exploit may fail multiple times - this is normal behavior, the Pi will continuously retry until successful
-5. After successful exploitation, the Pi will shut down (if selected during setup, and unless internet access is enabled)
+1. Download the latest `goldhen.bin` from the official source: [https://ko-fi.com/sistro](https://ko-fi.com/sistro).
+2. Place `goldhen.bin` on the root of a USB drive formatted as FAT32 or ExFAT.
+3. Insert the USB drive into your PS4.
+4. Power on both the PS4 and Raspberry Pi.
+5. Leave the PS4 on the home screen.
+6. The Pi will automatically begin the exploitation process.
+7. Multiple attempts may be required; this is normal. The Pi will keep retrying until successful.
+8. The jailbreak will be successful when the GoldHEN icon replaces the PlayStation Plus icon (first icon at the top left of the screen).
+9. After the first successful load, GoldHEN will be copied to the console's internal HDD.
+10. When the exploit succeeds, the Pi will shut down (if selected during setup, and unless internet access is enabled).
 
-No user interaction is required - the Pi handles the entire process automatically.
+#### Important Notes
+
+- The PS4 remains jailbroken until the next shutdown or reboot. If enabled in the options, rest mode can be used to keep the PS4 jailbroken while sleeping.
+- No user interaction is required, the Pi manages the entire process automatically.
+- The USB drive is not needed for subsequent boots.
+- To update GoldHEN, place the new version on the USB drive and repeat the jailbreak process; the updated GoldHEN will overwrite the previous version on the PS4 HDD.
+- Always download GoldHEN from SiSTR0's official Ko-fi page to ensure you have the authentic, latest version.
 
 ### Web Interface
 
