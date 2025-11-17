@@ -139,4 +139,5 @@ case $choice in
     ;;
 esac
 
-rm -- "$0"
+SCRIPT_PATH="$(cd "$(dirname "$0")" && pwd)/$(basename "$0")"
+rm -f "$SCRIPT_PATH"
