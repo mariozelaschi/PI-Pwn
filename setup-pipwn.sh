@@ -15,7 +15,7 @@ install_pipwn() {
     rm -rf /boot/firmware/PPPwn
   fi
   
-  apt update
+  apt update && apt upgrade -y
   apt install wget unzip -y
   
   echo -e "\033[33mDownloading latest version...\033[0m"
