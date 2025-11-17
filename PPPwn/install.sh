@@ -37,7 +37,7 @@ defaultroute
 noipdefault
 usepeerdns' | sudo tee /etc/ppp/pppoe-server-options
 
-echo -e '\r\n\033[33mCreating services...\033[0m'
+echo -e '\r\n\033[33mCreating pppoe service...\033[0m'
 echo '[Service]
 WorkingDirectory=/boot/firmware/PPPwn
 ExecStart=/boot/firmware/PPPwn/pppoe.sh
@@ -48,6 +48,7 @@ Environment=NODE_ENV=production
 [Install]
 WantedBy=multi-user.target' | sudo tee /etc/systemd/system/pppoe.service
 
+echo -e '\r\n\033[33mCreating dtlink service...\033[0m'
 echo '[Service]
 WorkingDirectory=/boot/firmware/PPPwn
 ExecStart=/boot/firmware/PPPwn/dtlink.sh
@@ -58,6 +59,7 @@ Environment=NODE_ENV=production
 [Install]
 WantedBy=multi-user.target' | sudo tee /etc/systemd/system/dtlink.service
 
+echo -e '\r\n\033[33mCreating devboot service...\033[0m'
 echo '[Unit]
 Description=Run PPPwn devboot.sh once at startup
 After=network.target local-fs.target
