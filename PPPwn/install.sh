@@ -639,20 +639,25 @@ else
 fi
 
 while true; do
-  read -p "$(printf '\r\n\r\n\033[36mWould you like to change the hostname (default is pppwn)? (Y|N): \033[0m')" hstset
+  CURRENT_HOSTNAME=$(hostname)
+  read -p "$(printf '\r\n\r\n\033[36mWould you like to change the hostname (current: \033[33m'$CURRENT_HOSTNAME\033[36m)? (Y|N): \033[0m')" hstset
   case $hstset in
     [Yy]*)
       while true; do
-        read -p "$(printf '\r\n\033[33mEnter the hostname: \033[0m')" HSTN
+        read -p "$(printf '\r\n\033[33mEnter the new hostname (default is pppwn): \033[0m')" HSTN
         case $HSTN in
           "")
-            echo -e '\r\n\033[31mCannot be empty!\033[0m'
+            echo -e '\r\n\033[33mUsing default hostname: pppwn\033[0m'
+            HSTN="pppwn"
+            CHANGED_HOSTNAME=1
+            break
             ;;
           *)
             if grep -q '^[0-9a-zA-Z_ -]*$' <<<"$HSTN"; then
               if [ ${#HSTN} -le 3 ] || [ ${#HSTN} -ge 21 ]; then
-                echo -e '\r\n\033[31mThe interface must be between 4 and 21 characters long\033[0m'
+                echo -e '\r\n\033[31mThe hostname must be between 4 and 21 characters long\033[0m'
               else
+                CHANGED_HOSTNAME=1
                 break
               fi
             else
@@ -665,8 +670,9 @@ while true; do
       break
       ;;
     [Nn]*)
-      echo -e '\r\n\033[35mUsing the default setting: pppwn\033[0m'
-      HSTN="pppwn"
+      echo -e '\r\n\033[35mKeeping current hostname: \033[33m'$CURRENT_HOSTNAME'\033[0m'
+      HSTN=$CURRENT_HOSTNAME
+      CHANGED_HOSTNAME=0
       break
       ;;
     *)
@@ -751,6 +757,15 @@ Environment=NODE_ENV=production
 WantedBy=multi-user.target' | sudo tee /etc/systemd/system/pipwn.service
 
 echo -e '\r\n\033[33mEnabling services...\033[0m'
+if [ "$CHANGED_HOSTNAME" = "1" ]; then
+  echo -e '\r\n\033[33mUpdating hostname from \033[36m'$CURRENT_HOSTNAME'\033[33m to \033[36m'$HSTN'\033[33m...\033[0m'
+  sudo sed -i "/^127.0.1.1/d" /etc/hosts
+  sudo sed -i "/^::1.*ip6-localhost/d" /etc/hosts
+  echo "127.0.1.1	$HSTN" | sudo tee -a /etc/hosts >/dev/null
+  echo "::1	ip6-localhost" | sudo tee -a /etc/hosts >/dev/null
+  sudo hostnamectl set-hostname "$HSTN" 2>/dev/null || true
+fi
+
 sudo chmod u+rwx /etc/systemd/system/devboot.service
 sudo chmod u+rwx /etc/systemd/system/pipwn.service
 sudo chmod u+rwx /etc/systemd/system/pppoe.service
