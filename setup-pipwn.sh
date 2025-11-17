@@ -15,7 +15,22 @@ install_pipwn() {
     rm -rf /boot/firmware/PPPwn
   fi
   
-  apt update && apt upgrade -y
+  apt update
+  if apt list --upgradable 2>/dev/null | grep -q upgradable; then
+    echo ""
+    read -p "$(printf '\033[36mUpgradeable packages found. Upgrade now? (Y|N): \033[0m')" upgrade
+    case $upgrade in
+      [Yy]*)
+        apt upgrade -y
+        echo -e "\033[32mPackages upgraded. Restarting setup script...\033[0m"
+        sleep 2
+        exec bash "$0" "$@"
+        ;;
+      *)
+        echo -e "\033[33mContinuing with installation...\033[0m"
+        ;;
+    esac
+  fi
   apt install wget unzip -y
   
   echo -e "\033[33mDownloading latest version...\033[0m"
