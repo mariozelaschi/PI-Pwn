@@ -640,7 +640,7 @@ fi
 
 while true; do
   CURRENT_HOSTNAME=$(hostname)
-  read -p "$(printf '\r\n\r\n\033[36mWould you like to change the hostname (current: \033[33m'$CURRENT_HOSTNAME\033[36m)? (Y|N): \033[0m')" hstset
+  read -p "$(printf '\r\n\r\n\033[36mWould you like to change the hostname (current: \033[33m'$CURRENT_HOSTNAME'\033[36m)? (Y|N): \033[0m')" hstset
   case $hstset in
     [Yy]*)
       while true; do
