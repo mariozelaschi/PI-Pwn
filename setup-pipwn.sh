@@ -92,6 +92,7 @@ uninstall_pipwn() {
   
   rm -f /etc/nginx/sites-enabled/pipwn
   rm -f /etc/nginx/sites-available/pipwn
+  sudo mv /etc/nginx/sites-available/default.disabled /etc/nginx/sites-enabled/default 2>/dev/null || true
   systemctl reload nginx 2>/dev/null || true
   
   echo ""
