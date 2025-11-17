@@ -674,8 +674,12 @@ while true; do
   esac
 done
 
-echo -e '\r\n\033[33mCreating configuration files...\033[0m'
+echo -e '\r\n\033[33mUpdating hostname...\033[0m'
+CHSTN=$(hostname | cut -f1 -d' ')
+sudo sed -i "s^$CHSTN^$HSTN^g" /etc/hosts
+sudo sed -i "s^$CHSTN^$HSTN^g" /etc/hostname
 
+echo -e '\r\n\033[33mCreating configuration files...\033[0m'
 if [ ! -f /boot/firmware/PPPwn/ports.txt ]; then
   echo '2121,3232,9090,8080,12800,1337' | sudo tee /boot/firmware/PPPwn/ports.txt
 fi
@@ -754,13 +758,7 @@ sudo chmod u+rwx /etc/systemd/system/dtlink.service
 sudo systemctl enable devboot
 sudo systemctl enable pipwn
 
-echo -e '\r\n\033[33mUpdating hostname...\033[0m'
-CHSTN=$(hostname | cut -f1 -d' ')
-sudo sed -i "s^$CHSTN^$HSTN^g" /etc/hosts
-sudo sed -i "s^$CHSTN^$HSTN^g" /etc/hostname
-
-echo -e '\r\n\033[36mInstallation complete.\r\n\033[33mReboot now? (Y|N): \033[0m'
-read -p "" reboot
+read -p "$(printf '\r\n\r\n\033[36mInstallation complete. Reboot now? (Y|N): \033[0m')" reboot
 case $reboot in
   [Yy]*)
     echo -e '\r\n\033[32mRebooting...\033[0m'
