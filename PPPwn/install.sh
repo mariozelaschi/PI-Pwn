@@ -684,10 +684,14 @@ while true; do
   esac
 done
 
-echo -e '\r\n\033[33mUpdating hostname...\033[0m'
-CHSTN=$(hostname | cut -f1 -d' ')
-sudo sed -i "s^$CHSTN^$HSTN^g" /etc/hosts
-sudo sed -i "s^$CHSTN^$HSTN^g" /etc/hostname
+if [ "$CHANGED_HOSTNAME" = "1" ] && [ "$HSTN" != "$CURRENT_HOSTNAME" ]; then
+  echo -e '\r\n\033[33mUpdating hostname from \033[36m'$CURRENT_HOSTNAME'\033[33m to \033[36m'$HSTN'\033[33m...\033[0m'
+  sudo sed -i "/^127.0.0.1[[:space:]]/{ /localhost/! d; }" /etc/hosts 2>/dev/null
+  sudo sed -i "/^127.0.1.1/d" /etc/hosts 2>/dev/null
+  echo "$HSTN" | sudo tee /etc/hostname >/dev/null 2>&1
+  echo "127.0.1.1	$HSTN" | sudo tee -a /etc/hosts >/dev/null 2>&1
+  sudo hostnamectl set-hostname "$HSTN" 2>/dev/null || true
+fi
 
 echo -e '\r\n\033[33mCreating configuration files...\033[0m'
 if [ ! -f /boot/firmware/PPPwn/ports.txt ]; then
@@ -760,15 +764,6 @@ Environment=NODE_ENV=production
 WantedBy=multi-user.target' | sudo tee /etc/systemd/system/pipwn.service
 
 echo -e '\r\n\033[33mEnabling services...\033[0m'
-if [ "$CHANGED_HOSTNAME" = "1" ]; then
-  echo -e '\r\n\033[33mUpdating hostname from \033[36m'$CURRENT_HOSTNAME'\033[33m to \033[36m'$HSTN'\033[33m...\033[0m'
-  sudo sed -i "/^127.0.1.1/d" /etc/hosts
-  sudo sed -i "/^::1.*ip6-localhost/d" /etc/hosts
-  echo "127.0.1.1	$HSTN" | sudo tee -a /etc/hosts >/dev/null
-  echo "::1	ip6-localhost" | sudo tee -a /etc/hosts >/dev/null
-  sudo hostnamectl set-hostname "$HSTN" 2>/dev/null || true
-fi
-
 sudo chmod u+rwx /etc/systemd/system/devboot.service
 sudo chmod u+rwx /etc/systemd/system/pipwn.service
 sudo chmod u+rwx /etc/systemd/system/pppoe.service
