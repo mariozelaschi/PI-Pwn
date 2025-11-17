@@ -792,29 +792,30 @@ print("
             }");
 
 if (isset($_POST['update'])) {
-	$localver = trim(file_get_contents('/boot/firmware/PPPwn/ver'));
-	$remotever = @file_get_contents('https://raw.githubusercontent.com/mariozelaschi/PI-Pwn/main/PPPwn/ver');
-	$remotever = trim($remotever);
+	$localver_raw = @file_get_contents('/boot/firmware/PPPwn/ver');
+	$localver = ($localver_raw === false) ? 'Unknown' : trim($localver_raw);
+	$remotever_raw = @file_get_contents('https://raw.githubusercontent.com/mariozelaschi/PI-Pwn/main/PPPwn/ver');
+	$remotever = ($remotever_raw === false) ? '' : trim($remotever_raw);
 	
-	if ($remotever === false || empty($remotever)) {
+	if (empty($remotever)) {
 		print("
             logger.style.display = \"block\";
             var lbody = document.getElementsByClassName(\"logger-body\")[0];
-            lbody.innerHTML  = '<div style=\"padding: 20px; text-align: center;\"><font color=\"#FF6B6B\">Error: Could not check for updates. Please verify your internet connection.</font><br><br><a href=\"javascript:void(0);\" style=\"color: #6495ED;\" onclick=\"document.getElementById(\\\"pwnlogger\\\").style.display=\\\"none\\\";\">Close</a></div>';
+            lbody.innerHTML  = '<div style=\"padding: 20px; text-align: center;\"><font color=\"#FF6B6B\">Error: Could not check for updates</font><br><br><font color=\"#FFFFFF\">Current version: ".$localver."</font><br><br><font color=\"#999999\" style=\"font-size:12px;\">Please verify your internet connection.</font><br><br><a href=\"javascript:void(0);\" style=\"color: #6495ED;\" onclick=\"document.getElementById(\\\"pwnlogger\\\").style.display=\\\"none\\\";\">Close</a></div>';
             var closeBtn = lbody.querySelector('a');
             if (closeBtn) closeBtn.onclick = function() { document.getElementById('pwnlogger').style.display = 'none'; stopLog(); var text1 = document.getElementById('text_box'); if (text1) text1.value = ''; };");
-	} elseif ($remotever !== $localver) {
+	} elseif (strcmp(trim($localver), trim($remotever)) !== 0) {
 		print("
             logger.style.display = \"block\";
             var lbody = document.getElementsByClassName(\"logger-body\")[0];
-            lbody.innerHTML  = '<div style=\"padding: 20px; text-align: center;\"><font color=\"#4CAF50\">Update Available!</font><br><br><font color=\"#FFFFFF\">Local version: ".$localver."<br>Latest version: ".$remotever."</font><br><br><font color=\"#FFD700\" style=\"font-size: 14px;\">To update, follow these steps:</font><br><br><div style=\"text-align: left; display: inline-block;\"><font color=\"#87CEEB\">1. Download the latest setup from:<br>&nbsp;&nbsp;&nbsp;&nbsp;wget https://raw.githubusercontent.com/mariozelaschi/PI-Pwn/main/setup-pipwn.sh<br><br>2. Make it executable:<br>&nbsp;&nbsp;&nbsp;&nbsp;chmod +x setup-pipwn.sh<br><br>3. Run the installer:<br>&nbsp;&nbsp;&nbsp;&nbsp;./setup-pipwn.sh<br><br>4. Select option 1 to install/update</font></div><br><br><a href=\"javascript:void(0);\" style=\"color: #6495ED;\" onclick=\"document.getElementById(\\\"pwnlogger\\\").style.display=\\\"none\\\";\">Close</a></div>';
+            lbody.innerHTML  = '<div style=\"padding: 20px; text-align: center;\"><font color=\"#4CAF50\"><b>Update Available!</b></font><br><br><font color=\"#FFFFFF\">Current version: ".$localver."<br>New version: ".$remotever."</font><br><br><font color=\"#FFD700\" style=\"font-size: 14px;\">To update, follow these steps:</font><br><br><div style=\"text-align: left; display: inline-block;\"><font color=\"#87CEEB\">1. Download the latest setup from:<br>&nbsp;&nbsp;&nbsp;&nbsp;wget https://raw.githubusercontent.com/mariozelaschi/PI-Pwn/main/setup-pipwn.sh<br><br>2. Make it executable:<br>&nbsp;&nbsp;&nbsp;&nbsp;chmod +x setup-pipwn.sh<br><br>3. Run the installer:<br>&nbsp;&nbsp;&nbsp;&nbsp;./setup-pipwn.sh<br><br>4. Select option 1 to install/update</font></div><br><br><a href=\"javascript:void(0);\" style=\"color: #6495ED;\" onclick=\"document.getElementById(\\\"pwnlogger\\\").style.display=\\\"none\\\";\">Close</a></div>';
             var closeBtn = lbody.querySelector('a');
             if (closeBtn) closeBtn.onclick = function() { document.getElementById('pwnlogger').style.display = 'none'; stopLog(); var text1 = document.getElementById('text_box'); if (text1) text1.value = ''; };");
 	} else {
 		print("
             logger.style.display = \"block\";
             var lbody = document.getElementsByClassName(\"logger-body\")[0];
-            lbody.innerHTML  = '<div style=\"padding: 20px; text-align: center;\"><font color=\"#4CAF50\">You are running the latest version!</font><br><br><font color=\"#FFFFFF\">Current version: ".$localver."</font><br><br><a href=\"javascript:void(0);\" style=\"color: #6495ED;\" onclick=\"document.getElementById(\\\"pwnlogger\\\").style.display=\\\"none\\\";\">Close</a></div>';
+            lbody.innerHTML  = '<div style=\"padding: 20px; text-align: center;\"><font color=\"#4CAF50\"><b>Up to Date!</b></font><br><br><font color=\"#FFFFFF\">Current version: ".$localver."<br>Latest version: ".$remotever."</font><br><br><font color=\"#999999\" style=\"font-size:12px;\">You are running the latest version.</font><br><br><a href=\"javascript:void(0);\" style=\"color: #6495ED;\" onclick=\"document.getElementById(\\\"pwnlogger\\\").style.display=\\\"none\\\";\">Close</a></div>';
             var closeBtn = lbody.querySelector('a');
             if (closeBtn) closeBtn.onclick = function() { document.getElementById('pwnlogger').style.display = 'none'; stopLog(); var text1 = document.getElementById('text_box'); if (text1) text1.value = ''; };");
 	}
