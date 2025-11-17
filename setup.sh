@@ -1,13 +1,13 @@
 #!/bin/bash
 
 if [ "$EUID" -ne 0 ]; then
-  echo "This script requires root privileges. Restarting with sudo..."
+  echo -e "\033[31mThis script requires root privileges. Restarting with sudo...\033[0m"
   exec sudo "$0" "$@"
 fi
 
 install_pipwn() {
   if [ -d /boot/firmware/PPPwn ]; then
-    echo "Cleaning up previous installation..."
+  echo -e "\033[33mCleaning up previous installation...\033[0m"
     systemctl stop pipwn 2>/dev/null || true
     systemctl stop pppoe 2>/dev/null || true
     systemctl stop dtlink 2>/dev/null || true
@@ -18,7 +18,7 @@ install_pipwn() {
   apt update
   apt install wget unzip -y
   
-  echo "Downloading latest version..."
+  echo -e "\033[33mDownloading latest version...\033[0m"
   cd /tmp
   wget -q https://github.com/mariozelaschi/PI-Pwn/archive/refs/heads/main.zip -O pipwn.zip
   unzip -q pipwn.zip
@@ -26,14 +26,14 @@ install_pipwn() {
   cp -r PI-Pwn-main/PPPwn /boot/firmware/
   rm -rf PI-Pwn-main pipwn.zip
   
-  echo "Starting installation..."
+  echo -e "\033[33mStarting installation...\033[0m"
   cd /boot/firmware/PPPwn
   chmod +x *.sh pppwn7 pppwn11 pppwn64 2>/dev/null
   bash install.sh
 }
 
 uninstall_pipwn() {
-  echo "Uninstalling PI-Pwn..."
+  echo -e "\033[33mUninstalling PI-Pwn...\033[0m"
   
   systemctl stop pipwn 2>/dev/null || true
   systemctl stop pppoe 2>/dev/null || true
@@ -80,28 +80,18 @@ uninstall_pipwn() {
   systemctl reload nginx 2>/dev/null || true
   
   echo ""
-  echo "PI-Pwn has been uninstalled successfully"
+  echo -e "\033[32mPI-Pwn has been uninstalled successfully\033[0m"
   echo ""
-  echo "The following packages were installed by PI-Pwn and can be removed manually if not needed (WARNING: some of these packages may be in use by other active services, such as dnsmasq or nginx!):"
-  echo "  - pppoe"
-  echo "  - dnsmasq"
-  echo "  - iptables"
-  echo "  - nginx"
-  echo "  - php-fpm"
-  echo "  - nmap"
-  echo "  - at"
-  echo "  - net-tools"
-  echo "  - python3-scapy (if installed)"
-  echo "  - vsftpd (if installed)"
-  echo "  - samba (if installed)"
+  echo -e "\033[33mThe following packages were installed by PI-Pwn and can be removed manually if not needed (WARNING: some of these packages may be in use by other active services, such as dnsmasq or nginx):\033[0m"
+  echo -e "  - pppoe\n  - dnsmasq\n  - iptables\n  - nginx\n  - php-fpm\n  - nmap\n  - at\n  - net-tools\n  - python3-scapy (if installed)\n  - vsftpd (if installed)\n  - samba (if installed)"
   echo ""
 }
 
-echo "PI-Pwn Setup Script"
-echo "==================="
+echo -e "\033[36mPI-Pwn Setup Script\033[0m"
+echo -e "\033[36m===================\033[0m"
 echo ""
-echo "1) Install PI-Pwn"
-echo "2) Uninstall PI-Pwn"
+echo -e "\033[33m1) Install PI-Pwn\033[0m"
+echo -e "\033[33m2) Uninstall PI-Pwn\033[0m"
 echo ""
 read -p "Select option (1 or 2): " choice
 
@@ -121,13 +111,13 @@ case $choice in
         reboot
         ;;
       *)
-        echo "Please reboot manually to complete uninstallation"
+        echo -e "\033[33mPlease reboot manually to complete uninstallation\033[0m"
         ;;
     esac
     ;;
     
   *)
-    echo "Invalid option"
+    echo -e "\033[31mInvalid option\033[0m"
     exit 1
     ;;
 esac
