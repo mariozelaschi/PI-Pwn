@@ -1,13 +1,13 @@
 #!/bin/bash
 
 if [ "$EUID" -ne 0 ]; then
-  echo -e "\033[31mThis script requires root privileges. Restarting with sudo...\033[0m"
+  echo -e "\033[33mThis script requires root privileges. Restarting with sudo...\033[0m"
   exec sudo "$0" "$@"
 fi
 
 install_pipwn() {
   if [ -d /boot/firmware/PPPwn ]; then
-  echo -e "\033[33mCleaning up previous installation...\033[0m"
+    echo -e "\033[33mCleaning up previous installation...\033[0m"
     systemctl stop pipwn 2>/dev/null || true
     systemctl stop pppoe 2>/dev/null || true
     systemctl stop dtlink 2>/dev/null || true
@@ -87,6 +87,7 @@ uninstall_pipwn() {
   echo ""
 }
 
+echo ""
 echo -e "\033[36mPI-Pwn Setup Script\033[0m"
 echo -e "\033[36m===================\033[0m"
 echo ""
