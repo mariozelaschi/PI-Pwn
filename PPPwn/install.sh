@@ -16,8 +16,7 @@ if [ -z "$SYSDNS" ]; then
   SYSDNS="9.9.9.9"
 fi
 
-echo '# PPPwn DNS configuration for PS4
-listen-address=127.0.0.1
+echo 'listen-address=127.0.0.1
 port=5353
 bogus-priv
 expand-hosts
