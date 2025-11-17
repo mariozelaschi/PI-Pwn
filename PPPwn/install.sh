@@ -550,7 +550,7 @@ done
 echo -e '\r\n\033[35mDetected LAN interface: \033[33m'$DEFIFCE'\033[0m'
 
 while true; do
-  read -p "$(printf '\r\n\033[36mWould you like to change the Pi LAN interface? (Y|N): \033[0m')" ifset
+  read -p "$(printf '\r\n\033[36mWould you like to change the LAN interface connected to your PS4? (Y|N): \033[0m')" ifset
   case $ifset in
     [Yy]*)
       while true; do
