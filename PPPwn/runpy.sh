@@ -23,7 +23,7 @@ else
 fi
 HDIR="/boot/firmware/PPPwn/gh_sta/"
 STA2="stage2_${FIRMWAREVERSION}.bin"
-PITYP=$(tr -d '\0' </proc/device-tree/model)
+PITYP=$(cat /proc/device-tree/model 2>/dev/null | tr -d '\0')
 if [[ "$PITYP" == *"Raspberry Pi 2"* ]]; then
   coproc read -t 15 && wait "$!" || true
   VMUSB=false
