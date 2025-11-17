@@ -31,9 +31,9 @@ PI-Pwn is an automated setup script for [PPPwn](https://github.com/TheOfficialFl
 
 ## Features
 
-- Automated exploit execution with continuous retry until successful
-- Support for [GoldHEN](https://github.com/GoldHEN/GoldHEN) payloads
-- Optional internet access for the console after exploitation
+- Automated exploit execution with continuous retry
+- Support for [GoldHEN](https://github.com/GoldHEN/GoldHEN)
+- Optional console internet access
 - Web interface for configuration and control
 - USB drive passthrough to console
 - Built-in DNS blocker to prevent system updates
@@ -167,8 +167,6 @@ Configure your PS4 to connect via PPPoE:
 
 ### GoldHEN Setup
 
-For GoldHEN payloads:
-
 1. Download the latest `goldhen.bin` from the official source: [https://ko-fi.com/sistro](https://ko-fi.com/sistro)
 2. Place the `goldhen.bin` file on the root of a USB drive
 3. Insert the USB drive into your PS4
@@ -188,9 +186,8 @@ Once everything is configured and the Ethernet cable connects the Pi to the cons
 1. Power on both the PS4 and Raspberry Pi
 2. Wait on the PS4 home screen
 3. The Pi will automatically attempt to exploit the console
-4. The exploit may fail multiple times - this is normal behavior
-5. The Pi will continuously retry until successful
-6. After successful exploitation, the Pi will shut down (unless internet access is enabled)
+4. The exploit may fail multiple times - this is normal behavior, the Pi will continuously retry until successful
+5. After successful exploitation, the Pi will shut down (if selected during setup, and unless internet access is enabled)
 
 No user interaction is required - the Pi handles the entire process automatically.
 
@@ -202,16 +199,6 @@ Access the web control panel from:
 - Your PC browser (when Pi has internet access enabled): `http://pppwn.local:8080` or `http://{pi-ip-address}:8080`
 
 **Note**: The default hostname is `pppwn` but can be customized during installation. If you changed the hostname, access the interface at `http://{your-hostname}.local:8080`. The `.local` domain resolution requires mDNS/Avahi to be running on your device.
-
-From the web interface you can:
-
-- Change configuration settings
-- Select different firmware versions
-- Send custom payloads
-- Update PI-Pwn
-- Monitor exploit status
-- Configure PPPoE credentials
-- Set up WiFi connection
 
 ## Advanced Features
 
