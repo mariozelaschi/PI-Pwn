@@ -99,6 +99,8 @@ uninstall_pipwn() {
   echo -e "\033[33mIf you want to keep these services (e.g., nginx for other sites), review and adjust their configuration files manually.\033[0m"
   echo -e "\033[33mIf you don't need them, you can remove them and their configurations with apt.\033[0m"
   echo ""
+  echo -e "\033[36mNOTE: If you're reinstalling or updating PI-Pwn, you can ignore this disclaimer as the setup will take care of it.\033[0m"
+  echo ""
   echo -e "Packages installed:"
   echo -e "  - pppoe, dnsmasq, iptables, nginx, php-fpm, nmap, at, net-tools"
   echo -e "  - python3-scapy (if installed), vsftpd (if installed), samba (if installed)"
