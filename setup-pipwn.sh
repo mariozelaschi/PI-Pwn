@@ -7,12 +7,10 @@ fi
 
 install_pipwn() {
   if [ -d /boot/firmware/PPPwn ]; then
-    echo -e "\033[33mCleaning up previous installation...\033[0m"
-    systemctl stop pipwn 2>/dev/null || true
-    systemctl stop pppoe 2>/dev/null || true
-    systemctl stop dtlink 2>/dev/null || true
-    systemctl stop devboot 2>/dev/null || true
-    rm -rf /boot/firmware/PPPwn
+    echo -e "\033[33mExisting installation detected. Uninstalling...\033[0m"
+    echo ""
+    uninstall_pipwn
+    echo ""
   fi
   
   apt update
@@ -92,16 +90,24 @@ uninstall_pipwn() {
   
   rm -f /etc/nginx/sites-enabled/pipwn
   rm -f /etc/nginx/sites-available/pipwn
-  if [ -f /etc/nginx/sites-available/default.disabled ]; then
-    sudo mv /etc/nginx/sites-available/default.disabled /etc/nginx/sites-enabled/default 2>/dev/null || true
-  fi
   systemctl reload nginx 2>/dev/null || true
   
   echo ""
   echo -e "\033[32mPI-Pwn has been uninstalled successfully\033[0m"
   echo ""
-  echo -e "\033[33mThe following packages were installed by PI-Pwn and can be removed manually if not needed (WARNING: some of these packages may be in use by other active services, such as dnsmasq or nginx):\033[0m"
-  echo -e "  - pppoe\n  - dnsmasq\n  - iptables\n  - nginx\n  - php-fpm\n  - nmap\n  - at\n  - net-tools\n  - python3-scapy (if installed)\n  - vsftpd (if installed)\n  - samba (if installed)"
+  echo -e "\033[33mIMPORTANT: The following packages and their configurations remain on your system:\033[0m"
+  echo -e "\033[33mIf you want to keep these services (e.g., nginx for other sites), review and adjust their\033[0m"
+  echo -e "\033[33mconfiguration files manually. If you don't need them, you can remove them with apt.\033[0m"
+  echo ""
+  echo -e "Packages installed:"
+  echo -e "  - pppoe, dnsmasq, iptables, nginx, php-fpm, nmap, at, net-tools"
+  echo -e "  - python3-scapy (if installed), vsftpd (if installed), samba (if installed)"
+  echo ""
+  echo -e "Configuration files that may need attention:"
+  echo -e "  - /etc/vsftpd.conf (if FTP was installed)"
+  echo -e "  - /etc/samba/smb.conf (if Samba was installed)"
+  echo -e "  - /etc/nginx/sites-available/default.disabled (nginx default site was disabled by PI-Pwn)"
+  echo -e "  - Root password (if set during FTP installation)"
   echo ""
 }
 
