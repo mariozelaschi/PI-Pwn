@@ -253,11 +253,11 @@ Raspberry Pi 4, 400, and 5 models support USB drive passthrough:
 
 1. Create a folder named `payloads` on the root of a USB flash drive
 2. Insert the drive into the Raspberry Pi
-3. Connect the Pi to the PS4 USB port using the USB-C connection
+3. Connect the Pi to the PS4 USB port
 4. Enable "USB drive to console" in the PI-Pwn configuration
 5. The drive will be accessible from the PS4
 
-**Power Note**: Most configurations work with a single USB-C cable. If experiencing power issues, use a USB Y cable to inject additional power.
+**Power Note**: Most configurations work with a single USB cable. If experiencing power issues, use a USB Y cable to inject additional power.
 
 ### Rest Mode Support
 
