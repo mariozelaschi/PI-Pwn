@@ -16,6 +16,8 @@
   - [Web Interface](#web-interface)
 - [Advanced Features](#advanced-features)
   - [Console FTP and Binloader Access](#console-ftp-and-binloader-access)
+    - [Quick Access (SSH Tunnel)](#quick-access-ssh-tunnel)
+    - [Direct Access from Your LAN](#direct-access-from-your-lan)
   - [USB Passthrough Drive](#usb-passthrough-drive)
   - [Rest Mode Support](#rest-mode-support)
   - [Viewing Logs via SSH](#viewing-logs-via-ssh)
@@ -202,12 +204,48 @@ Access the web control panel from:
 
 ### Console FTP and Binloader Access
 
-When internet access is enabled:
+When internet access is enabled, the Pi can forward requests to the console's services. However, to access the PS4's FTP server from your home network, you need to configure routing because the PS4 is on a different network (192.168.2.0/24) than your home LAN.
 
-1. Connect the Pi to your home network via WiFi or a second Ethernet connection
-2. Connect to the Pi's IP address from your PC
-3. All requests will be automatically forwarded to the console's FTP, klog, and binloader servers
-4. **Important**: Set your FTP client to **Active** mode (not passive)
+#### Quick Access (SSH Tunnel)
+
+The simplest method is to SSH into the Pi first, then access the console from there:
+
+```bash
+ssh user@<pi-ip-address>
+ftp 192.168.2.2 2121
+```
+
+#### Direct Access from Your LAN
+
+To access the PS4's FTP (192.168.2.2:2121) directly from your PC, you need to tell your system how to reach the 192.168.2.0/24 network through the Pi.
+
+**Option 1: Static Route on Your PC (temporary)**
+
+On **macOS/Linux**:
+
+```bash
+sudo route add 192.168.2.0/24 gw <pi-lan-ip>
+# Example: sudo route add 192.168.2.0/24 gw 192.168.50.234
+```
+
+On **Windows** (CMD as Administrator):
+
+```cmd
+route add 192.168.2.0 mask 255.255.255.0 <pi-lan-ip>
+REM Example: route add 192.168.2.0 mask 255.255.255.0 192.168.50.234
+```
+
+Then connect with your FTP client to `192.168.2.2` port `2121` in **Active mode**.
+
+**Option 2: Static Route on Your Router (persistent, recommended)**
+
+Add a static route in your router's admin panel:
+
+- **Destination Network**: 192.168.2.0/24
+- **Subnet Mask**: 255.255.255.0
+- **Gateway**: `<pi-lan-ip>` (e.g., 192.168.50.234)
+
+This makes the console network accessible from all devices on your LAN without configuring each device individually.
 
 ### USB Passthrough Drive
 
