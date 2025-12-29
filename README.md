@@ -195,10 +195,8 @@ After configuration, connect the Pi to the PS4 with an Ethernet cable:
 
 Access the web control panel from:
 
-- Your PS4 browser (when connected): `http://pppwn.local:8080` or `http://192.168.2.1:8080`
-- Your PC browser (when Pi has internet access enabled): `http://pppwn.local:8080` or `http://{pi-ip-address}:8080`
-
-**Note**: The default hostname is `pppwn` but can be customized during installation. If you changed the hostname, access the interface at `http://{your-hostname}.local:8080`. The `.local` domain resolution requires mDNS/Avahi to be running on your device.
+- Your PS4 browser (when connected): `http://192.168.2.1:8000`
+- Your PC browser: `http://{pi-hostname}.local:8000` or `http://{pi-ip-address}:8000`
 
 ## Advanced Features
 

@@ -79,8 +79,8 @@ WantedBy=multi-user.target' | sudo tee /etc/systemd/system/devboot.service
 echo -e '\r\n\033[33mConfiguring nginx...\033[0m'
 PHPVER=$(sudo php -v | head -n 1 | cut -d " " -f 2 | cut -f1-2 -d".")
 echo 'server {
-  listen 8080;
-  listen [::]:8080;
+  listen 8000;
+  listen [::]:8000;
   root /boot/firmware/PPPwn;
   index index.html index.htm index.php;
   server_name _;
