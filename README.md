@@ -249,7 +249,7 @@ This makes the console network accessible from all devices on your LAN without c
 
 ### USB Passthrough Drive
 
-Raspberry Pi 4, 400, and 5 models support USB drive passthrough:
+Raspberry Pi 4 and 5 models support USB drive passthrough:
 
 1. Create a folder named `payloads` on the root of a USB flash drive
 2. Insert the drive into the Raspberry Pi
