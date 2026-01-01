@@ -16,13 +16,13 @@ else
   coproc read -t 2 && wait "$!" || true
   sudo ip link set "$INTERFACE" up
 fi
-sudo iptables -P INPUT ACCEPT
+
+sudo iptables -t nat -S PREROUTING 2>/dev/null | grep '192\.168\.2\.' | sed 's/^-A/-D/' | while read rule; do sudo iptables -t nat $rule 2>/dev/null; done
+sudo iptables -t nat -S POSTROUTING 2>/dev/null | grep '192\.168\.2\.' | sed 's/^-A/-D/' | while read rule; do sudo iptables -t nat $rule 2>/dev/null; done
+sudo iptables -t nat -F PPPWN 2>/dev/null
+sudo iptables -t nat -X PPPWN 2>/dev/null
 sudo iptables -P FORWARD ACCEPT
-sudo iptables -P OUTPUT ACCEPT
-sudo iptables -t nat -F
-sudo iptables -t mangle -F
-sudo iptables -F
-sudo iptables -X
+
 sudo sysctl net.ipv4.ip_forward=1
 sudo sysctl net.ipv4.conf.all.route_localnet=1
 sudo iptables -t nat -I PREROUTING -s 192.168.2.0/24 -p udp -m udp --dport 53 -j DNAT --to-destination 127.0.0.1:5353

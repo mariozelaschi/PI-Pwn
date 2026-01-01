@@ -22,13 +22,12 @@ if (isset($_POST['save'])) {
 	$config .= "UGH=true\n";
 	exec('echo "'.$config.'" | sudo tee /boot/firmware/PPPwn/config.sh');
 	exec('echo "'.trim($_POST["plist"]).'" | sudo tee /boot/firmware/PPPwn/ports.txt');
- 	exec('sudo iptables -P INPUT ACCEPT');
- 	exec('sudo iptables -P FORWARD ACCEPT');
- 	exec('sudo iptables -P OUTPUT ACCEPT');
- 	exec('sudo iptables -t nat -F');
- 	exec('sudo iptables -t mangle -F');
- 	exec('sudo iptables -F');
- 	exec('sudo iptables -X');
+	exec('sudo iptables -t nat -S PREROUTING 2>/dev/null | grep "192\\.168\\.2\\." | sed "s/^-A/-D/" | while read rule; do sudo iptables -t nat $rule 2>/dev/null; done');
+	exec('sudo iptables -t nat -S POSTROUTING 2>/dev/null | grep "192\\.168\\.2\\." | sed "s/^-A/-D/" | while read rule; do sudo iptables -t nat $rule 2>/dev/null; done');
+	exec('sudo iptables -t nat -F PPPWN 2>/dev/null');
+	exec('sudo iptables -t nat -X PPPWN 2>/dev/null');
+	exec('sudo iptables -P FORWARD ACCEPT');
+
 	exec('sudo sysctl net.ipv4.ip_forward=1');
  	exec('sudo sysctl net.ipv4.conf.all.route_localnet=1');
  	exec('sudo iptables -t nat -I PREROUTING -s 192.168.2.0/24 -p udp -m udp --dport 53 -j DNAT --to-destination 127.0.0.1:5353');
