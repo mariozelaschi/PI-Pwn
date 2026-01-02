@@ -103,34 +103,26 @@ LLTABLE_LLTFREE = 0x118
 
 SOCKADDR_IN6_SIZE = 0x1c
 
-
 def p8(val):
     return pack('<B', val & 0xff)
-
 
 def p16(val):
     return pack('<H', val & 0xffff)
 
-
 def p16be(val):
     return pack('>H', val & 0xffff)
-
 
 def p32(val):
     return pack('<I', val & 0xffffffff)
 
-
 def p32be(val):
     return pack('>I', val & 0xffffffff)
-
 
 def p64(val):
     return pack('<Q', val & 0xffffffffffffffff)
 
-
 def p64be(val):
     return pack('>Q', val & 0xffffffffffffffff)
-
 
 class LcpEchoHandler(AsyncSniffer):
 
@@ -146,7 +138,6 @@ class LcpEchoHandler(AsyncSniffer):
             Ether(src=pkt[Ether].dst, dst=pkt[Ether].src, type=ETHERTYPE_PPPOE)
             / PPPoE(sessionid=pkt[PPPoE].sessionid) / PPP() /
             PPP_LCP_Echo(code=ECHO_REPLY, id=pkt[PPP_LCP_Echo].id))
-
 
 class Exploit():
     SPRAY_NUM = 0x1000
@@ -188,7 +179,6 @@ class Exploit():
         del macParts[3]
         self.SOURCE_MAC = ":".join(macParts)
         self.UINT_MAC = int(self.SOURCE_MAC.replace(':', ''), 16)
-
 
     def kdlsym(self, addr):
         return self.kaslr_offset + addr
@@ -829,8 +819,6 @@ class Exploit():
 
         print('[+] Done!')
 
-
-
 def main():
     parser = ArgumentParser('pppwn.py')
     parser.add_argument('--interface', required=True)
@@ -878,7 +866,6 @@ def main():
     exploit.run()
 
     return 0
-
 
 if __name__ == '__main__':
     exit(main())

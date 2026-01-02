@@ -1,6 +1,6 @@
 #!/bin/bash
 
-VERSION=$(cat /boot/firmware/PPPwn/ver 2>/dev/null || echo "unknown")
+VERSION=$(cat /boot/firmware/ver 2>/dev/null || echo "unknown")
 echo -e "\r\n\033[36mPI-Pwn v$VERSION \033[0m"
 
 if [ ! -d /boot/firmware/PPPwn/payloads ]; then
@@ -81,7 +81,7 @@ PHPVER=$(sudo php -v | head -n 1 | cut -d " " -f 2 | cut -f1-2 -d".")
 echo 'server {
   listen 8000;
   listen [::]:8000;
-  root /boot/firmware/PPPwn;
+  root /boot/firmware/PPPwn/web;
   index index.html index.htm index.php;
   server_name _;
   location / {

@@ -21,7 +21,7 @@ if [ "$OIPV" = true ]; then
 else
   PYIP="fe80::9f9f:41ff:9f9f:41ff"
 fi
-HDIR="/boot/firmware/PPPwn/gh_sta/"
+HDIR="/boot/firmware/PPPwn/payloads/"
 STA2="stage2_${FIRMWAREVERSION}.bin"
 PITYP=$(cat /proc/device-tree/model 2>/dev/null | tr -d '\0')
 if [[ "$PITYP" == *"Raspberry Pi 2"* ]]; then
@@ -238,7 +238,7 @@ while [ true ]; do
       fi
       exit 1
     fi
-  done < <(timeout "$TIMEOUT" sudo python3 /boot/firmware/PPPwn/pppwn.py --interface="$INTERFACE" --fw="${FIRMWAREVERSION//.}" --ipv="$PYIP" --sta="$HDIR$STA2")
+  done < <(timeout "$TIMEOUT" sudo python3 /boot/firmware/PPPwn/bin/pppwn.py --interface="$INTERFACE" --fw="${FIRMWAREVERSION//.}" --ipv="$PYIP" --sta="$HDIR$STA2")
   if [[ "$LEDACT" == "status" ]]; then
     echo none | sudo tee "$ALED" >/dev/null
     echo default-on | sudo tee "$PLED" >/dev/null

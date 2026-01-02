@@ -41,7 +41,7 @@ if [ "$XFNWB" = true ]; then
 else
   XFNW=""
 fi
-HDIR="gh_sta/"
+HDIR="/boot/firmware/PPPwn/payloads/"
 STA2="stage2_${FIRMWAREVERSION}.bin"
 PITYP=$(tr -d '\0' </proc/device-tree/model)
 if [[ "$PITYP" == *"Raspberry Pi 2"* ]]; then
