@@ -13,13 +13,13 @@ install_pipwn() {
     echo ""
   fi
   
-  apt update -V
-  if apt list --upgradable 2>/dev/null | grep -q upgradable; then
+  apt update
+  if apt list --upgradable | grep -q upgradable; then
     echo ""
     read -p "$(printf '\033[36mUpgradeable packages found. Upgrade now? (Y|N): \033[0m')" upgrade
     case $upgrade in
       [Yy]*)
-        apt upgrade -y -V
+        apt upgrade -y
         echo -e "\033[32mPackages upgraded. Restarting setup script...\033[0m"
         sleep 2
         exec bash "$0" "$@"
@@ -29,7 +29,7 @@ install_pipwn() {
         ;;
     esac
   fi
-  apt install wget unzip -y -V
+  apt install wget unzip -y
   
   echo -e "\033[33mDownloading latest version...\033[0m"
   cd /tmp
@@ -41,7 +41,7 @@ install_pipwn() {
   
   echo -e "\033[33mStarting installation...\033[0m"
   cd /boot/firmware/PPPwn
-  chmod +x *.sh pppwn7 pppwn11 pppwn64 2>/dev/null
+  chmod +x *.sh pppwn7 pppwn11 pppwn64
   bash install.sh
 }
 
