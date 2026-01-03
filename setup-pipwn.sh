@@ -33,10 +33,11 @@ install_pipwn() {
   
   echo -e "\033[33mDownloading latest version...\033[0m"
   cd /tmp
-  wget -v https://github.com/mariozelaschi/PI-Pwn/archive/refs/heads/main.zip -O pipwn.zip
-  unzip -v pipwn.zip
+  wget https://github.com/mariozelaschi/PI-Pwn/archive/refs/heads/main.zip -O pipwn.zip
+  unzip pipwn.zip
   mkdir -p /boot/firmware/
   cp -rv PI-Pwn-main/PPPwn /boot/firmware/
+  cp -v PI-Pwn-main/ver /boot/firmware/
   rm -rfv PI-Pwn-main pipwn.zip
   
   echo -e "\033[33mStarting installation...\033[0m"
