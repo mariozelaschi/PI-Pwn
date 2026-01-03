@@ -613,7 +613,7 @@ while true; do
   esac
 done
 
-PITYP=$(cat /proc/device-tree/model 2>/dev/null | tr -d '\0')
+PITYP=$(cat /proc/device-tree/model | tr -d '\0')
 if [[ "$PITYP" == *"Raspberry Pi 4"* ]] || [[ "$PITYP" == *"Raspberry Pi 5"* ]]; then
   while true; do
     read -p "$(printf '\r\n\r\n\033[36mDo you want the Pi to act as a USB flash drive for the console? (Y|N): \033[0m')" vusb
@@ -686,11 +686,11 @@ done
 
 if [ "$CHANGED_HOSTNAME" = "1" ] && [ "$HSTN" != "$CURRENT_HOSTNAME" ]; then
   echo -e '\r\n\033[33mUpdating hostname from \033[36m'$CURRENT_HOSTNAME'\033[33m to \033[36m'$HSTN'\033[33m...\033[0m'
-  sudo sed -i "/^127.0.0.1[[:space:]]/{ /localhost/! d; }" /etc/hosts 2>/dev/null
-  sudo sed -i "/^127.0.1.1/d" /etc/hosts 2>/dev/null
-  echo "$HSTN" | sudo tee /etc/hostname >/dev/null 2>&1
-  echo "127.0.1.1	$HSTN" | sudo tee -a /etc/hosts >/dev/null 2>&1
-  sudo hostnamectl set-hostname "$HSTN" 2>/dev/null || true
+  sudo sed -i "/^127.0.0.1[[:space:]]/{ /localhost/! d; }" /etc/hosts
+  sudo sed -i "/^127.0.1.1/d" /etc/hosts
+  echo "$HSTN" | sudo tee /etc/hostname
+  echo "127.0.1.1	$HSTN" | sudo tee -a /etc/hosts
+  sudo hostnamectl set-hostname "$HSTN" || true
 fi
 
 echo -e '\r\n\033[33mCreating configuration files...\033[0m'
