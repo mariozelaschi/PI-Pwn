@@ -94,9 +94,9 @@ This fork focuses exclusively on [GoldHEN](https://github.com/GoldHEN/GoldHEN) p
 **Interactive Setup:**
 
 ```bash
-wget https://raw.githubusercontent.com/mariozelaschi/PI-Pwn/main/setup.sh
-chmod +x setup.sh
-./setup.sh
+wget https://raw.githubusercontent.com/mariozelaschi/PI-Pwn/main/setup-pipwn.sh
+chmod +x setup-pipwn.sh
+./setup-pipwn.sh
 ```
 
 **Manual Installation:**
@@ -314,7 +314,7 @@ You can check for new versions from the web interface (Update button) or by visi
 
 To completely remove PI-Pwn from your Raspberry Pi:
 
-**Using setup.sh:**
+**Using setup-pipwn.sh:**
 
 Select option 2 to uninstall. The script will:
 

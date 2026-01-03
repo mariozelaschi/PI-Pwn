@@ -13,13 +13,13 @@ install_pipwn() {
     echo ""
   fi
   
-  apt update
+  apt update -V
   if apt list --upgradable 2>/dev/null | grep -q upgradable; then
     echo ""
     read -p "$(printf '\033[36mUpgradeable packages found. Upgrade now? (Y|N): \033[0m')" upgrade
     case $upgrade in
       [Yy]*)
-        apt upgrade -y
+        apt upgrade -y -V
         echo -e "\033[32mPackages upgraded. Restarting setup script...\033[0m"
         sleep 2
         exec bash "$0" "$@"
@@ -29,15 +29,15 @@ install_pipwn() {
         ;;
     esac
   fi
-  apt install wget unzip -y
+  apt install wget unzip -y -V
   
   echo -e "\033[33mDownloading latest version...\033[0m"
   cd /tmp
-  wget -q https://github.com/mariozelaschi/PI-Pwn/archive/refs/heads/main.zip -O pipwn.zip
-  unzip -q pipwn.zip
+  wget -v https://github.com/mariozelaschi/PI-Pwn/archive/refs/heads/main.zip -O pipwn.zip
+  unzip -v pipwn.zip
   mkdir -p /boot/firmware/
-  cp -r PI-Pwn-main/PPPwn /boot/firmware/
-  rm -rf PI-Pwn-main pipwn.zip
+  cp -rv PI-Pwn-main/PPPwn /boot/firmware/
+  rm -rfv PI-Pwn-main pipwn.zip
   
   echo -e "\033[33mStarting installation...\033[0m"
   cd /boot/firmware/PPPwn
@@ -48,37 +48,37 @@ install_pipwn() {
 uninstall_pipwn() {
   echo -e "\033[33mUninstalling PI-Pwn...\033[0m"
   
-  systemctl stop pipwn 2>/dev/null || true
-  systemctl stop pppoe 2>/dev/null || true
-  systemctl stop dtlink 2>/dev/null || true
-  systemctl stop devboot 2>/dev/null || true
+  systemctl stop pipwn
+  systemctl stop pppoe
+  systemctl stop dtlink
+  systemctl stop devboot
   
-  systemctl disable pipwn 2>/dev/null || true
-  systemctl disable pppoe 2>/dev/null || true
-  systemctl disable dtlink 2>/dev/null || true
-  systemctl disable devboot 2>/dev/null || true
+  systemctl disable pipwn
+  systemctl disable pppoe
+  systemctl disable dtlink
+  systemctl disable devboot
   
-  rm -f /etc/systemd/system/pipwn.service
-  rm -f /etc/systemd/system/pppoe.service
-  rm -f /etc/systemd/system/dtlink.service
-  rm -f /etc/systemd/system/devboot.service
+  rm -fv /etc/systemd/system/pipwn.service
+  rm -fv /etc/systemd/system/pppoe.service
+  rm -fv /etc/systemd/system/dtlink.service
+  rm -fv /etc/systemd/system/devboot.service
   systemctl daemon-reload
   
-  rm -f /etc/dnsmasq.d/99-pppwn.conf
-  rm -f /etc/dnsmasq.d/99-pppwn-blocklist.conf
-  rm -f /etc/udev/rules.d/99-pwnmnt.rules
-  rm -f /etc/ppp/pap-secrets
-  rm -f /etc/ppp/pppoe-server-options
+  rm -fv /etc/dnsmasq.d/99-pppwn.conf
+  rm -fv /etc/dnsmasq.d/99-pppwn-blocklist.conf
+  rm -fv /etc/udev/rules.d/99-pwnmnt.rules
+  rm -fv /etc/ppp/pap-secrets
+  rm -fv /etc/ppp/pppoe-server-options
   
   if grep -q "www-data.*NOPASSWD.*ALL" /etc/sudoers 2>/dev/null; then
     sed -i '/^www-data.*NOPASSWD.*ALL$/d' /etc/sudoers
   fi
   
-  systemctl reload-or-restart dnsmasq 2>/dev/null || true
-  udevadm control --reload 2>/dev/null || true
+  systemctl reload-or-restart dnsmasq
+  udevadm control --reload
   
-  rm -rf /boot/firmware/PPPwn
-  rm -rf /media/pwndrives
+  rm -rfv /boot/firmware/PPPwn
+  rm -rfv /media/pwndrives
   
   if [ -f /usr/lib/systemd/system/systemd-udevd.service ]; then
     sed -i '/^MountFlags=shared$/d' /usr/lib/systemd/system/systemd-udevd.service
@@ -88,9 +88,9 @@ uninstall_pipwn() {
     sed -i '/^dtoverlay=dwc2$/d' /boot/firmware/config.txt
   fi
   
-  rm -f /etc/nginx/sites-enabled/pipwn
-  rm -f /etc/nginx/sites-available/pipwn
-  systemctl reload nginx 2>/dev/null || true
+  rm -fv /etc/nginx/sites-enabled/pipwn
+  rm -fv /etc/nginx/sites-available/pipwn
+  systemctl reload nginx
   
   echo ""
   echo -e "\033[32mPI-Pwn has been uninstalled successfully\033[0m"
