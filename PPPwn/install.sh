@@ -347,7 +347,7 @@ while true; do
   esac
 done
 
-echo '"'$PPPU'"  *  "'$PPPW'"  192.168.2.2' | sudo tee /etc/ppp/pap-secrets
+echo "\"$PPPU\"  *  \"$PPPW\"  192.168.2.2" | sudo tee /etc/ppp/pap-secrets
 
 while true; do
   read -p "$(printf '\r\n\r\n\033[36mDo you want to detect console shutdown and restart PPPwn? (Y|N): \033[0m')" dlnk
