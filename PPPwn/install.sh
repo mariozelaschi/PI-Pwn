@@ -156,6 +156,339 @@ while true; do
 done
 
 while true; do
+  read -p "$(printf '\r\n\r\n\033[36mWould you like to change the firmware version being used (default is 11.00)? (Y|N): \033[0m')" fwset
+  case $fwset in
+    [Yy]*)
+      while true; do
+        read -p "$(printf '\r\n\033[33mEnter the firmware version [7.00 | 7.01 | 7.02 | 7.50 | 7.51 | 7.55 | 8.00 | 8.01 | 8.03 | 8.50 | 8.52 | 9.00 | 9.03 | 9.04 | 9.50 | 9.51 | 9.60 | 10.00 | 10.01 | 10.50 | 10.70 | 10.71 | 11.00]: \033[0m')" FWV
+        case $FWV in
+          "")
+            echo -e '\r\n\033[31mCannot be empty!\033[0m'
+            ;;
+          *)
+            if grep -q '^[0-9.]*$' <<<"$FWV"; then
+              if [[ ! "$FWV" =~ ^("7.00"|"7.01"|"7.02"|"7.50"|"7.51"|"7.55"|"8.00"|"8.01"|"8.03"|"8.50"|"8.52"|"9.00"|"9.03"|"9.04"|"9.50"|"9.51"|"9.60"|"10.00"|"10.01"|"10.50"|"10.70"|"10.71"|"11.00")$ ]]; then
+                echo -e '\r\n\033[31mThe version must be [7.00 | 7.01 | 7.02 | 7.50 | 7.51 | 7.55 | 8.00 | 8.01 | 8.03 | 8.50 | 8.52 | 9.00 | 9.03 | 9.04 | 9.50 | 9.51 | 9.60 | 10.00 | 10.01 | 10.50 | 10.70 | 10.71 | 11.00]\033[0m'
+              else
+                break
+              fi
+            else
+              echo -e '\r\n\033[31mThe version must only contain alphanumeric characters!\033[0m'
+            fi
+            ;;
+        esac
+      done
+      echo -e '\r\n\033[32mYou are using firmware version \033[36m'$FWV'\033[0m'
+      break
+      ;;
+    [Nn]*)
+      echo -e '\r\n\033[35mUsing the default firmware version: 11.00\033[0m'
+      FWV="11.00"
+      break
+      ;;
+    *)
+      echo -e '\r\n\033[31mPlease answer Y or N\033[0m'
+      ;;
+  esac
+done
+
+while true; do
+  read -p "$(printf '\r\n\r\n\033[36mWould you like to change the PPPoE username and password (defaults are: ppp/ppp)? (Y|N): \033[0m')" wapset
+  case $wapset in
+    [Yy]*)
+      while true; do
+        read -p "$(printf '\r\n\033[33mEnter Username: \033[0m')" PPPU
+        case $PPPU in
+          "")
+            echo -e '\033[31mCannot be empty!\033[0m'
+            ;;
+          *)
+            if grep -q '^[0-9a-zA-Z_ -]*$' <<<"$PPPU"; then
+              if [ ${#PPPU} -le 1 ] || [ ${#PPPU} -ge 33 ]; then
+                echo -e '\033[31mUsername must be between 2 and 32 characters long!\033[0m'
+              else
+                break
+              fi
+            else
+              echo -e '\033[31mUsername must only contain alphanumeric characters!\033[0m'
+            fi
+            ;;
+        esac
+      done
+      while true; do
+        read -p "$(printf '\r\n\033[33mEnter password: \033[0m')" PPPW
+        case $PPPW in
+          "")
+            echo -e '\033[31mCannot be empty!\033[0m'
+            ;;
+          *)
+            if [ ${#PPPW} -le 1 ] || [ ${#PPPW} -ge 33 ]; then
+              echo -e '\033[31mPassword must be between 2 and 32 characters long!\033[0m'
+            else
+              break
+            fi
+            ;;
+        esac
+      done
+      echo -e '\r\n\033[36mUsing custom settings:\r\n\r\nUsername: \033[33mppp\r\n\033[36mPassword: \033[33m'$PPPW'\r\n\033[0m'
+      break
+      ;;
+    [Nn]*)
+      echo -e '\r\n\033[36mUsing default settings:\r\n\r\nUsername: \033[33mppp\r\n\033[36mPassword: \033[33mppp\r\n\033[0m'
+      PPPU="ppp"
+      PPPW="ppp"
+      break
+      ;;
+    *)
+      echo -e '\r\n\033[31mPlease answer Y or N\033[0m'
+      ;;
+  esac
+done
+
+echo "\"$PPPU\"  *  \"$PPPW\"  192.168.2.2" | sudo tee /etc/ppp/pap-secrets
+
+while true; do
+  read -p "$(printf '\r\n\r\n\033[36mWould you like to detect console shutdown and restart PPPwn? (Y|N): \033[0m')" dlnk
+  case $dlnk in
+    [Yy]*)
+      DTLNK="true"
+      echo -e '\r\n\033[32mConsole shutdown detection enabled\033[0m'
+      break
+      ;;
+    [Nn]*)
+      echo -e '\r\n\033[35mConsole shutdown detection disabled\033[0m'
+      DTLNK="false"
+      break
+      ;;
+    *)
+      echo -e '\r\n\033[31mPlease answer Y or N\033[0m'
+      ;;
+  esac
+done
+
+while true; do
+  read -p "$(printf '\r\n\r\n\033[36mWould you like to detect if GoldHEN is already running and skip PPPwn if found (useful for rest mode)? (Y|N): \033[0m')" restmd
+  case $restmd in
+    [Yy]*)
+      RESTM="true"
+      echo -e '\r\n\033[32mGoldHEN detection enabled\033[0m'
+      break
+      ;;
+    [Nn]*)
+      echo -e '\r\n\033[35mGoldHEN detection disabled\033[0m'
+      RESTM="false"
+      break
+      ;;
+    *)
+      echo -e '\r\n\033[31mPlease answer Y or N\033[0m'
+      ;;
+  esac
+done
+
+while true; do
+  read -p "$(printf '\r\n\r\n\033[36mWould you like to change the timeout for PPPwn to restart if it hangs (default is 5 minutes)? (Y|N): \033[0m')" tmout
+  case $tmout in
+    [Yy]*)
+      while true; do
+        read -p "$(printf '\r\n\033[33mEnter the timeout value [1 | 2 | 3 | 4 | 5]: \033[0m')" TOUT
+        case $TOUT in
+          "")
+            echo -e '\r\n\033[31mCannot be empty!\033[0m'
+            ;;
+          *)
+            if grep -q '^[1-5]*$' <<<"$TOUT"; then
+              if [[ ! "$TOUT" =~ ^("1"|"2"|"3"|"4"|"5")$ ]]; then
+                echo -e '\r\n\033[31mThe value must be between 1 and 5!\033[0m'
+              else
+                break
+              fi
+            else
+              echo -e '\r\n\033[31mThe timeout must only contain a number between 1 and 5!\033[0m'
+            fi
+            ;;
+        esac
+      done
+      echo -e '\r\n\033[32mTimeout set to '$TOUT' (minutes)\033[0m'
+      break
+      ;;
+    [Nn]*)
+      echo -e '\r\n\033[35mUsing the default setting: 5 (minutes)\033[0m'
+      TOUT="5"
+      break
+      ;;
+    *)
+      echo -e '\r\n\033[31mPlease answer Y or N\033[0m'
+      ;;
+  esac
+done
+
+while true; do
+  read -p "$(printf '\r\n\r\n\033[36mWould you like PPPwn to run in verbose mode? (Y|N): \033[0m')" ppdbg
+  case $ppdbg in
+    [Yy]*)
+      PDBG="true"
+      echo -e '\r\n\033[32mPPPwn will run in verbose mode\033[0m'
+      break
+      ;;
+    [Nn]*)
+      echo -e '\r\n\033[35mPPPwn will NOT run in verbose mode\033[0m'
+      PDBG="false"
+      break
+      ;;
+    *)
+      echo -e '\r\n\033[31mPlease answer Y or N\033[0m'
+      ;;
+  esac
+done
+
+while true; do
+  read -p "$(printf '\r\n\r\n\033[36mAre you using a USB to Ethernet adapter for the console connection? (Y|N): \033[0m')" usbeth
+  case $usbeth in
+    [Yy]*)
+      USBE="true"
+      echo -e '\r\n\033[32mUSB to Ethernet adapter will be used\033[0m'
+      break
+      ;;
+    [Nn]*)
+      echo -e '\r\n\033[35mUSB to Ethernet adapter will NOT be used\033[0m'
+      USBE="false"
+      break
+      ;;
+    *)
+      echo -e '\r\n\033[31mPlease answer Y or N\033[0m'
+      ;;
+  esac
+done
+
+INUM=0
+DEFIFCE=""
+echo -e '\r\n\r\n\033[44m\033[97mInterfaces List\033[0m\r\n'
+readarray -t difcearr < <(sudo ip -o link show | awk -F': ' '{print $2}' | grep -vE "^lo$|ppp|wlan")
+for difce in "${difcearr[@]}"; do
+  if [ -n "$difce" ]; then
+    echo -e $INUM': \033[33m'${difce/ /}'\033[0m'
+    interfaces+=(${difce/ /})
+    ((INUM++))
+  fi
+done
+
+if [ "$USBE" = "true" ]; then
+  if [[ " ${interfaces[@]} " =~ " eth1 " ]]; then
+    DEFIFCE="eth1"
+  elif [[ " ${interfaces[@]} " =~ " eth0 " ]]; then
+    DEFIFCE="eth0"
+  else
+    DEFIFCE="${interfaces[0]}"
+  fi
+else
+  if [[ " ${interfaces[@]} " =~ " eth0 " ]]; then
+    DEFIFCE="eth0"
+  else
+    DEFIFCE="${interfaces[0]}"
+  fi
+fi
+
+echo -e '\r\n\033[35mDetected LAN interface connected to your PS4: \033[33m'$DEFIFCE'\033[0m'
+
+while true; do
+  read -p "$(printf '\r\n\033[36mWould you like to change the LAN interface connected to your PS4? (Y|N): \033[0m')" ifset
+  case $ifset in
+    [Yy]*)
+      while true; do
+        read -p "$(printf '\r\n\033[33mEnter the interface name (e.g., eth0): \033[0m')" IFCE
+        case $IFCE in
+          "")
+            echo -e '\r\n\033[31mThe interface name cannot be empty!\033[0m'
+            ;;
+          *)
+            if [ ${#IFCE} -le 1 ] && [[ $IFCE == ?(-)+([0-9]) ]] && [ -n "${interfaces[IFCE]}" ] && [ $IFCE -lt $INUM ]; then
+              IFCE=${interfaces[IFCE]}
+              break
+            fi
+            if grep -q '^[0-9a-zA-Z_ -]*$' <<<"$IFCE"; then
+              if [ ${#IFCE} -le 1 ] || [ ${#IFCE} -ge 16 ]; then
+                echo -e '\r\n\033[31mThe interface name must be between 2 and 15 characters long!\033[0m'
+              else
+                break
+              fi
+            else
+              echo -e '\r\n\033[31mThe interface name must only contain alphanumeric characters!\033[0m'
+            fi
+            ;;
+        esac
+      done
+      echo -e '\r\n\033[32mYou are using \033[36m'$IFCE'\033[0m'
+      break
+      ;;
+    [Nn]*)
+      echo -e '\r\n\033[35mUsing the detected setting: \033[36m'$DEFIFCE'\033[0m'
+      IFCE=$DEFIFCE
+      break
+      ;;
+    *)
+      echo -e '\r\n\033[31mPlease answer Y or N\033[0m'
+      ;;
+  esac
+done
+
+while true; do
+  read -p "$(printf '\r\n\r\n\033[36mWould you like to use the original IPv6 address from PPPwn? (Y|N): \033[0m')" uoipv
+  case $uoipv in
+    [Yy]*)
+      IPV="true"
+      echo -e '\r\n\033[32mThe original IPv6 address will be used\033[0m'
+      break
+      ;;
+    [Nn]*)
+      IPV="false"
+      echo -e '\r\n\033[35mThe default IPv6 address will be used\033[0m'
+      break
+      ;;
+    *)
+      echo -e '\r\n\033[31mPlease answer Y or N\033[0m'
+      ;;
+  esac
+done
+
+while true; do
+  read -p "$(printf '\r\n\r\n\033[36mWould you like the console to connect to the internet after PPPwn? (Y|N): \033[0m')" pppq
+  case $pppq in
+    [Yy]*)
+      INET="true"
+      SHTDN="false"
+      echo -e '\r\n\033[32mConsole internet access enabled\033[0m'
+      break
+      ;;
+    [Nn]*)
+      echo -e '\r\n\033[35mConsole internet access disabled\033[0m'
+      INET="false"
+      while true; do
+        read -p "$(printf '\r\n\r\n\033[36mWould you like the Pi to shut down after successful exploitation? (Y|N): \033[0m')" pisht
+        case $pisht in
+          [Yy]*)
+            SHTDN="true"
+            echo -e '\r\n\033[32mThe Pi will shut down after success\033[0m'
+            break
+            ;;
+          [Nn]*)
+            echo -e '\r\n\033[35mThe Pi will not shut down after success\033[0m'
+            SHTDN="false"
+            break
+            ;;
+          *)
+            echo -e '\r\n\033[31mPlease answer Y or N\033[0m'
+            ;;
+        esac
+      done
+      break
+      ;;
+    *)
+      echo -e '\r\n\033[31mPlease answer Y or N\033[0m'
+      ;;
+  esac
+done
+
+while true; do
   read -p "$(printf '\r\n\r\n\033[36mWould you like to install a FTP server? (Y|N): \033[0m')" ftpq
   case $ftpq in
     [Yy]*)
@@ -303,339 +636,6 @@ public=yes' | sudo tee /etc/samba/smb.conf
   esac
 done
 
-while true; do
-  read -p "$(printf '\r\n\r\n\033[36mWould you like to change the PPPoE username and password (defaults are: ppp/ppp)? (Y|N): \033[0m')" wapset
-  case $wapset in
-    [Yy]*)
-      while true; do
-        read -p "$(printf '\r\n\033[33mEnter Username: \033[0m')" PPPU
-        case $PPPU in
-          "")
-            echo -e '\033[31mCannot be empty!\033[0m'
-            ;;
-          *)
-            if grep -q '^[0-9a-zA-Z_ -]*$' <<<"$PPPU"; then
-              if [ ${#PPPU} -le 1 ] || [ ${#PPPU} -ge 33 ]; then
-                echo -e '\033[31mUsername must be between 2 and 32 characters long\033[0m'
-              else
-                break
-              fi
-            else
-              echo -e '\033[31mUsername must only contain alphanumeric characters\033[0m'
-            fi
-            ;;
-        esac
-      done
-      while true; do
-        read -p "$(printf '\r\n\033[33mEnter password: \033[0m')" PPPW
-        case $PPPW in
-          "")
-            echo -e '\033[31mCannot be empty!\033[0m'
-            ;;
-          *)
-            if [ ${#PPPW} -le 1 ] || [ ${#PPPW} -ge 33 ]; then
-              echo -e '\033[31mPassword must be between 2 and 32 characters long\033[0m'
-            else
-              break
-            fi
-            ;;
-        esac
-      done
-      echo -e '\r\n\033[36mUsing custom settings:\r\n\r\nUsername: \033[33mppp\r\n\033[36mPassword: \033[33m'$PPPW'\r\n\033[0m'
-      break
-      ;;
-    [Nn]*)
-      echo -e '\r\n\033[36mUsing default settings:\r\n\r\nUsername: \033[33mppp\r\n\033[36mPassword: \033[33mppp\r\n\033[0m'
-      PPPU="ppp"
-      PPPW="ppp"
-      break
-      ;;
-    *)
-      echo -e '\r\n\033[31mPlease answer Y or N\033[0m'
-      ;;
-  esac
-done
-
-echo "\"$PPPU\"  *  \"$PPPW\"  192.168.2.2" | sudo tee /etc/ppp/pap-secrets
-
-while true; do
-  read -p "$(printf '\r\n\r\n\033[36mWould you like to detect console shutdown and restart PPPwn? (Y|N): \033[0m')" dlnk
-  case $dlnk in
-    [Yy]*)
-      DTLNK="true"
-      echo -e '\r\n\033[32mConsole shutdown detection enabled\033[0m'
-      break
-      ;;
-    [Nn]*)
-      echo -e '\r\n\033[35mConsole shutdown detection disabled\033[0m'
-      DTLNK="false"
-      break
-      ;;
-    *)
-      echo -e '\r\n\033[31mPlease answer Y or N\033[0m'
-      ;;
-  esac
-done
-
-while true; do
-  read -p "$(printf '\r\n\r\n\033[36mWould you like the console to connect to the internet after PPPwn? (Y|N): \033[0m')" pppq
-  case $pppq in
-    [Yy]*)
-      INET="true"
-      SHTDN="false"
-      echo -e '\r\n\033[32mConsole internet access enabled\033[0m'
-      break
-      ;;
-    [Nn]*)
-      echo -e '\r\n\033[35mConsole internet access disabled\033[0m'
-      INET="false"
-      while true; do
-        read -p "$(printf '\r\n\r\n\033[36mWould you like the Pi to shut down after successful exploitation? (Y|N): \033[0m')" pisht
-        case $pisht in
-          [Yy]*)
-            SHTDN="true"
-            echo -e '\r\n\033[32mThe Pi will shut down after success\033[0m'
-            break
-            ;;
-          [Nn]*)
-            echo -e '\r\n\033[35mThe Pi will not shut down after success\033[0m'
-            SHTDN="false"
-            break
-            ;;
-          *)
-            echo -e '\r\n\033[31mPlease answer Y or N\033[0m'
-            ;;
-        esac
-      done
-      break
-      ;;
-    *)
-      echo -e '\r\n\033[31mPlease answer Y or N\033[0m'
-      ;;
-  esac
-done
-
-while true; do
-  read -p "$(printf '\r\n\r\n\033[36mWould you like to detect if GoldHEN is already running and skip PPPwn if found (useful for rest mode)? (Y|N): \033[0m')" restmd
-  case $restmd in
-    [Yy]*)
-      RESTM="true"
-      echo -e '\r\n\033[32mGoldHEN detection enabled\033[0m'
-      break
-      ;;
-    [Nn]*)
-      echo -e '\r\n\033[35mGoldHEN detection disabled\033[0m'
-      RESTM="false"
-      break
-      ;;
-    *)
-      echo -e '\r\n\033[31mPlease answer Y or N\033[0m'
-      ;;
-  esac
-done
-
-while true; do
-  read -p "$(printf '\r\n\r\n\033[36mWould you like PPPwn to run in verbose mode? (Y|N): \033[0m')" ppdbg
-  case $ppdbg in
-    [Yy]*)
-      PDBG="true"
-      echo -e '\r\n\033[32mPPPwn will run in verbose mode\033[0m'
-      break
-      ;;
-    [Nn]*)
-      echo -e '\r\n\033[35mPPPwn will NOT run in verbose mode\033[0m'
-      PDBG="false"
-      break
-      ;;
-    *)
-      echo -e '\r\n\033[31mPlease answer Y or N\033[0m'
-      ;;
-  esac
-done
-
-while true; do
-  read -p "$(printf '\r\n\r\n\033[36mWould you like to change the timeout for PPPwn to restart if it hangs (default is 5 minutes)? (Y|N): \033[0m')" tmout
-  case $tmout in
-    [Yy]*)
-      while true; do
-        read -p "$(printf '\r\n\033[33mEnter the timeout value [1 | 2 | 3 | 4 | 5]: \033[0m')" TOUT
-        case $TOUT in
-          "")
-            echo -e '\r\n\033[31mCannot be empty!\033[0m'
-            ;;
-          *)
-            if grep -q '^[1-5]*$' <<<"$TOUT"; then
-              if [[ ! "$TOUT" =~ ^("1"|"2"|"3"|"4"|"5")$ ]]; then
-                echo -e '\r\n\033[31mThe value must be between 1 and 5\033[0m'
-              else
-                break
-              fi
-            else
-              echo -e '\r\n\033[31mThe timeout must only contain a number between 1 and 5\033[0m'
-            fi
-            ;;
-        esac
-      done
-      echo -e '\r\n\033[32mTimeout set to '$TOUT' (minutes)\033[0m'
-      break
-      ;;
-    [Nn]*)
-      echo -e '\r\n\033[35mUsing the default setting: 5 (minutes)\033[0m'
-      TOUT="5"
-      break
-      ;;
-    *)
-      echo -e '\r\n\033[31mPlease answer Y or N\033[0m'
-      ;;
-  esac
-done
-
-while true; do
-  read -p "$(printf '\r\n\r\n\033[36mWould you like to change the firmware version being used (default is 11.00)? (Y|N): \033[0m')" fwset
-  case $fwset in
-    [Yy]*)
-      while true; do
-        read -p "$(printf '\r\n\033[33mEnter the firmware version [7.00 | 7.01 | 7.02 | 7.50 | 7.51 | 7.55 | 8.00 | 8.01 | 8.03 | 8.50 | 8.52 | 9.00 | 9.03 | 9.04 | 9.50 | 9.51 | 9.60 | 10.00 | 10.01 | 10.50 | 10.70 | 10.71 | 11.00]: \033[0m')" FWV
-        case $FWV in
-          "")
-            echo -e '\r\n\033[31mCannot be empty!\033[0m'
-            ;;
-          *)
-            if grep -q '^[0-9.]*$' <<<"$FWV"; then
-              if [[ ! "$FWV" =~ ^("7.00"|"7.01"|"7.02"|"7.50"|"7.51"|"7.55"|"8.00"|"8.01"|"8.03"|"8.50"|"8.52"|"9.00"|"9.03"|"9.04"|"9.50"|"9.51"|"9.60"|"10.00"|"10.01"|"10.50"|"10.70"|"10.71"|"11.00")$ ]]; then
-                echo -e '\r\n\033[31mThe version must be [7.00 | 7.01 | 7.02 | 7.50 | 7.51 | 7.55 | 8.00 | 8.01 | 8.03 | 8.50 | 8.52 | 9.00 | 9.03 | 9.04 | 9.50 | 9.51 | 9.60 | 10.00 | 10.01 | 10.50 | 10.70 | 10.71 | 11.00]\033[0m'
-              else
-                break
-              fi
-            else
-              echo -e '\r\n\033[31mThe version must only contain alphanumeric characters\033[0m'
-            fi
-            ;;
-        esac
-      done
-      echo -e '\r\n\033[32mYou are using firmware version \033[36m'$FWV'\033[0m'
-      break
-      ;;
-    [Nn]*)
-      echo -e '\r\n\033[35mUsing the default firmware version: 11.00\033[0m'
-      FWV="11.00"
-      break
-      ;;
-    *)
-      echo -e '\r\n\033[31mPlease answer Y or N\033[0m'
-      ;;
-  esac
-done
-
-while true; do
-  read -p "$(printf '\r\n\r\n\033[36mAre you using a USB to Ethernet adapter for the console connection? (Y|N): \033[0m')" usbeth
-  case $usbeth in
-    [Yy]*)
-      USBE="true"
-      echo -e '\r\n\033[32mUSB to Ethernet adapter will be used\033[0m'
-      break
-      ;;
-    [Nn]*)
-      echo -e '\r\n\033[35mUSB to Ethernet adapter will NOT be used\033[0m'
-      USBE="false"
-      break
-      ;;
-    *)
-      echo -e '\r\n\033[31mPlease answer Y or N\033[0m'
-      ;;
-  esac
-done
-
-INUM=0
-DEFIFCE=""
-echo -e '\r\n\r\n\033[44m\033[97mInterfaces List\033[0m\r\n'
-readarray -t difcearr < <(sudo ip -o link show | awk -F': ' '{print $2}' | grep -vE "^lo$|ppp|wlan")
-for difce in "${difcearr[@]}"; do
-  if [ -n "$difce" ]; then
-    echo -e $INUM': \033[33m'${difce/ /}'\033[0m'
-    interfaces+=(${difce/ /})
-    ((INUM++))
-  fi
-done
-
-if [ "$USBE" = "true" ]; then
-  if [[ " ${interfaces[@]} " =~ " eth1 " ]]; then
-    DEFIFCE="eth1"
-  elif [[ " ${interfaces[@]} " =~ " eth0 " ]]; then
-    DEFIFCE="eth0"
-  else
-    DEFIFCE="${interfaces[0]}"
-  fi
-else
-  if [[ " ${interfaces[@]} " =~ " eth0 " ]]; then
-    DEFIFCE="eth0"
-  else
-    DEFIFCE="${interfaces[0]}"
-  fi
-fi
-
-echo -e '\r\n\033[35mDetected LAN interface connected to your PS4: \033[33m'$DEFIFCE'\033[0m'
-
-while true; do
-  read -p "$(printf '\r\n\033[36mWould you like to change the LAN interface connected to your PS4? (Y|N): \033[0m')" ifset
-  case $ifset in
-    [Yy]*)
-      while true; do
-        read -p "$(printf '\r\n\033[33mEnter the interface value: \033[0m')" IFCE
-        case $IFCE in
-          "")
-            echo -e '\r\n\033[31mCannot be empty!\033[0m'
-            ;;
-          *)
-            if [ ${#IFCE} -le 1 ] && [[ $IFCE == ?(-)+([0-9]) ]] && [ -n "${interfaces[IFCE]}" ] && [ $IFCE -lt $INUM ]; then
-              IFCE=${interfaces[IFCE]}
-              break
-            fi
-            if grep -q '^[0-9a-zA-Z_ -]*$' <<<"$IFCE"; then
-              if [ ${#IFCE} -le 1 ] || [ ${#IFCE} -ge 16 ]; then
-                echo -e '\r\n\033[31mThe interface must be between 2 and 15 characters long\033[0m'
-              else
-                break
-              fi
-            else
-              echo -e '\r\n\033[31mThe interface must only contain alphanumeric characters\033[0m'
-            fi
-            ;;
-        esac
-      done
-      echo -e '\r\n\033[32mYou are using \033[36m'$IFCE'\033[0m'
-      break
-      ;;
-    [Nn]*)
-      echo -e '\r\n\033[35mUsing the detected setting: \033[36m'$DEFIFCE'\033[0m'
-      IFCE=$DEFIFCE
-      break
-      ;;
-    *)
-      echo -e '\r\n\033[31mPlease answer Y or N\033[0m'
-      ;;
-  esac
-done
-
-while true; do
-  read -p "$(printf '\r\n\r\n\033[36mWould you like to use the original IPv6 address from PPPwn? (Y|N): \033[0m')" uoipv
-  case $uoipv in
-    [Yy]*)
-      IPV="true"
-      echo -e '\r\n\033[32mThe original IPv6 address will be used\033[0m'
-      break
-      ;;
-    [Nn]*)
-      IPV="false"
-      echo -e '\r\n\033[35mThe default IPv6 address will be used\033[0m'
-      break
-      ;;
-    *)
-      echo -e '\r\n\033[31mPlease answer Y or N\033[0m'
-      ;;
-  esac
-done
-
 PITYP=$(cat /proc/device-tree/model | tr -d '\0')
 if [[ "$PITYP" == *"Raspberry Pi 4"* ]] || [[ "$PITYP" == *"Raspberry Pi 5"* ]]; then
   while true; do
@@ -681,13 +681,13 @@ while true; do
           *)
             if grep -q '^[0-9a-zA-Z_ -]*$' <<<"$HSTN"; then
               if [ ${#HSTN} -le 3 ] || [ ${#HSTN} -ge 21 ]; then
-                echo -e '\r\n\033[31mThe hostname must be between 4 and 21 characters long\033[0m'
+                echo -e '\r\n\033[31mThe hostname must be between 4 and 21 characters long!\033[0m'
               else
                 CHANGED_HOSTNAME=1
                 break
               fi
             else
-              echo -e '\r\n\033[31mThe hostname must only contain alphanumeric characters\033[0m'
+              echo -e '\r\n\033[31mThe hostname must only contain alphanumeric characters!\033[0m'
             fi
             ;;
         esac
