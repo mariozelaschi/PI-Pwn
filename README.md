@@ -49,7 +49,8 @@ PI-Pwn is an automated setup script for [PPPwn](https://github.com/TheOfficialFl
 - 7.50, 7.51, 7.55
 - 8.00, 8.01, 8.03
 - 8.50, 8.52
-- 9.00, 9.03, 9.04
+- 9.00
+- 9.03, 9.04
 - 9.50, 9.51, 9.60
 - 10.00, 10.01
 - 10.50, 10.70, 10.71
