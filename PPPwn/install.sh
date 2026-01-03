@@ -1,7 +1,16 @@
 #!/bin/bash
 
-VERSION=$(cat /boot/firmware/ver 2>/dev/null || echo "unknown")
-echo -e "\r\n\033[36mPI-Pwn v$VERSION \033[0m"
+VERSION=$(cat /boot/firmware/ver || echo "0.0.0")
+echo -e "\r\n\033[36m
+  _____ _____      _____                 
+ |  __ \_   _|    |  __ \                
+ | |__) || |______| |__) |_      ___ __  
+ |  ___/ | |______|  ___/\ \ /\ / / '_ \ 
+ | |    _| |_     | |     \ V  V /| | | |
+ |_|   |_____|    |_|      \_/\_/ |_| |_|
+                                         
+                     v$VERSION
+\033[0m"
 
 if [ ! -d /boot/firmware/PPPwn/payloads ]; then
   sudo mkdir -p /boot/firmware/PPPwn/payloads
