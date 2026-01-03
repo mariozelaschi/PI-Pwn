@@ -136,7 +136,7 @@ if [[ -n "$PPSTAT" ]]; then
 fi
 
 while true; do
-  read -p "$(printf '\r\n\r\n\033[36mDo you want to use Python (slower) PPPwn? (Y|N): \033[0m')" pypwnopt
+  read -p "$(printf '\r\n\r\n\033[36mWould you like to use Python (slower) PPPwn? (Y|N): \033[0m')" pypwnopt
   case $pypwnopt in
     [Yy]*)
       sudo apt install python3 python3-scapy -y
@@ -156,7 +156,7 @@ while true; do
 done
 
 while true; do
-  read -p "$(printf '\r\n\r\n\033[36mDo you want to install a FTP server? (Y|N): \033[0m')" ftpq
+  read -p "$(printf '\r\n\r\n\033[36mWould you like to install a FTP server? (Y|N): \033[0m')" ftpq
   case $ftpq in
     [Yy]*)
       sudo apt-get install vsftpd -y
@@ -182,7 +182,7 @@ local_root=/boot/firmware/PPPwn" | sudo tee /etc/vsftpd.conf
       sudo sed -i 's^root^^g' /etc/ftpusers
       echo -e '\r\n\r\n\033[33mTo use FTP, you must set the \033[36mroot\033[33m account password so you can login to the FTP server with full write permissions.\033[0m'
       while true; do
-        read -p "$(printf '\r\n\033[36mDo you want to set the root account password now? (Y|N): \033[0m')" rapw
+        read -p "$(printf '\r\n\033[36mWould you like to set the root account password now? (Y|N): \033[0m')" rapw
         case $rapw in
           [Yy]*)
             sudo passwd root
@@ -212,7 +212,7 @@ local_root=/boot/firmware/PPPwn" | sudo tee /etc/vsftpd.conf
 done
 
 while true; do
-  read -p "$(printf '\r\n\r\n\033[36mDo you want to setup a SAMBA share? (Y|N): \033[0m')" smbq
+  read -p "$(printf '\r\n\r\n\033[36mWould you like to setup a SAMBA share? (Y|N): \033[0m')" smbq
   case $smbq in
     [Yy]*)
       sudo apt-get install samba samba-common-bin -y
@@ -304,7 +304,7 @@ public=yes' | sudo tee /etc/samba/smb.conf
 done
 
 while true; do
-  read -p "$(printf '\r\n\r\n\033[36mDo you want to change the PPPoE username and password (defaults are: ppp/ppp)? (Y|N): \033[0m')" wapset
+  read -p "$(printf '\r\n\r\n\033[36mWould you like to change the PPPoE username and password (defaults are: ppp/ppp)? (Y|N): \033[0m')" wapset
   case $wapset in
     [Yy]*)
       while true; do
@@ -359,7 +359,7 @@ done
 echo "\"$PPPU\"  *  \"$PPPW\"  192.168.2.2" | sudo tee /etc/ppp/pap-secrets
 
 while true; do
-  read -p "$(printf '\r\n\r\n\033[36mDo you want to detect console shutdown and restart PPPwn? (Y|N): \033[0m')" dlnk
+  read -p "$(printf '\r\n\r\n\033[36mWould you like to detect console shutdown and restart PPPwn? (Y|N): \033[0m')" dlnk
   case $dlnk in
     [Yy]*)
       DTLNK="true"
@@ -378,7 +378,7 @@ while true; do
 done
 
 while true; do
-  read -p "$(printf '\r\n\r\n\033[36mDo you want the console to connect to the internet after PPPwn? (Y|N): \033[0m')" pppq
+  read -p "$(printf '\r\n\r\n\033[36mWould you like the console to connect to the internet after PPPwn? (Y|N): \033[0m')" pppq
   case $pppq in
     [Yy]*)
       INET="true"
@@ -390,7 +390,7 @@ while true; do
       echo -e '\r\n\033[35mConsole internet access disabled\033[0m'
       INET="false"
       while true; do
-        read -p "$(printf '\r\n\r\n\033[36mDo you want the Pi to shut down after successful exploitation? (Y|N): \033[0m')" pisht
+        read -p "$(printf '\r\n\r\n\033[36mWould you like the Pi to shut down after successful exploitation? (Y|N): \033[0m')" pisht
         case $pisht in
           [Yy]*)
             SHTDN="true"
@@ -416,26 +416,7 @@ while true; do
 done
 
 while true; do
-  read -p "$(printf '\r\n\r\n\033[36mAre you using a USB to Ethernet adapter for the console connection? (Y|N): \033[0m')" usbeth
-  case $usbeth in
-    [Yy]*)
-      USBE="true"
-      echo -e '\r\n\033[32mUSB to Ethernet adapter will be used\033[0m'
-      break
-      ;;
-    [Nn]*)
-      echo -e '\r\n\033[35mUSB to Ethernet adapter will NOT be used\033[0m'
-      USBE="false"
-      break
-      ;;
-    *)
-      echo -e '\r\n\033[31mPlease answer Y or N\033[0m'
-      ;;
-  esac
-done
-
-while true; do
-  read -p "$(printf '\r\n\r\n\033[36mDo you want to detect if GoldHEN is already running and skip PPPwn if found (useful for rest mode)? (Y|N): \033[0m')" restmd
+  read -p "$(printf '\r\n\r\n\033[36mWould you like to detect if GoldHEN is already running and skip PPPwn if found (useful for rest mode)? (Y|N): \033[0m')" restmd
   case $restmd in
     [Yy]*)
       RESTM="true"
@@ -454,7 +435,7 @@ while true; do
 done
 
 while true; do
-  read -p "$(printf '\r\n\r\n\033[36mDo you want PPPwn to run in verbose mode? (Y|N): \033[0m')" ppdbg
+  read -p "$(printf '\r\n\r\n\033[36mWould you like PPPwn to run in verbose mode? (Y|N): \033[0m')" ppdbg
   case $ppdbg in
     [Yy]*)
       PDBG="true"
@@ -471,6 +452,7 @@ while true; do
       ;;
   esac
 done
+
 while true; do
   read -p "$(printf '\r\n\r\n\033[36mWould you like to change the timeout for PPPwn to restart if it hangs (default is 5 minutes)? (Y|N): \033[0m')" tmout
   case $tmout in
@@ -545,22 +527,54 @@ while true; do
   esac
 done
 
+while true; do
+  read -p "$(printf '\r\n\r\n\033[36mAre you using a USB to Ethernet adapter for the console connection? (Y|N): \033[0m')" usbeth
+  case $usbeth in
+    [Yy]*)
+      USBE="true"
+      echo -e '\r\n\033[32mUSB to Ethernet adapter will be used\033[0m'
+      break
+      ;;
+    [Nn]*)
+      echo -e '\r\n\033[35mUSB to Ethernet adapter will NOT be used\033[0m'
+      USBE="false"
+      break
+      ;;
+    *)
+      echo -e '\r\n\033[31mPlease answer Y or N\033[0m'
+      ;;
+  esac
+done
+
 INUM=0
+DEFIFCE=""
 echo -e '\r\n\r\n\033[44m\033[97mInterfaces List\033[0m\r\n'
-readarray -t difcearr < <(sudo ip link | cut -d " " -f-2 | cut -d ":" -f2-2)
+readarray -t difcearr < <(sudo ip -o link show | awk -F': ' '{print $2}' | grep -vE "^lo$|ppp|wlan")
 for difce in "${difcearr[@]}"; do
   if [ -n "$difce" ]; then
-    if [ "$difce" != "lo" ] && [[ "$difce" != *"ppp"* ]] && [[ ! "$difce" == *"wlan"* ]]; then
-      if [ -z "$DEFIFCE" ]; then
-        DEFIFCE=${difce/ /}
-      fi
-    fi
     echo -e $INUM': \033[33m'${difce/ /}'\033[0m'
     interfaces+=(${difce/ /})
     ((INUM++))
   fi
 done
-echo -e '\r\n\033[35mDetected LAN interface: \033[33m'$DEFIFCE'\033[0m'
+
+if [ "$USBE" = "true" ]; then
+  if [[ " ${interfaces[@]} " =~ " eth1 " ]]; then
+    DEFIFCE="eth1"
+  elif [[ " ${interfaces[@]} " =~ " eth0 " ]]; then
+    DEFIFCE="eth0"
+  else
+    DEFIFCE="${interfaces[0]}"
+  fi
+else
+  if [[ " ${interfaces[@]} " =~ " eth0 " ]]; then
+    DEFIFCE="eth0"
+  else
+    DEFIFCE="${interfaces[0]}"
+  fi
+fi
+
+echo -e '\r\n\033[35mDetected LAN interface connected to your PS4: \033[33m'$DEFIFCE'\033[0m'
 
 while true; do
   read -p "$(printf '\r\n\033[36mWould you like to change the LAN interface connected to your PS4? (Y|N): \033[0m')" ifset
@@ -604,7 +618,7 @@ while true; do
 done
 
 while true; do
-  read -p "$(printf '\r\n\r\n\033[36mDo you want to use the original IPv6 address from PPPwn? (Y|N): \033[0m')" uoipv
+  read -p "$(printf '\r\n\r\n\033[36mWould you like to use the original IPv6 address from PPPwn? (Y|N): \033[0m')" uoipv
   case $uoipv in
     [Yy]*)
       IPV="true"
@@ -625,7 +639,7 @@ done
 PITYP=$(cat /proc/device-tree/model | tr -d '\0')
 if [[ "$PITYP" == *"Raspberry Pi 4"* ]] || [[ "$PITYP" == *"Raspberry Pi 5"* ]]; then
   while true; do
-    read -p "$(printf '\r\n\r\n\033[36mDo you want the Pi to act as a USB flash drive for the console? (Y|N): \033[0m')" vusb
+    read -p "$(printf '\r\n\r\n\033[36mWould you like the Pi to act as a USB flash drive for the console? (Y|N): \033[0m')" vusb
     case $vusb in
       [Yy]*)
         echo -e '\r\n\033[32mThe Pi will mount as a USB drive\033[0m'
